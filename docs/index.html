@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MEL – Human Query → LLM Elixir</title>
   <style>
     :root {
@@ -13,11 +14,10 @@
       --text: #1e293b;
       --muted: #64748b;
       --border: #e2e8f0;
-      --accent: #8b5cf6;
     }
 
     body {
-      font-family: system-ui, sans-serif;
+      font-family: system-ui, -apple-system, sans-serif;
       background: var(--bg);
       color: var(--text);
       margin: 0;
@@ -32,7 +32,7 @@
       width: 100%;
       background: var(--card);
       border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
       padding: 2rem;
     }
 
@@ -82,7 +82,7 @@
     textarea:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
     }
 
     .slider-group {
@@ -107,7 +107,7 @@
       background: var(--primary);
       border-radius: 50%;
       cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
       transition: transform 0.1s;
     }
 
@@ -130,10 +130,10 @@
       justify-content: space-between;
       font-size: 0.82rem;
       color: var(--muted);
+      text-align: center;
     }
 
     .slider-labels span {
-      text-align: center;
       flex: 1;
     }
 
@@ -149,17 +149,17 @@
 
     .buttons {
       display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
       flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 1.2rem;
     }
 
     button {
       background: var(--primary);
       color: white;
       border: none;
-      padding: 12px 24px;
-      font-size: 1rem;
+      padding: 12px 20px;
+      font-size: 0.95rem;
       font-weight: 600;
       border-radius: 10px;
       cursor: pointer;
@@ -170,12 +170,28 @@
       background: var(--primary-dark);
     }
 
+    .llm-btn {
+      background: #10b981;
+    }
+
+    .llm-btn:hover {
+      background: #059669;
+    }
+
     .copy-btn {
       background: var(--muted);
     }
 
     .copy-btn:hover {
       background: #475569;
+    }
+
+    .grok-btn {
+      background: #8b5cf6;
+    }
+
+    .grok-btn:hover {
+      background: #7c3aed;
     }
 
     footer {
@@ -195,30 +211,37 @@
     }
 
     @media (max-width: 600px) {
-      .container { padding: 1.5rem; }
-      h1 { font-size: 2rem; }
+      .container {
+        padding: 1.5rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <div class="container">
     <h1>MEL – Machine Expression Language</h1>
-    <p class="subtitle">Turn your natural question into a powerful, structured LLM prompt</p>
+    <p class="subtitle">Turn your natural question into a structured, high-quality LLM prompt</p>
 
     <div class="form-grid">
 
       <div class="input-group">
         <label for="humanQuery">Your human query:</label>
-        <textarea 
-          id="humanQuery" 
-          placeholder="Example: Explain quantum entanglement like I'm 12 but make it poetic"
-        ></textarea>
+        <textarea id="humanQuery"
+          placeholder="Example: Build a beautiful todo app in React with dark mode and drag & drop"></textarea>
       </div>
 
-      <!-- Sliders for each tier -->
       <div class="slider-group">
-        <label for="roleLevel">Role intensity (1 = basic expert → 5 = mythical genius)</label>
+        <label for="roleLevel">Role intensity (1 = basic → 5 = mythical)</label>
         <input type="range" id="roleLevel" min="1" max="5" value="4" oninput="updateSlider(this)">
         <div class="slider-labels">
           <span>Basic expert</span>
@@ -230,26 +253,26 @@
       </div>
 
       <div class="slider-group">
-        <label for="intentLevel">Intent clarity (1 = vague → 5 = laser precise)</label>
+        <label for="intentLevel">Intent clarity (1 = vague → 5 = atomic)</label>
         <input type="range" id="intentLevel" min="1" max="5" value="4" oninput="updateSlider(this)">
         <div class="slider-labels">
           <span>Vague wish</span>
           <span>Clear task</span>
           <span>Focused goal</span>
-          <span>Multi-layered intent</span>
+          <span>Multi-layered</span>
           <span>Atomic precision</span>
         </div>
       </div>
 
       <div class="slider-group">
-        <label for="purposeLevel">Purpose emphasis (1 = none → 5 = existential why)</label>
+        <label for="purposeLevel">Purpose depth (1 = none → 5 = transcendent)</label>
         <input type="range" id="purposeLevel" min="1" max="5" value="3" oninput="updateSlider(this)">
         <div class="slider-labels">
           <span>No why</span>
-          <span>Practical goal</span>
+          <span>Practical</span>
           <span>Deeper reason</span>
           <span>Human impact</span>
-          <span>Transcendent value</span>
+          <span>Transcendent</span>
         </div>
       </div>
 
@@ -266,7 +289,7 @@
       </div>
 
       <div class="slider-group">
-        <label for="styleLevel">Style & grace (1 = plain → 5 = poetic masterpiece)</label>
+        <label for="styleLevel">Style & grace (1 = plain → 5 = symphonic)</label>
         <input type="range" id="styleLevel" min="1" max="5" value="4" oninput="updateSlider(this)">
         <div class="slider-labels">
           <span>Plain text</span>
@@ -278,14 +301,14 @@
       </div>
 
       <div class="slider-group">
-        <label for="outputLevel">Output shaping (1 = raw → 5 = perfectly formatted)</label>
+        <label for="outputLevel">Output shaping (1 = raw → 5 = publish-ready)</label>
         <input type="range" id="outputLevel" min="1" max="5" value="4" oninput="updateSlider(this)">
         <div class="slider-labels">
           <span>Raw dump</span>
           <span>Structured</span>
           <span>Well-organized</span>
-          <span>Beautifully laid out</span>
-          <span>Publish-ready artifact</span>
+          <span>Beautiful layout</span>
+          <span>Publish-ready</span>
         </div>
       </div>
 
@@ -296,8 +319,19 @@
       <textarea id="melOutput" readonly rows="12"></textarea>
 
       <div class="buttons">
-        <button onclick="generateMEL()">Generate / Refresh</button>
-        <button class="copy-btn" onclick="copyToClipboard()">Copy to clipboard</button>
+        <button onclick="generateMEL()">Refresh Preview</button>
+        <button class="copy-btn" onclick="copyToClipboard()">Copy Prompt</button>
+      </div>
+
+      <div class="buttons" style="margin-top: 1.5rem;">
+        <button class="llm-btn" onclick="sendToLLM('chatgpt')">ChatGPT</button>
+        <button class="llm-btn" onclick="sendToLLM('claude')">Claude</button>
+        <button class="llm-btn" onclick="sendToLLM('gemini')">Gemini</button>
+        <button class="llm-btn" onclick="sendToLLM('perplexity')">Perplexity</button>
+        <button class="llm-btn" onclick="sendToLLM('poe')">Poe</button>
+        <button class="llm-btn" onclick="sendToLLM('you')">You.com</button>
+        <button class="llm-btn" onclick="sendToLLM('mistral')">Le Chat (Mistral)</button>
+        <button class="llm-btn grok-btn" onclick="sendToLLM('grok')">Grok (manual)</button>
       </div>
     </div>
   </div>
@@ -309,12 +343,12 @@
 
   <script>
     const sliders = {
-      role:       { el: 'roleLevel',       base: ['Basic expert', 'Skilled craftsman', 'Master innovator', 'Visionary poet', 'Mythical oracle of'] },
-      intent:     { el: 'intentLevel',     base: ['Translate roughly:', 'Clearly define task:', 'Sharpen intent:', 'Layered multi-goal:', 'Atomic-precision directive:'] },
-      purpose:    { el: 'purposeLevel',    base: ['', 'so it solves a real problem', 'to create lasting value', 'to benefit humanity deeply', 'for transcendent / poetic impact'] },
-      innovation: { el: 'innovationLevel', base: ['', 'with a fresh perspective', 'add one clever twist', 'infuse bold conceptual heresy', 'include one paradigm-shifting insight'] },
-      style:      { el: 'styleLevel',      base: ['plain and direct', 'clean & readable', 'elegant flow', 'poetic clarity', 'symphony of quiet beauty'] },
-      output:     { el: 'outputLevel',     base: ['raw text', 'well-structured markdown', 'beautifully formatted', 'production-grade layout', 'publish-ready artifact with polish'] }
+      role: { base: ['Basic expert', 'Skilled craftsman', 'Master innovator', 'Visionary poet', 'Mythical oracle of'] },
+      intent: { base: ['Translate roughly:', 'Clearly define task:', 'Sharpen intent:', 'Layered multi-goal:', 'Atomic-precision directive:'] },
+      purpose: { base: ['', 'so it solves a real problem', 'to create lasting value', 'to benefit humanity deeply', 'for transcendent / poetic impact'] },
+      innovation: { base: ['', 'with a fresh perspective', 'add one clever twist', 'infuse bold conceptual heresy', 'include one paradigm-shifting insight'] },
+      style: { base: ['plain and direct', 'clean & readable', 'elegant flow', 'poetic clarity', 'symphony of quiet beauty'] },
+      output: { base: ['raw text', 'well-structured markdown', 'beautifully formatted', 'production-grade layout', 'publish-ready artifact with polish'] }
     };
 
     function getLevel(id) {
@@ -324,22 +358,24 @@
     function updateSlider(el) {
       const percent = ((el.value - el.min) / (el.max - el.min)) * 100;
       el.style.setProperty('--value', percent + '%');
-      generateMEL(); // live update
+      generateMEL();
     }
 
     function generateMEL() {
       const query = document.getElementById('humanQuery').value.trim();
+      const outputEl = document.getElementById('melOutput');
+
       if (!query) {
-        document.getElementById('melOutput').value = "Enter your query to generate MEL…";
+        outputEl.value = "Enter your query to generate MEL…";
         return;
       }
 
-      const roleTxt       = sliders.role.base[getLevel('roleLevel')];
-      const intentTxt     = sliders.intent.base[getLevel('intentLevel')];
-      const purposeTxt    = sliders.purpose.base[getLevel('purposeLevel')];
+      const roleTxt = sliders.role.base[getLevel('roleLevel')];
+      const intentTxt = sliders.intent.base[getLevel('intentLevel')];
+      const purposeTxt = sliders.purpose.base[getLevel('purposeLevel')];
       const innovationTxt = sliders.innovation.base[getLevel('innovationLevel')];
-      const styleTxt      = sliders.style.base[getLevel('styleLevel')];
-      const outputTxt     = sliders.output.base[getLevel('outputLevel')];
+      const styleTxt = sliders.style.base[getLevel('styleLevel')];
+      const outputTxt = sliders.output.base[getLevel('outputLevel')];
 
       const mel = `*As a ${roleTxt}*
 
@@ -355,7 +391,7 @@ ${innovationTxt ? `*${innovationTxt}*` : ''}
 *Output as ${outputTxt}*
 *Polish until it feels inevitable and delightful*`;
 
-      document.getElementById('melOutput').value = mel.trim();
+      outputEl.value = mel.trim();
     }
 
     function copyToClipboard() {
@@ -363,19 +399,49 @@ ${innovationTxt ? `*${innovationTxt}*` : ''}
       if (!el.value) return;
       navigator.clipboard.writeText(el.value).then(() => {
         const btn = document.querySelector('.copy-btn');
-        const txt = btn.textContent;
+        const original = btn.textContent;
         btn.textContent = 'Copied!';
-        setTimeout(() => btn.textContent = txt, 1800);
+        setTimeout(() => btn.textContent = original, 1800);
       });
     }
 
-    // Initial generation + live updates
+    function sendToLLM(llm) {
+      const prompt = document.getElementById('melOutput').value.trim();
+      if (!prompt) {
+        alert("Generate a MEL prompt first!");
+        return;
+      }
+
+      let url = '';
+      let note = '';
+
+      switch (llm) {
+        case 'chatgpt': url = `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`; break;
+        case 'claude': url = `https://claude.ai/new?q=${encodeURIComponent(prompt)}`; break;
+        case 'gemini': url = `https://gemini.google.com/app?prompt=${encodeURIComponent(prompt)}`; break;
+        case 'perplexity': url = `https://www.perplexity.ai/?q=${encodeURIComponent(prompt)}`; break;
+        case 'poe': url = `https://poe.com/?q=${encodeURIComponent(prompt)}`; break;
+        case 'you': url = `https://you.com/?q=${encodeURIComponent(prompt)}`; break;
+        case 'mistral': url = `https://chat.mistral.ai/chat?prompt=${encodeURIComponent(prompt)}`; break;
+        case 'grok':
+          url = `https://grok.x.ai/`;
+          note = "Grok does not support direct URL pre-filling (as of early 2026).\n\nMain chat will open — please paste the prompt manually.";
+          break;
+        default: return;
+      }
+
+      if (note) alert(note);
+      window.open(url, '_blank');
+    }
+
+    // Live updates
     document.getElementById('humanQuery').addEventListener('input', generateMEL);
     document.querySelectorAll('input[type="range"]').forEach(sl => {
-      updateSlider(sl); // init gradient
+      updateSlider(sl);
     });
-    generateMEL(); // first run
+    generateMEL(); // initial run
   </script>
 
 </body>
+
 </html>
