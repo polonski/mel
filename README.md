@@ -28,10 +28,14 @@ and model-agnostic.
 
 ## Table of contents
 
+
 | File | Purpose |
-| PURPOSE.md | Why MEL exists — the problem it solves | 
-| VISION.md | Longer-term aspirations and philosophy | 
-| EXAMPLES.md | Concrete prompts + what makes them effective | 
+| --- | --- |
+| PURPOSE.md | Why MEL exists — the problem it solves |
+| VISION.md | Longer-term aspirations and philosophy |
+| EXAMPLES.md | Concrete prompts + what makes them effective |
+
+
 
 ## Installation / Usage
 
