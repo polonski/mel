@@ -2,6 +2,10 @@
 
 MEL v1.0 is deliberately minimal — just a handful of conventions born from real conversations.
 
+1. Use MEL-style thinking (or our expressions) during prototyping and when crafting initial signatures/instructions inside DSPy.
+2. Once the task stabilizes → port the core logic into DSPy modules + write a proper metric → let optimizers (MIPROv2, GEPA 2025) polish it beyond what manual phrasing can achieve.
+3. Keep MEL-style aesthetic/role modifiers inside DSPy signatures for tasks where output style matters (reports, UI copy, creative agents).
+
 The longer-term vision contains several (optional) evolutionary directions:
 
 ## Possible future layers (post v1.0)
@@ -16,13 +20,16 @@ The longer-term vision contains several (optional) evolutionary directions:
 2. **Quantitative hints (very optional)**
     *metric:novelty=8/10*
     *metric:readability=9.5/10*
+
 3. **Output shaping vocabulary**
 Dedicated expressions for controlling format more precisely
     *shape:two-column-comparison-table*
     *shape:step-by-step-with-emoji-bullets*
+
 4. **Composition & reuse**
 Ability to reference other MEL snippets
     *include:mel.preset.coding-poet*
+
 5. **MEL → structured output compilers**
 Tiny scripts that turn MEL into:
 - DSPy signatures + instructions

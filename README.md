@@ -1,17 +1,45 @@
-# MEL – Machine Expression Language  
-**v1.0**  
-Human intent → LLM elixir
+# MEL – Machine Expression Language
 
-A lightweight textual syntax that helps turn vague, natural human questions  
-into structured, high-quality instructions that large language models understand  
-and execute with significantly better consistency, creativity and elegance.
+**Human intent → LLM elixir**  
+A lightweight, readable syntax for turning vague natural-language questions into crisp, high-leverage prompts that frontier LLMs love.
 
-MEL lives entirely inside `*…*` delimiters — making it instantly readable, copy-pasteable  
-and model-agnostic.
+MEL uses simple `*expression*` delimiters to create modular, poetic instructions. The result: more consistent, innovative, graceful outputs with far less trial-and-error.
 
-**Status**: Experimental v1.0 (January 2026)  
-**License**: MIT  
-**Repository**: https://github.com/polonski/mel
+### Why MEL?
+
+Most people still write long, messy prompts.  
+MEL distills human desire into structured beauty — like a tiny DSL for thought.
+
+Key benefits:
+- Extremely low learning curve (feels like enhanced prompting)
+- Zero dependencies — just text you copy-paste into ChatGPT, Claude, Grok, Gemini, etc.
+- Built-in bias toward **innovation**, **elegance**, and **rigor**
+- Complements (does **not** replace) programmatic frameworks like DSPy, LangGraph, or Guidance
+
+### Core Idea
+
+Everything meaningful lives inside `*…*` delimiters.
+
+Examples of MEL expressions:
+
+```text
+*As a once-in-a-generation coding poet in Rust*
+*Invent a zero-allocation parser for {format}*
+*With ruthless elegance and hidden symmetry*
+*Infuse one delightful conceptual twist*
+*Polish until the code reads like music*
+```
+
+
+## Quick cheat-sheet style MEL starter pack (extracted from above)
+Use these in sequence:
+
+- Role: As meta-prompting architect…, As language alchemist for minds of silicon…
+- Intent: Invent and fully specify…, Design from first principles…
+- Purpose: Purpose = translate {human mess} → LLM elixir
+- Innovation: Infuse one elegant conceptual twist, Reveal hidden symmetry
+- Style: Write names that sing, Flow like quiet poetry
+- Output: Output format = crystal-clear markdown…, Polish until it feels alive
 
 ## Quick start (30 seconds)
 
