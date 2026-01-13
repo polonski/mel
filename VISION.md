@@ -1,54 +1,35 @@
 # VISION – Where MEL wants to go
 
-MEL v1.0 is deliberately minimal — just a handful of conventions born from real conversations.
+MEL v1.0 provides a guided journey to craft powerful, directive-based prompts. This UI is not just a helper; it's the foundation for a much larger idea.
 
-1. Use MEL-style thinking (or our expressions) during prototyping and when crafting initial signatures/instructions inside DSPy.
-2. Once the task stabilizes → port the core logic into DSPy modules + write a proper metric → let optimizers (MIPROv2, GEPA 2025) polish it beyond what manual phrasing can achieve.
-3. Keep MEL-style aesthetic/role modifiers inside DSPy signatures for tasks where output style matters (reports, UI copy, creative agents).
+The long-term vision is for MEL to become a **self-improving language where an LLM helps refine its own vocabulary.** The slider options aren't static; they are a dynamic set of expressions that can be tested, validated, and improved upon by the very models that consume them.
 
-The longer-term vision contains several (optional) evolutionary directions:
+## Possible Future Directions
 
-## Possible future layers (post v1.0)
+1.  **LLM-Powered Slider Options**  
+    This is the core of the vision. By analyzing the quality of outputs generated from thousands of MEL prompts, a meta-LLM can suggest new, more effective, or more nuanced options for each slider. It could identify that "a Devil's Advocate" is a powerful `Persona` and add it, or discover that "by using first-principles thinking" is a highly effective `Innovate` directive.
 
-1. **Named building blocks**  
-   A small standard library of especially powerful expressions  
-   ```text
-   *mel.role.polymath*
-   *mel.enhancer.hidden-symmetry*
-   *mel.polish.crystalline*
+2.  **Intelligent Prompt Scaffolding**  
+    The UI could analyze the user's initial query and pre-set the sliders to a sensible starting point. For example, if the query contains "write a poem," the `Style` slider might default to "Literary," and `Purpose` might default to "Artistic."
 
-2. **Quantitative hints (very optional)**
-    *metric:novelty=8/10*
-    *metric:readability=9.5/10*
+3.  **Dynamic & Custom Directives**  
+    Users could add their own sliders to the UI for specific workflows. Imagine adding a new `Audience` slider (from "a 5-year-old" to "a panel of PhDs") or a `Constraint` slider with common limitations (e.g., "under 500 words," "in a formal tone").
 
-3. **Output shaping vocabulary**
-Dedicated expressions for controlling format more precisely
-    *shape:two-column-comparison-table*
-    *shape:step-by-step-with-emoji-bullets*
+4.  **Deep Integration with Developer Tools**  
+    The MEL UI could become a powerful starting point for serious engineering. A new "Export As..." button could compile the generated prompt directly into:
+    -   DSPy signatures
+    -   OpenAI/Gemini function-calling JSON schemas
+    -   Claude's XML tool-use formats
 
-4. **Composition & reuse**
-Ability to reference other MEL snippets
-    *include:mel.preset.coding-poet*
-
-5. **MEL → structured output compilers**
-Tiny scripts that turn MEL into:
-- DSPy signatures + instructions
-- OpenAI JSON schema
-- Claude XML tags
-- Gemini function calling stubs
-
-6. **Community expression gallery**
-A growing collection of field-specific MEL patterns
-(legal drafting, fiction writing, systems design, math proofs, UI critique, …)
+5.  **Community-Curated Vocabularies**  
+    Users could save, share, and import entire sets of slider configurations. This would allow for domain-specific "MEL Packs" for legal analysis, creative writing, systems design, or scientific research.
 
 ## Core philosophy that will not change
 
-- MEL should remain readable as plain English even to non-technical people
-- The number of magic symbols should stay extremely low (*, {} and possibly ())
-- It should never feel like yet another programming language
-- Aesthetic pleasure and surprise should be first-class goals — not afterthoughts
+- **Human-Centric**: The UI should always feel like a creative instrument, not a complex configuration panel.
+- **Readability is Paramount**: The generated prompt syntax must remain clear and understandable to a non-technical user.
+- **Augmentation over Automation**: MEL's goal is to augment human creativity and intent, not just automate a task.
+- **Aesthetic Pleasure is a Feature**: The pursuit of elegance, surprise, and beauty in the LLM's output is a primary goal, not an afterthought.
 
-## MEL is not trying to become DSPy, Guidance, LMQL or Jsonformer.
-It wants to be the beautiful, lightweight, human layer that lives above all of them — and sometimes makes them unnecessary.
-
-Created January 2026 · Michał
+## MEL is not a replacement for DSPy, LangChain, or Guidance.
+It is the beautiful, lightweight, human-centric layer that sits **before** them. It's the tool for crafting the perfect initial instruction that can then be scaled and optimized by those powerful programmatic frameworks.

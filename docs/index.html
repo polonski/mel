@@ -259,78 +259,108 @@
       <div class="slider-group" id="step1">
         <h2 class="step-heading">Step 1: Define the Persona</h2>
         <label for="roleLevel">Adjust the expertise and character of the assistant.</label>
-        <input type="range" id="roleLevel" min="1" max="5" value="4" oninput="updateSlider(this)">
+        <input type="range" id="roleLevel" min="1" max="10" value="4" oninput="updateSlider(this)">
         <div class="slider-labels">
-          <span>Basic expert</span>
-          <span>Skilled craftsman</span>
-          <span>Master innovator</span>
-          <span>Visionary poet</span>
-          <span>Mythical oracle</span>
+          <span>Student</span>
+          <span>Assistant</span>
+          <span>Collaborator</span>
+          <span>Expert</span>
+          <span>Specialist</span>
+          <span>Mentor</span>
+          <span>Visionary</span>
+          <span>Devil's Advocate</span>
+          <span>Oracle</span>
+          <span>Simulator</span>
         </div>
       </div>
 
       <div class="slider-group" id="step2">
         <h2 class="step-heading">Step 2: Clarify the Intent</h2>
         <label for="intentLevel">Specify the clarity and precision of your core instruction.</label>
-        <input type="range" id="intentLevel" min="1" max="5" value="4" oninput="updateSlider(this)">
+        <input type="range" id="intentLevel" min="1" max="10" value="4" oninput="updateSlider(this)">
         <div class="slider-labels">
-          <span>Vague wish</span>
-          <span>Clear task</span>
-          <span>Focused goal</span>
-          <span>Multi-layered</span>
-          <span>Atomic precision</span>
+          <span>Rephrase</span>
+          <span>Execute</span>
+          <span>Achieve</span>
+          <span>Synthesize</span>
+          <span>High-stakes</span>
+          <span>Brainstorm</span>
+          <span>Explain</span>
+          <span>Critique</span>
+          <span>Strategize</span>
+          <span>Deconstruct</span>
         </div>
       </div>
 
       <div class="slider-group" id="step3">
         <h2 class="step-heading">Step 3: State the Purpose</h2>
         <label for="purposeLevel">Explain the "why" behind your request for a more meaningful outcome.</label>
-        <input type="range" id="purposeLevel" min="1" max="5" value="3" oninput="updateSlider(this)">
+        <input type="range" id="purposeLevel" min="1" max="10" value="3" oninput="updateSlider(this)">
         <div class="slider-labels">
-          <span>No why</span>
+          <span>None</span>
           <span>Practical</span>
-          <span>Deeper reason</span>
-          <span>Human impact</span>
-          <span>Transcendent</span>
+          <span>Educational</span>
+          <span>Durable</span>
+          <span>Strategic</span>
+          <span>Commercial</span>
+          <span>Impactful</span>
+          <span>Artistic</span>
+          <span>Provocative</span>
+          <span>Transformative</span>
         </div>
       </div>
 
       <div class="slider-group" id="step4">
         <h2 class="step-heading">Step 4: Set the Innovation Level</h2>
         <label for="innovationLevel">Choose how much creativity and novelty to introduce.</label>
-        <input type="range" id="innovationLevel" min="1" max="5" value="4" oninput="updateSlider(this)">
+        <input type="range" id="innovationLevel" min="1" max="10" value="4" oninput="updateSlider(this)">
         <div class="slider-labels">
-          <span>Conventional</span>
-          <span>Fresh take</span>
-          <span>Clever twist</span>
-          <span>Bold heresy</span>
-          <span>Reality-bending</span>
+          <span>Standard</span>
+          <span>Improved</span>
+          <span>Unconventional</span>
+          <span>Surprising</span>
+          <span>Analogical</span>
+          <span>Challenging</span>
+          <span>First-Principles</span>
+          <span>Heresy</span>
+          <span>Paradigm Shift</span>
+          <span>Exotic</span>
         </div>
       </div>
 
       <div class="slider-group" id="step5">
         <h2 class="step-heading">Step 5: Choose the Style</h2>
         <label for="styleLevel">Define the aesthetic and readability of the final output.</label>
-        <input type="range" id="styleLevel" min="1" max="5" value="4" oninput="updateSlider(this)">
+        <input type="range" id="styleLevel" min="1" max="10" value="4" oninput="updateSlider(this)">
         <div class="slider-labels">
-          <span>Plain text</span>
-          <span>Clean</span>
-          <span>Elegant</span>
+          <span>Raw</span>
+          <span>Direct</span>
+          <span>Formatted</span>
+          <span>Technical</span>
+          <span>Narrative</span>
+          <span>Socratic</span>
+          <span>Literary</span>
           <span>Poetic</span>
-          <span>Symphonic beauty</span>
+          <span>Masterpiece</span>
+          <span>Code-like</span>
         </div>
       </div>
 
       <div class="slider-group" id="step6">
         <h2 class="step-heading">Step 6: Shape the Output</h2>
         <label for="outputLevel">Determine the structure and format of the response.</label>
-        <input type="range" id="outputLevel" min="1" max="5" value="4" oninput="updateSlider(this)">
+        <input type="range" id="outputLevel" min="1" max="10" value="4" oninput="updateSlider(this)">
         <div class="slider-labels">
-          <span>Raw dump</span>
-          <span>Structured</span>
-          <span>Well-organized</span>
-          <span>Beautiful layout</span>
-          <span>Publish-ready</span>
+          <span>Raw Text</span>
+          <span>Bullets</span>
+          <span>Markdown</span>
+          <span>JSON/XML</span>
+          <span>Presentation</span>
+          <span>Diagram</span>
+          <span>Production Code</span>
+          <span>Formal Paper</span>
+          <span>Polished Artifact</span>
+          <span>Interactive</span>
         </div>
       </div>
 
@@ -341,12 +371,13 @@
       <textarea id="melOutput" readonly rows="12"></textarea>
 
       <div class="buttons">
-        <button onclick="generateMEL()">Refresh Preview</button>
-        <button class="copy-btn" onclick="copyToClipboard()">Copy Prompt</button>
+        <button class="copy-btn" onclick="copyToClipboard()">Copy Prompt</button> 
+        <button class="llm-btn" onclick="sendToLLM('chatgpt')">Run MEL query using ChatGPT</button>
       </div>
 
       <div class="buttons" style="margin-top: 1.5rem;">
-        <button class="llm-btn" onclick="sendToLLM('chatgpt')">ChatGPT</button>
+       
+        <!--  
         <button class="llm-btn" onclick="sendToLLM('claude')">Claude</button>
         <button class="llm-btn" onclick="sendToLLM('gemini')">Gemini</button>
         <button class="llm-btn" onclick="sendToLLM('perplexity')">Perplexity</button>
@@ -354,6 +385,7 @@
         <button class="llm-btn" onclick="sendToLLM('you')">You.com</button>
         <button class="llm-btn" onclick="sendToLLM('mistral')">Le Chat (Mistral)</button>
         <button class="llm-btn grok-btn" onclick="sendToLLM('grok')">Grok (manual)</button>
+      -->
       </div>
     </div>
   </div>
@@ -365,12 +397,12 @@
 
   <script>
     const sliders = {
-      role: { base: ['a Basic expert', 'a Skilled craftsman', 'a Master innovator', 'a Visionary poet', 'a Mythical oracle'] },
-      intent: { base: ['roughly translate', 'clearly define the task for', 'sharpen the intent of', 'achieve a layered multi-goal from', 'follow an atomic-precision directive for'] },
-      purpose: { base: ['', 'to solve a real problem', 'to create lasting value', 'to benefit humanity deeply', 'to have a transcendent or poetic impact'] },
-      innovation: { base: ['', 'apply a fresh perspective', 'add one clever twist', 'infuse bold conceptual heresy', 'include a paradigm-shifting insight'] },
-      style: { base: ['plain and direct', 'clean and readable', 'elegant with a natural flow', 'full of poetic clarity', 'like a symphony of quiet beauty'] },
-      output: { base: ['a raw text dump', 'a well-structured markdown document', 'a beautifully formatted response', 'a production-grade layout', 'a publish-ready artifact with impeccable polish'] }
+      role: { base: ['an eager Student', 'a helpful Assistant', 'a creative Collaborator', 'a domain Expert', 'a world-class Specialist', 'a wise Mentor', 'a forward-thinking Visionary', "a Devil's Advocate", 'an Oracle of wisdom', 'a System Simulator'] },
+      intent: { base: ['Summarize and rephrase', 'Execute the following instructions for', 'Achieve the primary objective of', 'Synthesize multiple concepts from', 'Execute a high-stakes, precision-critical directive for', 'Brainstorm a wide list of ideas for', 'Explain the core concepts of', 'Critique and find flaws in', 'Create a high-level strategy for', 'Deconstruct the core principles of'] },
+      purpose: { base: ['', 'for a practical, immediate solution', 'for educational purposes, to learn or teach', 'to create a durable and valuable resource', 'to inform a high-level strategic decision', 'for a commercial application or business value', 'to generate a profoundly positive human impact', 'for artistic, poetic, or philosophical value', 'to be provocative and challenge established thinking', 'to be transformative and alter a core perspective'] },
+      innovation: { base: ['', 'by making minor, safe improvements', 'from an unconventional angle', 'by introducing a surprising and clever element', 'by drawing inspiration from a different domain', 'by challenging the fundamental assumptions', 'by using first-principles thinking', 'by infusing a bold, heretical viewpoint', 'by generating a paradigm-shifting insight', 'by combining multiple exotic ideas'] },
+      style: { base: ['as raw, unadorned data', 'in a direct, simple, and unformatted style', 'with professional formatting (headings, lists)', 'with precise, technical, domain-specific language', 'with an elegant, persuasive, and narrative flow', 'in a Socratic style of questions and answers', 'with high-quality, evocative literary prose', 'with rich metaphor and poetic language', 'as a masterpiece of clarity, depth, and beauty', 'in a structured, code-like format (e.g., pseudocode)'] },
+      output: { base: ['as unformatted raw text', 'as a simple, scannable list of bullet points', 'as a well-structured markdown document', 'as a valid JSON or XML data structure', 'as content for a presentation (slides/notes)', 'as a textual diagram (e.g., Mermaid or DOT syntax)', 'as clean, commented, production-ready code', 'as a formal paper with academic structure', 'as a polished, publish-ready artifact', 'as a plan or code for a simple interactive app'] }
     };
 
     function getLevel(id) {
@@ -399,9 +431,7 @@
       const styleTxt = sliders.style.base[getLevel('styleLevel')];
       const outputTxt = sliders.output.base[getLevel('outputLevel')];
 
-      const mel = `Constraint: Act as the specified Persona to perform the Task on the Query.
-
-Persona: ${roleTxt}
+      const mel = `Persona: ${roleTxt}
 Task: ${intentTxt}
 Query:
   """
