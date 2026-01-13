@@ -364,6 +364,24 @@
         </div>
       </div>
 
+      <div class="slider-group" id="step7">
+        <h2 class="step-heading">Step 7: Add a Constraint (Optional)</h2>
+        <label for="constraintLevel">Apply a specific rule or limitation to the output.</label>
+        <input type="range" id="constraintLevel" min="1" max="10" value="1" oninput="updateSlider(this)">
+        <div class="slider-labels">
+          <span>None</span>
+          <span>Concise</span>
+          <span>Word Limit</span>
+          <span>Formal Tone</span>
+          <span>No Jargon</span>
+          <span>In-Character</span>
+          <span>Step-by-Step</span>
+          <span>Code Only</span>
+          <span>Data Only</span>
+          <span>Strict</span>
+        </div>
+      </div>
+
     </div>
 
     <div class="output-section">
@@ -400,6 +418,7 @@
       role: { base: ['an eager Student', 'a helpful Assistant', 'a creative Collaborator', 'a domain Expert', 'a world-class Specialist', 'a wise Mentor', 'a forward-thinking Visionary', "a Devil's Advocate", 'an Oracle of wisdom', 'a System Simulator'] },
       intent: { base: ['Summarize and rephrase', 'Execute the following instructions for', 'Achieve the primary objective of', 'Synthesize multiple concepts from', 'Execute a high-stakes, precision-critical directive for', 'Brainstorm a wide list of ideas for', 'Explain the core concepts of', 'Critique and find flaws in', 'Create a high-level strategy for', 'Deconstruct the core principles of'] },
       purpose: { base: ['', 'for a practical, immediate solution', 'for educational purposes, to learn or teach', 'to create a durable and valuable resource', 'to inform a high-level strategic decision', 'for a commercial application or business value', 'to generate a profoundly positive human impact', 'for artistic, poetic, or philosophical value', 'to be provocative and challenge established thinking', 'to be transformative and alter a core perspective'] },
+      constraint: { base: ['', 'Constraint: Be as concise and direct as possible.', 'Constraint: The response must not exceed 400 words.', 'Constraint: Maintain a strictly formal and professional tone.', 'Constraint: Avoid all technical jargon and explain in simple terms.', 'Constraint: Do not break character from the specified Persona.', 'Constraint: Present the answer as a clear, step-by-step process.', 'Constraint: The output must only contain code, with no explanatory text.', 'Constraint: The output must only be a valid data format (like JSON), with no surrounding text.', 'Constraint: The most important rule is to follow all other directives with absolute strictness.'] },
       innovation: { base: ['', 'by making minor, safe improvements', 'from an unconventional angle', 'by introducing a surprising and clever element', 'by drawing inspiration from a different domain', 'by challenging the fundamental assumptions', 'by using first-principles thinking', 'by infusing a bold, heretical viewpoint', 'by generating a paradigm-shifting insight', 'by combining multiple exotic ideas'] },
       style: { base: ['as raw, unadorned data', 'in a direct, simple, and unformatted style', 'with professional formatting (headings, lists)', 'with precise, technical, domain-specific language', 'with an elegant, persuasive, and narrative flow', 'in a Socratic style of questions and answers', 'with high-quality, evocative literary prose', 'with rich metaphor and poetic language', 'as a masterpiece of clarity, depth, and beauty', 'in a structured, code-like format (e.g., pseudocode)'] },
       output: { base: ['as unformatted raw text', 'as a simple, scannable list of bullet points', 'as a well-structured markdown document', 'as a valid JSON or XML data structure', 'as content for a presentation (slides/notes)', 'as a textual diagram (e.g., Mermaid or DOT syntax)', 'as clean, commented, production-ready code', 'as a formal paper with academic structure', 'as a polished, publish-ready artifact', 'as a plan or code for a simple interactive app'] }
@@ -427,6 +446,7 @@
       const roleTxt = sliders.role.base[getLevel('roleLevel')];
       const intentTxt = sliders.intent.base[getLevel('intentLevel')];
       const purposeTxt = sliders.purpose.base[getLevel('purposeLevel')];
+      const constraintTxt = sliders.constraint.base[getLevel('constraintLevel')];
       const innovationTxt = sliders.innovation.base[getLevel('innovationLevel')];
       const styleTxt = sliders.style.base[getLevel('styleLevel')];
       const outputTxt = sliders.output.base[getLevel('outputLevel')];
@@ -437,6 +457,7 @@ Query:
   """
   ${query}
   """
+${constraintTxt ? constraintTxt : ''}
 ${purposeTxt ? `Purpose: ${purposeTxt}` : ''}
 ${innovationTxt ? `Innovate: ${innovationTxt}` : ''}
 Style: ${styleTxt}
