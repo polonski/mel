@@ -85,6 +85,15 @@
       box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
     }
 
+    .step-heading {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin: 1rem 0 0.5rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
     .slider-group {
       display: flex;
       flex-direction: column;
@@ -98,6 +107,13 @@
       border-radius: 999px;
       appearance: none;
       outline: none;
+    }
+
+    .slider-group label {
+      font-weight: 400;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
     }
 
     input[type="range"]::-webkit-slider-thumb {
@@ -230,7 +246,7 @@
 
   <div class="container">
     <h1>MEL – Machine Expression Language</h1>
-    <p class="subtitle">Turn your natural question into a structured, Gherkin-style LLM prompt</p>
+    <p class="subtitle">A step-by-step journey to turn your query into a powerful, directive-based LLM prompt</p>
 
     <div class="form-grid">
 
@@ -240,8 +256,9 @@
           placeholder="Example: Build a beautiful todo app in React with dark mode and drag & drop"></textarea>
       </div>
 
-      <div class="slider-group">
-        <label for="roleLevel">Role intensity (1 = basic → 5 = mythical)</label>
+      <div class="slider-group" id="step1">
+        <h2 class="step-heading">Step 1: Define the Persona</h2>
+        <label for="roleLevel">Adjust the expertise and character of the assistant.</label>
         <input type="range" id="roleLevel" min="1" max="5" value="4" oninput="updateSlider(this)">
         <div class="slider-labels">
           <span>Basic expert</span>
@@ -252,8 +269,9 @@
         </div>
       </div>
 
-      <div class="slider-group">
-        <label for="intentLevel">Intent clarity (1 = vague → 5 = atomic)</label>
+      <div class="slider-group" id="step2">
+        <h2 class="step-heading">Step 2: Clarify the Intent</h2>
+        <label for="intentLevel">Specify the clarity and precision of your core instruction.</label>
         <input type="range" id="intentLevel" min="1" max="5" value="4" oninput="updateSlider(this)">
         <div class="slider-labels">
           <span>Vague wish</span>
@@ -264,8 +282,9 @@
         </div>
       </div>
 
-      <div class="slider-group">
-        <label for="purposeLevel">Purpose depth (1 = none → 5 = transcendent)</label>
+      <div class="slider-group" id="step3">
+        <h2 class="step-heading">Step 3: State the Purpose</h2>
+        <label for="purposeLevel">Explain the "why" behind your request for a more meaningful outcome.</label>
         <input type="range" id="purposeLevel" min="1" max="5" value="3" oninput="updateSlider(this)">
         <div class="slider-labels">
           <span>No why</span>
@@ -276,8 +295,9 @@
         </div>
       </div>
 
-      <div class="slider-group">
-        <label for="innovationLevel">Innovation push (1 = safe → 5 = paradigm shift)</label>
+      <div class="slider-group" id="step4">
+        <h2 class="step-heading">Step 4: Set the Innovation Level</h2>
+        <label for="innovationLevel">Choose how much creativity and novelty to introduce.</label>
         <input type="range" id="innovationLevel" min="1" max="5" value="4" oninput="updateSlider(this)">
         <div class="slider-labels">
           <span>Conventional</span>
@@ -288,8 +308,9 @@
         </div>
       </div>
 
-      <div class="slider-group">
-        <label for="styleLevel">Style & grace (1 = plain → 5 = symphonic)</label>
+      <div class="slider-group" id="step5">
+        <h2 class="step-heading">Step 5: Choose the Style</h2>
+        <label for="styleLevel">Define the aesthetic and readability of the final output.</label>
         <input type="range" id="styleLevel" min="1" max="5" value="4" oninput="updateSlider(this)">
         <div class="slider-labels">
           <span>Plain text</span>
@@ -300,8 +321,9 @@
         </div>
       </div>
 
-      <div class="slider-group">
-        <label for="outputLevel">Output shaping (1 = raw → 5 = publish-ready)</label>
+      <div class="slider-group" id="step6">
+        <h2 class="step-heading">Step 6: Shape the Output</h2>
+        <label for="outputLevel">Determine the structure and format of the response.</label>
         <input type="range" id="outputLevel" min="1" max="5" value="4" oninput="updateSlider(this)">
         <div class="slider-labels">
           <span>Raw dump</span>
@@ -345,7 +367,7 @@
     const sliders = {
       role: { base: ['a Basic expert', 'a Skilled craftsman', 'a Master innovator', 'a Visionary poet', 'a Mythical oracle'] },
       intent: { base: ['roughly translate', 'clearly define the task for', 'sharpen the intent of', 'achieve a layered multi-goal from', 'follow an atomic-precision directive for'] },
-      purpose: { base: ['', 'to solve a real problem', 'to create lasting value', 'to benefit humanity deeply', 'for a transcendent or poetic impact'] },
+      purpose: { base: ['', 'to solve a real problem', 'to create lasting value', 'to benefit humanity deeply', 'to have a transcendent or poetic impact'] },
       innovation: { base: ['', 'apply a fresh perspective', 'add one clever twist', 'infuse bold conceptual heresy', 'include a paradigm-shifting insight'] },
       style: { base: ['plain and direct', 'clean and readable', 'elegant with a natural flow', 'full of poetic clarity', 'like a symphony of quiet beauty'] },
       output: { base: ['a raw text dump', 'a well-structured markdown document', 'a beautifully formatted response', 'a production-grade layout', 'a publish-ready artifact with impeccable polish'] }
@@ -366,7 +388,7 @@
       const outputEl = document.getElementById('melOutput');
 
       if (!query) {
-        outputEl.value = "Enter your query to generate a Gherkin-style MEL prompt…";
+        outputEl.value = "Enter your query to begin the prompt generation journey…";
         return;
       }
 
@@ -377,19 +399,19 @@
       const styleTxt = sliders.style.base[getLevel('styleLevel')];
       const outputTxt = sliders.output.base[getLevel('outputLevel')];
 
-      const mel = `Given I am ${roleTxt}
+      const mel = `Constraint: Act as the specified Persona to perform the Task on the Query.
 
-When I want to ${intentTxt}:
+Persona: ${roleTxt}
+Task: ${intentTxt}
+Query:
   """
   ${query}
   """
-
-${purposeTxt ? `And my purpose is ${purposeTxt}` : ''}
-${innovationTxt ? `And I want to ${innovationTxt}` : ''}
-
-Then the output should be ${outputTxt}
-And the style should be ${styleTxt}
-And it must be polished until it feels inevitable and delightful`;
+${purposeTxt ? `Purpose: ${purposeTxt}` : ''}
+${innovationTxt ? `Innovate: ${innovationTxt}` : ''}
+Style: ${styleTxt}
+Output: ${outputTxt}
+Polish: until it feels inevitable and delightful`;
 
       // Clean up blank lines that result from empty optional parts
       outputEl.value = mel.split('\n').filter(line => line.trim() !== '').join('\n');
