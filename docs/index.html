@@ -230,7 +230,7 @@
 
   <div class="container">
     <h1>MEL – Machine Expression Language</h1>
-    <p class="subtitle">Turn your natural question into a structured, high-quality LLM prompt</p>
+    <p class="subtitle">Turn your natural question into a structured, Gherkin-style LLM prompt</p>
 
     <div class="form-grid">
 
@@ -343,12 +343,12 @@
 
   <script>
     const sliders = {
-      role: { base: ['Basic expert', 'Skilled craftsman', 'Master innovator', 'Visionary poet', 'Mythical oracle of'] },
-      intent: { base: ['Translate roughly:', 'Clearly define task:', 'Sharpen intent:', 'Layered multi-goal:', 'Atomic-precision directive:'] },
-      purpose: { base: ['', 'so it solves a real problem', 'to create lasting value', 'to benefit humanity deeply', 'for transcendent / poetic impact'] },
-      innovation: { base: ['', 'with a fresh perspective', 'add one clever twist', 'infuse bold conceptual heresy', 'include one paradigm-shifting insight'] },
-      style: { base: ['plain and direct', 'clean & readable', 'elegant flow', 'poetic clarity', 'symphony of quiet beauty'] },
-      output: { base: ['raw text', 'well-structured markdown', 'beautifully formatted', 'production-grade layout', 'publish-ready artifact with polish'] }
+      role: { base: ['a Basic expert', 'a Skilled craftsman', 'a Master innovator', 'a Visionary poet', 'a Mythical oracle'] },
+      intent: { base: ['roughly translate', 'clearly define the task for', 'sharpen the intent of', 'achieve a layered multi-goal from', 'follow an atomic-precision directive for'] },
+      purpose: { base: ['', 'to solve a real problem', 'to create lasting value', 'to benefit humanity deeply', 'for a transcendent or poetic impact'] },
+      innovation: { base: ['', 'apply a fresh perspective', 'add one clever twist', 'infuse bold conceptual heresy', 'include a paradigm-shifting insight'] },
+      style: { base: ['plain and direct', 'clean and readable', 'elegant with a natural flow', 'full of poetic clarity', 'like a symphony of quiet beauty'] },
+      output: { base: ['a raw text dump', 'a well-structured markdown document', 'a beautifully formatted response', 'a production-grade layout', 'a publish-ready artifact with impeccable polish'] }
     };
 
     function getLevel(id) {
@@ -366,7 +366,7 @@
       const outputEl = document.getElementById('melOutput');
 
       if (!query) {
-        outputEl.value = "Enter your query to generate MEL…";
+        outputEl.value = "Enter your query to generate a Gherkin-style MEL prompt…";
         return;
       }
 
@@ -377,21 +377,22 @@
       const styleTxt = sliders.style.base[getLevel('styleLevel')];
       const outputTxt = sliders.output.base[getLevel('outputLevel')];
 
-      const mel = `*As a ${roleTxt}*
+      const mel = `Given I am ${roleTxt}
 
-*${intentTxt}*
+When I want to ${intentTxt}:
+  """
+  ${query}
+  """
 
-"${query}"
+${purposeTxt ? `And my purpose is ${purposeTxt}` : ''}
+${innovationTxt ? `And I want to ${innovationTxt}` : ''}
 
-${purposeTxt ? `*Purpose* — ${purposeTxt}` : ''}
+Then the output should be ${outputTxt}
+And the style should be ${styleTxt}
+And it must be polished until it feels inevitable and delightful`;
 
-*Prioritise ${styleTxt}*
-${innovationTxt ? `*${innovationTxt}*` : ''}
-
-*Output as ${outputTxt}*
-*Polish until it feels inevitable and delightful*`;
-
-      outputEl.value = mel.trim();
+      // Clean up blank lines that result from empty optional parts
+      outputEl.value = mel.split('\n').filter(line => line.trim() !== '').join('\n');
     }
 
     function copyToClipboard() {
