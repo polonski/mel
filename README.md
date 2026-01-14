@@ -6,7 +6,7 @@ MEL has evolved. It's no longer a manual syntax but a powerful web-based tool th
 
 Through a guided, step-by-step journey, you define the `Persona`, `Intent`, `Purpose`, `Innovation`, `Style`, and `Output` of your request. The result is a crisp, machine-readable prompt that produces more consistent, creative, and high-quality results.
 
-**→ Open the MEL Prompt Generator**
+**→ [Open the MEL Prompt Generator](polonski.github.io/mel/)**
 
 ### Why MEL?
 
