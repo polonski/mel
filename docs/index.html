@@ -282,7 +282,7 @@
           <span>Execute</span>
           <span>Achieve</span>
           <span>Synthesize</span>
-          <span>High-stakes</span>
+          <span>Precise-Exec</span>
           <span>Brainstorm</span>
           <span>Explain</span>
           <span>Critique</span>
@@ -365,7 +365,7 @@
       </div>
 
       <div class="slider-group" id="step7">
-        <h2 class="step-heading">Step 6: Shape the Output</h2>
+        <h2 class="step-heading">Step 7: Shape the Output</h2>
         <label for="outputLevel">Determine the structure and format of the response.</label>
         <input type="range" id="outputLevel" min="1" max="10" value="4" oninput="updateSlider(this)">
         <div class="slider-labels">
@@ -397,6 +397,24 @@
           <span>Code Only</span>
           <span>Data Only</span>
           <span>Strict</span>
+        </div>
+      </div>
+
+      <div class="slider-group" id="step9">
+        <h2 class="step-heading">Step 9: Set the Polish Level (Optional)</h2>
+        <label for="polishLevel">Define the final refinement pass on the entire output.</label>
+        <input type="range" id="polishLevel" min="1" max="10" value="1" oninput="updateSlider(this)">
+        <div class="slider-labels">
+          <span>None</span>
+          <span>Proofread</span>
+          <span>Improve Flow</span>
+          <span>Check Accuracy</span>
+          <span>Add Summary</span>
+          <span>Review Directives</span>
+          <span>Simplify</span>
+          <span>Elevate Tone</span>
+          <span>Add Insight</span>
+          <span>Make Inevitable</span>
         </div>
       </div>
 
@@ -440,7 +458,8 @@
       constraint: { base: ['', 'Constraint: Be as concise and direct as possible.', 'Constraint: The response must not exceed 400 words.', 'Constraint: Maintain a strictly formal and professional tone.', 'Constraint: Avoid all technical jargon and explain in simple terms.', 'Constraint: Do not break character from the specified Persona.', 'Constraint: Present the answer as a clear, step-by-step process.', 'Constraint: The output must only contain code, with no explanatory text.', 'Constraint: The output must only be a valid data format (like JSON), with no surrounding text.', 'Constraint: The most important rule is to follow all other directives with absolute strictness.'] },
       innovation: { base: ['', 'by blending proven concepts from different fields', 'from an unconventional angle', 'by introducing a surprising and clever element', 'by drawing inspiration from a different domain', 'by challenging the fundamental assumptions', 'by using first-principles thinking', 'by infusing a bold, heretical viewpoint', 'by generating a paradigm-shifting insight', 'by combining multiple exotic ideas'] },
       style: { base: ['as raw, unadorned data', 'in a direct, simple, and unformatted style', 'with professional formatting (headings, lists)', 'with Chain-of-Thought reasoning shown before the final answer', 'with precise, technical, domain-specific language', 'with an elegant, persuasive, and narrative flow', 'in a Socratic style of questions and answers', 'with high-quality, evocative literary prose', 'with rich metaphor and poetic language', 'as a masterpiece of clarity, depth, and beauty'] },
-      output: { base: ['as unformatted raw text', 'as a simple, scannable list of bullet points', 'as a well-structured markdown document', 'as a valid JSON or XML data structure', 'as content for a presentation (slides/notes)', 'as a textual diagram (e.g., Mermaid or DOT syntax)', 'as clean, commented, production-ready code', 'as a formal paper with academic structure', 'as a polished, publish-ready artifact', 'as a plan or code for a simple interactive app'] }
+      output: { base: ['as unformatted raw text', 'as a simple, scannable list of bullet points', 'as a well-structured markdown document', 'as a valid JSON or XML data structure', 'as content for a presentation (slides/notes)', 'as a textual diagram (e.g., Mermaid or DOT syntax)', 'as clean, commented, production-ready code', 'as a formal paper with academic structure', 'as a polished, publish-ready artifact', 'as a plan or code for a simple interactive app'] },
+      polish: { base: ['', 'Polish: by proofreading for grammar and typos.', 'Polish: by improving the clarity and flow of the text.', 'Polish: by double-checking that the answer directly and accurately addresses the query.', 'Polish: by adding a concise summary at the end.', 'Polish: by reviewing the full response to ensure it consistently adheres to all directives.', 'Polish: by simplifying complex sentences and removing unnecessary jargon.', 'Polish: by elevating the vocabulary and overall tone to be more sophisticated.', 'Polish: by concluding with a surprising or insightful final thought.', 'Polish: until the entire response feels inevitable and delightful.'] }
     };
 
     function getLevel(id) {
@@ -472,6 +491,7 @@
       const innovationTxt = sliders.innovation.base[getLevel('innovationLevel')];
       const styleTxt = sliders.style.base[getLevel('styleLevel')];
       const outputTxt = sliders.output.base[getLevel('outputLevel')];
+      const polishTxt = sliders.polish.base[getLevel('polishLevel')];
 
       melParts.push(`Persona: ${roleTxt}`);
       melParts.push(`Task: ${taskTxt}`);
@@ -484,7 +504,7 @@
 
       melParts.push(`Style: ${styleTxt}`);
       melParts.push(`Output: ${outputTxt}`);
-      melParts.push(`Polish: until it feels inevitable and delightful`);
+      if (polishTxt) melParts.push(polishTxt);
 
       outputEl.value = melParts.join('\n\n');
     }
