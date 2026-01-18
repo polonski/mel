@@ -11,12 +11,13 @@ Query:
   """
   Design a clean, animated React + Tailwind card component for displaying minimalist poetry quotes.
   """
+Audience: for a peer or colleague with similar expertise
 Purpose: to create a durable and valuable resource
-Constraint: Must be mobile-first, support dark mode, and have zero dependencies beyond React & Tailwind.
 Innovate: by introducing a surprising and clever element
 Style: as a masterpiece of clarity, depth, and beauty
 Output: as clean, commented, production-ready code
-Polish: until it feels inevitable and delightful
+Constraint: The code must be mobile-first, support dark mode, and have zero dependencies beyond React & Tailwind.
+Polish: by reviewing the full response to ensure it consistently adheres to all directives.
 ```
 
 ## 2. Creative writing – short story

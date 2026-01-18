@@ -8,6 +8,8 @@ Most prompts for frontier language models are still written like this:
 
 The result is usually acceptable, but rarely excellent. It lacks precision, which leads to inconsistent, often mediocre outputs.
 
+Modern LLMs are trained with methods like Reinforcement Learning from Human Feedback (RLHF), where they learn by being rewarded for "good" responses. This is a *reactive* loop: the model guesses your intent, and you provide feedback. MEL's purpose is to create a *proactive* loop. By providing a rich, structured set of directives upfront, you explicitly state your preferences and criteria for a "good" response. You become the director, not just the reviewer, of the AI's output.
+
 MEL exists to solve this problem by turning a vague human desire into a crisp, structured, and powerful machine instruction. It replaces the guesswork of prompt writing with a deliberate, guided journey.
 
 ## Core Design Goals
