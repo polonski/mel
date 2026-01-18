@@ -26,12 +26,14 @@ The core directives are:
 - `Persona`: Defines the character, expertise, and voice of the AI assistant.
 - `Task`: Specifies the primary action or goal for the LLM to perform.
 - `Query`: Your original, natural-language request.
+- `Examples`: Optional few-shot examples to guide the model's output format and style.
+- `Audience`: The intended audience for the response, shaping its tone and complexity.
 - `Purpose`: The "why" behind your request, giving the LLM crucial context.
 - `Innovate`: Instructs the LLM on the desired level of creativity and novelty.
 - `Style`: Defines the aesthetic, tone, and formatting of the response.
 - `Output`: Specifies the final structure and format (e.g., Markdown, JSON, code).
-- `Polish`: A final instruction to refine the output to a high standard.
 - `Constraint`: An optional, specific rule or limitation that refines the `Purpose`.
+- `Polish`: A final instruction to refine the output to a high standard.
 
 ## Example Prompt
 
@@ -42,11 +44,18 @@ Query:
   """
   Build a beautiful todo app in React with dark mode and drag & drop
   """
+Examples:
+  <examples>
+  Input: A simple task description.
+  Output: A React component that renders the task.
+  </examples>
+Constraint: Must use functional components and hooks.
+Audience: for a peer or colleague with similar expertise
 Purpose: to create a durable and valuable resource
 Innovate: by introducing a surprising and clever element
 Style: with an elegant, persuasive, and narrative flow
 Output: as clean, commented, production-ready code
-Polish: until it feels inevitable and delightful
+Polish: by reviewing the full response to ensure it consistently adheres to all directives.
 ```
 
 ## Table of contents

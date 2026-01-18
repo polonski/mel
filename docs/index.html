@@ -256,6 +256,12 @@
           placeholder="Example: Build a beautiful todo app in React with dark mode and drag & drop"></textarea>
       </div>
 
+      <div class="input-group">
+        <label for="examples">Provide Examples (Optional):</label>
+        <textarea id="examples"
+          placeholder="Provide one or more input/output examples to guide the model. e.g.,&#10;Input: 'hello world'&#10;Output: 'dlrow olleh'"></textarea>
+      </div>
+
       <div class="slider-group" id="step1">
         <h2 class="step-heading">Step 1: Define the Persona</h2>
         <label for="roleLevel">Adjust the expertise and character of the assistant.</label>
@@ -459,7 +465,8 @@
       innovation: { base: ['', 'by blending proven concepts from different fields', 'from an unconventional angle', 'by introducing a surprising and clever element', 'by drawing inspiration from a different domain', 'by challenging the fundamental assumptions', 'by using first-principles thinking', 'by infusing a bold, heretical viewpoint', 'by generating a paradigm-shifting insight', 'by combining multiple exotic ideas'] },
       style: { base: ['as raw, unadorned data', 'in a direct, simple, and unformatted style', 'with professional formatting (headings, lists)', 'with Chain-of-Thought reasoning shown before the final answer', 'with precise, technical, domain-specific language', 'with an elegant, persuasive, and narrative flow', 'in a Socratic style of questions and answers', 'with high-quality, evocative literary prose', 'with rich metaphor and poetic language', 'as a masterpiece of clarity, depth, and beauty'] },
       output: { base: ['as unformatted raw text', 'as a simple, scannable list of bullet points', 'as a well-structured markdown document', 'as a valid JSON or XML data structure', 'as content for a presentation (slides/notes)', 'as a textual diagram (e.g., Mermaid or DOT syntax)', 'as clean, commented, production-ready code', 'as a formal paper with academic structure', 'as a polished, publish-ready artifact', 'as a plan or code for a simple interactive app'] },
-      polish: { base: ['', 'Polish: by proofreading for grammar and typos.', 'Polish: by improving the clarity and flow of the text.', 'Polish: by double-checking that the answer directly and accurately addresses the query.', 'Polish: by adding a concise summary at the end.', 'Polish: by reviewing the full response to ensure it consistently adheres to all directives.', 'Polish: by simplifying complex sentences and removing unnecessary jargon.', 'Polish: by elevating the vocabulary and overall tone to be more sophisticated.', 'Polish: by concluding with a surprising or insightful final thought.', 'Polish: until the entire response feels inevitable and delightful.'] }
+      polish: { base: ['', 'Polish: by proofreading for grammar and typos.', 'Polish: by improving the clarity and flow of the text.', 'Polish: by double-checking that the answer directly and accurately addresses the query.', 'Polish: by adding a concise summary at the end.', 'Polish: by reviewing the full response to ensure it consistently adheres to all directives.', 'Polish: by simplifying complex sentences and removing unnecessary jargon.', 'Polish: by elevating the vocabulary and overall tone to be more sophisticated.', 'Polish: by concluding with a surprising or insightful final thought.', 'Polish: until the entire response feels inevitable and delightful.'] },
+      examples: { base: [''] } // Placeholder for the new examples field
     };
 
     function getLevel(id) {
@@ -474,6 +481,7 @@
 
     function generateMEL() {
       const query = document.getElementById('humanQuery').value.trim();
+      const examples = document.getElementById('examples').value.trim();
       const outputEl = document.getElementById('melOutput');
 
       if (!query) {
@@ -496,6 +504,10 @@
       melParts.push(`Persona: ${roleTxt}`);
       melParts.push(`Task: ${taskTxt}`);
       melParts.push(`Query:\n  """\n  ${query}\n  """`);
+
+      if (examples) {
+        melParts.push(`Examples:\n  <examples>\n  ${examples}\n  </examples>`);
+      }
 
       if (constraintTxt) melParts.push(constraintTxt);
       if (audienceTxt) melParts.push(`Audience: ${audienceTxt}`);
@@ -551,6 +563,7 @@
 
     // Live updates
     document.getElementById('humanQuery').addEventListener('input', generateMEL);
+    document.getElementById('examples').addEventListener('input', generateMEL);
     document.querySelectorAll('input[type="range"]').forEach(sl => {
       updateSlider(sl);
     });

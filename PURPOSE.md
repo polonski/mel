@@ -21,7 +21,7 @@ MEL exists to solve this problem by turning a vague human desire into a crisp, s
     The output is a clean, `Key: Value` directive-based prompt. This format is unambiguous for the LLM, dramatically improving the consistency and quality of the results.
 
 3.  **Expressive Power & Nuance**  
-    With 10 distinct levels for each of the 6 core directives, MEL provides a vast creative canvas. It allows for a level of nuance and control that is difficult to achieve with natural language alone.
+    Through a series of sliders and optional fields for providing context, constraints, and examples, MEL provides a vast creative canvas. It allows for a level of nuance and control that is difficult to achieve with natural language alone.
 
 4.  **Bias Toward Excellence**  
     Most prompting focuses only on correctness. MEL is designed to optimize for **correctness + innovation + aesthetic pleasure**. The sliders for `Innovation` and `Style` are there to push the model beyond the obvious answer.

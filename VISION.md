@@ -20,6 +20,7 @@ The long-term vision is for MEL to become a **self-improving language where an L
     -   DSPy signatures
     -   OpenAI/Gemini function-calling JSON schemas
     -   Claude's XML tool-use formats
+    The addition of the `Examples` directive is a key foundational step, as few-shot examples are critical for these programmatic frameworks.
 
 5.  **Community-Curated Vocabularies**  
     Users could save, share, and import entire sets of slider configurations. This would allow for domain-specific "MEL Packs" for legal analysis, creative writing, systems design, or scientific research.
