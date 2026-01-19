@@ -27,6 +27,7 @@ The core directives are:
 - `Task`: Specifies the primary action or goal for the LLM to perform.
 - `Query`: Your original, natural-language request.
 - `Examples`: Optional few-shot examples to guide the model's output format and style.
+- `Exclusions`: Optional negative constraints specifying what to avoid.
 - `Audience`: The intended audience for the response, shaping its tone and complexity.
 - `Purpose`: The "why" behind your request, giving the LLM crucial context.
 - `Innovate`: Instructs the LLM on the desired level of creativity and novelty.
@@ -49,11 +50,16 @@ Examples:
   Input: A simple task description.
   Output: A React component that renders the task.
   </examples>
+Exclusions:
+  """
+  - Do not use class components.
+  - Do not use any state management libraries like Redux or MobX.
+  """
 Constraint: Must use functional components and hooks.
 Audience: for a peer or colleague with similar expertise
 Purpose: to create a durable and valuable resource
 Innovate: by introducing a surprising and clever element
-Style: with an elegant, persuasive, and narrative flow
+Style: with Chain-of-Thought reasoning shown inside <thinking> tags before the final answer
 Output: as clean, commented, production-ready code
 Polish: by reviewing the full response to ensure it consistently adheres to all directives.
 ```
