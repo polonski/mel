@@ -210,6 +210,12 @@
       background: #7c3aed;
     }
 
+    .export-btn {
+      background: #0891b2;
+    }
+    .export-btn:hover {
+      background: #0e7490;
+    }
     footer {
       margin-top: 3rem;
       text-align: center;
@@ -438,12 +444,19 @@
 
       <div class="buttons">
         <button class="copy-btn" onclick="copyToClipboard()">Copy Prompt</button> 
-        <button class="llm-btn" onclick="sendToLLM('chatgpt')">Run MEL query using ChatGPT</button>
+        <button class="llm-btn" onclick="sendToLLM('chatgpt')">Run in ChatGPT</button>
+      </div>
+
+      <div class="buttons" style="margin-top: 1rem;">
+        <label style="width: 100%; font-size: 0.9rem; color: var(--muted);">Export for:</label>
+        <button class="export-btn" onclick="exportAs('dspy')">DSPy Signature</button>
+        <button class="export-btn" onclick="exportAs('langchain')">LangChain Template</button>
       </div>
 
       <div class="buttons" style="margin-top: 1.5rem;">
        
         <!--  
+        <label style="width: 100%; font-size: 0.9rem; color: var(--muted);">More LLM providers:</label>
         <button class="llm-btn" onclick="sendToLLM('claude')">Claude</button>
         <button class="llm-btn" onclick="sendToLLM('gemini')">Gemini</button>
         <button class="llm-btn" onclick="sendToLLM('perplexity')">Perplexity</button>
@@ -462,6 +475,8 @@
   </footer>
 
   <script>
+    let currentMelComponents = {};
+
     const sliders = {
       role: { base: ['an eager Student', 'a helpful Assistant', 'a creative Collaborator', 'a domain Expert', 'a world-class Specialist', 'a wise Mentor', 'a forward-thinking Visionary', "a Devil's Advocate", 'an Oracle of wisdom', 'a System Simulator'] },
       task: { base: ['Execute the following instructions for', 'Achieve the primary objective of', 'Synthesize multiple concepts for', 'Execute a precision-critical directive for', 'Brainstorm a wide list of ideas for', 'Explain the core concepts of', 'Critique and find flaws in', 'Design a high-level plan for', 'Deconstruct the core principles of', 'Act as a Socratic tutor for'] },
@@ -496,39 +511,45 @@
         return;
       }
 
+      currentMelComponents = {
+        persona: sliders.role.base[getLevel('roleLevel')],
+        task: sliders.task.base[getLevel('taskLevel')],
+        query: query,
+        examples: examples,
+        exclusions: exclusions,
+        audience: sliders.audience.base[getLevel('audienceLevel')],
+        purpose: sliders.purpose.base[getLevel('purposeLevel')],
+        constraint: sliders.constraint.base[getLevel('constraintLevel')],
+        innovation: sliders.innovation.base[getLevel('innovationLevel')],
+        style: sliders.style.base[getLevel('styleLevel')],
+        output: sliders.output.base[getLevel('outputLevel')],
+        polish: sliders.polish.base[getLevel('polishLevel')],
+      };
+
       const melParts = [];
+      const c = currentMelComponents;
 
-      const roleTxt = sliders.role.base[getLevel('roleLevel')];
-      const taskTxt = sliders.task.base[getLevel('taskLevel')];
-      const audienceTxt = sliders.audience.base[getLevel('audienceLevel')];
-      const purposeTxt = sliders.purpose.base[getLevel('purposeLevel')];
-      const constraintTxt = sliders.constraint.base[getLevel('constraintLevel')];
-      const innovationTxt = sliders.innovation.base[getLevel('innovationLevel')];
-      const styleTxt = sliders.style.base[getLevel('styleLevel')];
-      const outputTxt = sliders.output.base[getLevel('outputLevel')];
-      const polishTxt = sliders.polish.base[getLevel('polishLevel')];
+      melParts.push(`Persona: ${c.persona}`);
+      melParts.push(`Task: ${c.task}`);
+      melParts.push(`Query:\n  """\n  ${c.query}\n  """`);
 
-      melParts.push(`Persona: ${roleTxt}`);
-      melParts.push(`Task: ${taskTxt}`);
-      melParts.push(`Query:\n  """\n  ${query}\n  """`);
-
-      if (examples) {
-        melParts.push(`Examples:\n  <examples>\n  ${examples}\n  </examples>`);
+      if (c.examples) {
+        melParts.push(`Examples:\n  <examples>\n  ${c.examples}\n  </examples>`);
       }
 
-      if (exclusions) {
-        melParts.push(`Exclusions:\n  """\n  ${exclusions}\n  """`);
+      if (c.exclusions) {
+        melParts.push(`Exclusions:\n  """\n  ${c.exclusions}\n  """`);
       }
 
-      if (constraintTxt) melParts.push(constraintTxt);
-      if (audienceTxt) melParts.push(`Audience: ${audienceTxt}`);
-      if (purposeTxt) melParts.push(`Purpose: ${purposeTxt}`);
-      if (innovationTxt) melParts.push(`Innovate: ${innovationTxt}`);
+      if (c.constraint) melParts.push(c.constraint);
+      if (c.audience) melParts.push(`Audience: ${c.audience}`);
+      if (c.purpose) melParts.push(`Purpose: ${c.purpose}`);
+      if (c.innovation) melParts.push(`Innovate: ${c.innovation}`);
 
-      melParts.push(`Style: ${styleTxt}`);
-      melParts.push(`Output: ${outputTxt}`);
-      if (polishTxt) melParts.push(polishTxt);
-
+      melParts.push(`Style: ${c.style}`);
+      melParts.push(`Output: ${c.output}`);
+      if (c.polish) melParts.push(c.polish);
+      
       outputEl.value = melParts.join('\n\n');
     }
 
@@ -570,6 +591,70 @@
 
       if (note) alert(note);
       window.open(url, '_blank');
+    }
+
+    function exportAs(format) {
+      const c = currentMelComponents;
+      if (!c.query) {
+        alert("Please enter a query first.");
+        return;
+      }
+
+      let code = '';
+      let btn = null;
+
+      const system_prompt_parts = [
+        `Persona: ${c.persona}`,
+        `Task: ${c.task}`,
+        c.examples ? `Examples:\n  <examples>\n  ${c.examples}\n  </examples>` : null,
+        c.exclusions ? `Exclusions:\n  """\n  ${c.exclusions}\n  """` : null,
+        c.constraint,
+        c.audience ? `Audience: ${c.audience}` : null,
+        c.purpose ? `Purpose: ${c.purpose}` : null,
+        c.innovation ? `Innovate: ${c.innovation}` : null,
+        `Style: ${c.style}`,
+        `Output: ${c.output}`,
+        c.polish
+      ].filter(Boolean);
+
+      const system_prompt = system_prompt_parts.join('\n\n');
+
+      switch (format) {
+        case 'dspy':
+          btn = document.querySelector('.export-btn[onclick="exportAs(\'dspy\')"]');
+          code = `import dspy
+
+class MelSignature(dspy.Signature):
+    """${c.task}"""
+    
+    human_query = dspy.InputField(desc="The user's request.")
+    llm_answer = dspy.OutputField(desc="The generated response based on the MEL directives.")
+
+# --- Full MEL System Prompt ---
+# """
+# ${system_prompt}
+# """
+`;
+          break;
+        case 'langchain':
+          btn = document.querySelector('.export-btn[onclick="exportAs(\'langchain\')"]');
+          code = `from langchain_core.prompts import ChatPromptTemplate
+
+system_prompt = """${system_prompt}"""
+
+prompt_template = ChatPromptTemplate.from_messages([
+    ("system", system_prompt),
+    ("human", "{human_query}"),
+])`;
+          break;
+        default: return;
+      }
+
+      navigator.clipboard.writeText(code).then(() => {
+        const original = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = original, 1800);
+      });
     }
 
     // Live updates
