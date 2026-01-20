@@ -27,7 +27,7 @@ MEL exists to solve this problem by turning a vague human desire into a crisp, s
     Most prompting focuses only on correctness. MEL is designed to optimize for **correctness + innovation + aesthetic pleasure**. The sliders for `Innovation` and `Style` are there to push the model beyond the obvious answer.
 
 5.  **The Human-Centric Front-End**  
-    MEL is the ideal starting point for any LLM task. It's perfect for quick, one-off requests, but it also serves as a powerful thinking tool for crafting the initial instruction that can later be ported into programmatic frameworks like DSPy or LangGraph.
+    MEL is the ideal starting point for any LLM task. It's perfect for quick, one-off requests, but it also serves as a powerful thinking tool for crafting the initial instruction that can be instantly exported for use in programmatic frameworks like DSPy or LangChain.
 
 In short:  
 MEL is the poetic, human-first layer that sits **before** any complex prompt engineering pipeline, making both simple and complex tasks easier and more effective.

@@ -16,6 +16,7 @@ Key benefits:
 - **Guided Journey**: The UI walks you through defining the core facets of your request, turning a vague idea into a precise plan.
 - **Expressive Power**: With 10 levels for each of the 6 sliders, you have a vast creative canvas to specify exactly what you need.
 - **Zero Dependencies**: It's a simple web page. You generate the prompt and copy-paste it into your favorite LLM.
+- **Production-Ready Exports**: Go from creative exploration to production code in one click by exporting your refined prompt to frameworks like DSPy and LangChain.
 - **Better Outputs**: The directive-based syntax is clear and unambiguous for the LLM, leading to higher-quality, more consistent results.
 
 ### The MEL Directive Syntax
@@ -80,8 +81,8 @@ Polish: by reviewing the full response to ensure it consistently adheres to all 
 1.  Go to the **MEL Prompt Generator**.
 2.  Enter your query in the text box.
 3.  Move the six sliders to define the characteristics of your desired output.
-4.  Copy the auto-generated prompt from the output box.
-5.  Paste it into your LLM of choice.
+4.  The MEL prompt will be generated in the output box.
+5.  Copy the prompt to paste into your LLM of choice, or use the "Export As..." buttons to get a production-ready code snippet for DSPy or LangChain.
 
 ## Contributing
 This project is actively evolving. Welcoming issues and pull requests that:

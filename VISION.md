@@ -16,11 +16,16 @@ The long-term vision is for MEL to become a **self-improving language where an L
     Users could add their own sliders to the UI for specific workflows. Imagine adding a new `Audience` slider (from "a 5-year-old" to "a panel of PhDs") or a `Constraint` slider with common limitations (e.g., "under 500 words," "in a formal tone").
 
 4.  **Deep Integration with Developer Tools**  
-    The MEL UI could become a powerful starting point for serious engineering. A new "Export As..." button could compile the generated prompt directly into:
-    -   DSPy signatures
-    -   OpenAI/Gemini function-calling JSON schemas
-    -   Claude's XML tool-use formats
-    The addition of the `Examples` directive is a key foundational step, as few-shot examples are critical for these programmatic frameworks.
+    The MEL UI is a powerful starting point for serious engineering. An "Export As..." button compiles the generated prompt directly into production-ready formats for popular AI frameworks. This bridges the gap between creative prompt design and scalable, programmatic execution.
+    
+    **Current Exports:**
+    - DSPy Signatures
+    - LangChain Prompt Templates
+    
+    **Future Export Targets:**
+    - Guidance programs
+    - OpenAI/Gemini function-calling JSON schemas
+    - Claude's XML tool-use formats
 
 5.  **Community-Curated Vocabularies**  
     Users could save, share, and import entire sets of slider configurations. This would allow for domain-specific "MEL Packs" for legal analysis, creative writing, systems design, or scientific research.
