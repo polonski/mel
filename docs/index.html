@@ -216,6 +216,32 @@
     .export-btn:hover {
       background: #0e7490;
     }
+    .export-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .export-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .export-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .export-header .copy-btn {
+      padding: 6px 12px;
+      font-size: 0.85rem;
+    }
+    #dspyOutput, #langchainOutput {
+      font-family: 'Consolas', monospace;
+      font-size: 0.9rem;
+      border: 1px solid var(--border);
+      background: #f8f9fc;
+    }
     footer {
       margin-top: 3rem;
       text-align: center;
@@ -243,6 +269,9 @@
 
       .buttons {
         flex-direction: column;
+      }
+      .export-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -447,12 +476,22 @@
         <button class="llm-btn" onclick="sendToLLM('chatgpt')">Run in ChatGPT</button>
       </div>
 
-      <div class="buttons" style="margin-top: 1rem;">
-        <label style="width: 100%; font-size: 0.9rem; color: var(--muted);">Export for:</label>
-        <button class="export-btn" onclick="exportAs('dspy')">DSPy Signature</button>
-        <button class="export-btn" onclick="exportAs('langchain')">LangChain Template</button>
+      <div class="export-grid">
+        <div class="export-group">
+          <div class="export-header">
+            <label for="dspyOutput">Export for DSPy</label>
+            <button class="copy-btn" onclick="copyExportCode('dspy')">Copy Code</button>
+          </div>
+          <textarea id="dspyOutput" readonly rows="10"></textarea>
+        </div>
+        <div class="export-group">
+          <div class="export-header">
+            <label for="langchainOutput">Export for LangChain</label>
+            <button class="copy-btn" onclick="copyExportCode('langchain')">Copy Code</button>
+          </div>
+          <textarea id="langchainOutput" readonly rows="10"></textarea>
+        </div>
       </div>
-
       <div class="buttons" style="margin-top: 1.5rem;">
        
         <!--  
@@ -508,6 +547,7 @@
 
       if (!query) {
         outputEl.value = "Enter your query to begin the prompt generation journey…";
+        updateExportPreviews();
         return;
       }
 
@@ -551,6 +591,7 @@
       if (c.polish) melParts.push(c.polish);
       
       outputEl.value = melParts.join('\n\n');
+      updateExportPreviews();
     }
 
     function copyToClipboard() {
@@ -593,52 +634,57 @@
       window.open(url, '_blank');
     }
 
-    function exportAs(format) {
+    function copyExportCode(format) {
+      const elId = format === 'dspy' ? 'dspyOutput' : 'langchainOutput';
+      const el = document.getElementById(elId);
+      if (!el.value) return;
+      navigator.clipboard.writeText(el.value).then(() => {
+        const btn = document.querySelector(`.export-group button[onclick="copyExportCode('${format}')"]`);
+        const original = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = original, 1800);
+      });
+    }
+
+    function updateExportPreviews() {
       const c = currentMelComponents;
       if (!c.query) {
-        alert("Please enter a query first.");
+        document.getElementById('dspyOutput').value = '';
+        document.getElementById('langchainOutput').value = '';
         return;
       }
 
-      let code = '';
-      let btn = null;
-
       const system_prompt_parts = [
-        `Persona: ${c.persona}`,
-        `Task: ${c.task}`,
-        c.examples ? `Examples:\n  <examples>\n  ${c.examples}\n  </examples>` : null,
-        c.exclusions ? `Exclusions:\n  """\n  ${c.exclusions}\n  """` : null,
-        c.constraint,
-        c.audience ? `Audience: ${c.audience}` : null,
-        c.purpose ? `Purpose: ${c.purpose}` : null,
-        c.innovation ? `Innovate: ${c.innovation}` : null,
-        `Style: ${c.style}`,
-        `Output: ${c.output}`,
-        c.polish
+          `Persona: ${c.persona}`,
+          `Task: ${c.task}`,
+          c.examples ? `Examples:\n  <examples>\n  ${c.examples}\n  </examples>` : null,
+          c.exclusions ? `Exclusions:\n  """\n  ${c.exclusions}\n  """` : null,
+          c.constraint,
+          c.audience ? `Audience: ${c.audience}` : null,
+          c.purpose ? `Purpose: ${c.purpose}` : null,
+          c.innovation ? `Innovate: ${c.innovation}` : null,
+          `Style: ${c.style}`,
+          `Output: ${c.output}`,
+          c.polish
       ].filter(Boolean);
 
       const system_prompt = system_prompt_parts.join('\n\n');
 
-      switch (format) {
-        case 'dspy':
-          btn = document.querySelector('.export-btn[onclick="exportAs(\'dspy\')"]');
-          code = `import dspy
+      const dspyCode = `import dspy
 
 class MelSignature(dspy.Signature):
     """${c.task}"""
     
     human_query = dspy.InputField(desc="The user's request.")
     llm_answer = dspy.OutputField(desc="The generated response based on the MEL directives.")
-
 # --- Full MEL System Prompt ---
 # """
 # ${system_prompt}
 # """
 `;
-          break;
-        case 'langchain':
-          btn = document.querySelector('.export-btn[onclick="exportAs(\'langchain\')"]');
-          code = `from langchain_core.prompts import ChatPromptTemplate
+      document.getElementById('dspyOutput').value = dspyCode;
+
+      const langchainCode = `from langchain_core.prompts import ChatPromptTemplate
 
 system_prompt = """${system_prompt}"""
 
@@ -646,15 +692,7 @@ prompt_template = ChatPromptTemplate.from_messages([
     ("system", system_prompt),
     ("human", "{human_query}"),
 ])`;
-          break;
-        default: return;
-      }
-
-      navigator.clipboard.writeText(code).then(() => {
-        const original = btn.textContent;
-        btn.textContent = 'Copied!';
-        setTimeout(() => btn.textContent = original, 1800);
-      });
+      document.getElementById('langchainOutput').value = langchainCode;
     }
 
     // Live updates
