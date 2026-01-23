@@ -29,6 +29,7 @@ The long-term vision is for MEL to become a **self-improving language where an L
 
 5.  **Community-Curated Vocabularies**  
     Users could save, share, and import entire sets of slider configurations. This would allow for domain-specific "MEL Packs" for legal analysis, creative writing, systems design, or scientific research.
+    The introduction of the "Software Development" tab is the first concrete step towards this vision, providing a pre-packaged, domain-specific vocabulary for a common use case.
 
 6.  **From Prompts to Plans: MEL for AI Agents**  
     The next evolution is to move beyond generating a single prompt to orchestrating multi-step AI agent workflows. A high-level MEL prompt could define a complex goal, which an agent system then decomposes into a sequence of tasks. Each task in that sequence would itself be a distinct MEL prompt, specifying the right `Persona`, `Task`, and `Output` for that particular step. MEL would become the human-centric language for defining the nodes in a reasoning graph, making the user a true architect of the AI's workflow.

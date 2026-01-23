@@ -15,6 +15,7 @@ Prompting is the new programming, but most prompts are still messy and imprecise
 Key benefits:
 - **Guided Journey**: The UI walks you through defining the core facets of your request, turning a vague idea into a precise plan.
 - **Expressive Power**: With 10 levels for each of the 6 sliders, you have a vast creative canvas to specify exactly what you need.
+- **Specialized Workflows**: Switch between modes like "General Prompting" and "Software Development" for a set of directives tailored to your specific domain.
 - **Zero Dependencies**: It's a simple web page. You generate the prompt and copy-paste it into your favorite LLM.
 - **Production-Ready Exports**: Go from creative exploration to production code in one click by exporting your refined prompt to frameworks like DSPy and LangChain.
 - **Better Outputs**: The directive-based syntax is clear and unambiguous for the LLM, leading to higher-quality, more consistent results.
@@ -40,11 +41,11 @@ The core directives are:
 ## Example Prompt
 
 ```text
-Persona: a world-class Specialist
-Task: Execute the following instructions for
+Persona: a Senior Engineer
+Task: Implement a feature for
 Query:
   """
-  Build a beautiful todo app in React with dark mode and drag & drop
+  Build a todo app in React with dark mode and drag & drop
   """
 Examples:
   <examples>
@@ -56,13 +57,13 @@ Exclusions:
   - Do not use class components.
   - Do not use any state management libraries like Redux or MobX.
   """
-Constraint: Must use functional components and hooks.
-Audience: for a peer or colleague with similar expertise
-Purpose: to create a durable and valuable resource
-Innovate: by introducing a surprising and clever element
-Style: with Chain-of-Thought reasoning shown inside <thinking> tags before the final answer
-Output: as clean, commented, production-ready code
-Polish: by reviewing the full response to ensure it consistently adheres to all directives.
+Constraint: Must be idiomatic to the specified framework/language.
+Audience: for a Code Review
+Purpose: for production-ready code
+Innovate: with a clever or non-obvious algorithm
+Style: as a masterpiece of clean, self-documenting code
+Output: a single code file
+Polish: until the code is production-ready and maintainable.
 ```
 
 ## Table of contents

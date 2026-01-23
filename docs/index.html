@@ -16,6 +16,30 @@
       --border: #e2e8f0;
     }
 
+    .tab-menu {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+    .tab-btn {
+      padding: 10px 20px;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      border-bottom: 3px solid transparent;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
     body {
       font-family: system-ui, -apple-system, sans-serif;
       background: var(--bg);
@@ -283,7 +307,15 @@
     <h1>MEL – Machine Expression Language</h1>
     <p class="subtitle">A step-by-step journey to turn your query into a powerful, directive-based LLM prompt</p>
 
-    <div class="form-grid">
+    <div class="tab-menu">
+      <button class="tab-btn active" onclick="switchTab('general')">General Prompting</button>
+      <button class="tab-btn" onclick="switchTab('software')">Software Development</button>
+    </div>
+
+    <!-- General Prompting Tab -->
+    <div id="general" class="tab-content active">
+
+      <div class="form-grid">
 
       <div class="input-group">
         <label for="humanQuery">Your human query:</label>
@@ -466,11 +498,11 @@
       </div>
 
     </div>
-
+    
     <div class="output-section">
       <label for="melOutput">Generated MEL prompt (auto-updates):</label>
       <textarea id="melOutput" readonly rows="12"></textarea>
-
+    
       <div class="buttons">
         <button class="copy-btn" onclick="copyToClipboard()">Copy Prompt</button> 
         <button class="llm-btn" onclick="sendToLLM('chatgpt')">Run in ChatGPT</button>
@@ -480,14 +512,14 @@
         <div class="export-group">
           <div class="export-header">
             <label for="dspyOutput">Export for DSPy</label>
-            <button class="copy-btn" onclick="copyExportCode('dspy')">Copy Code</button>
+            <button class="copy-btn" onclick="copyExportCode('dspy', 'general')">Copy Code</button>
           </div>
           <textarea id="dspyOutput" readonly rows="10"></textarea>
         </div>
         <div class="export-group">
           <div class="export-header">
             <label for="langchainOutput">Export for LangChain</label>
-            <button class="copy-btn" onclick="copyExportCode('langchain')">Copy Code</button>
+            <button class="copy-btn" onclick="copyExportCode('langchain', 'general')">Copy Code</button>
           </div>
           <textarea id="langchainOutput" readonly rows="10"></textarea>
         </div>
@@ -506,6 +538,222 @@
       -->
       </div>
     </div>
+
+    </div>
+
+    <!-- Software Development Tab -->
+    <div id="software" class="tab-content">
+      <div class="form-grid">
+
+        <div class="input-group">
+          <label for="humanQuery-software">Your software development query:</label>
+          <textarea id="humanQuery-software"
+            placeholder="Example: Implement a generic debounce function in TypeScript."></textarea>
+        </div>
+  
+        <div class="input-group">
+          <label for="examples-software">Provide Examples (Optional):</label>
+          <textarea id="examples-software"
+            placeholder="Provide one or more input/output examples to guide the model. e.g.,&#10;Input: 'hello world'&#10;Output: 'dlrow olleh'"></textarea>
+        </div>
+  
+        <div class="input-group">
+          <label for="exclusions-software">Exclusions (Optional):</label>
+          <textarea id="exclusions-software" rows="2"
+            placeholder="Specify what to avoid. e.g.,&#10;- Do not use any external libraries.&#10;- Avoid class-based components."></textarea>
+        </div>
+  
+        <div class="slider-group" id="step1-software">
+          <h2 class="step-heading">Step 1: Define the Persona</h2>
+          <label for="roleLevel-software">Adjust the expertise and character of the assistant.</label>
+          <input type="range" id="roleLevel-software" min="1" max="10" value="4" oninput="updateSlider(this)">
+          <div class="slider-labels">
+            <span>Junior Dev</span>
+            <span>Senior Eng</span>
+            <span>Tech Lead</span>
+            <span>Architect</span>
+            <span>CTO</span>
+            <span>Code Reviewer</span>
+            <span>Pair Programmer</span>
+            <span>Security Expert</span>
+            <span>DevOps Eng</span>
+            <span>QA Tester</span>
+          </div>
+        </div>
+  
+        <div class="slider-group" id="step2-software">
+          <h2 class="step-heading">Step 2: Define the Task</h2>
+          <label for="taskLevel-software">Specify the primary action for the assistant to perform.</label>
+          <input type="range" id="taskLevel-software" min="1" max="10" value="2" oninput="updateSlider(this)">
+          <div class="slider-labels">
+            <span>Implement</span>
+            <span>Refactor</span>
+            <span>Write Tests</span>
+            <span>Debug</span>
+            <span>Design</span>
+            <span>Document</span>
+            <span>Optimize</span>
+            <span>Boilerplate</span>
+            <span>Review PR</span>
+            <span>Explain Code</span>
+          </div>
+        </div>
+  
+        <div class="slider-group" id="step3-software">
+          <h2 class="step-heading">Step 3: Define the Audience</h2>
+          <label for="audienceLevel-software">Calibrate the tone and complexity for a specific audience.</label>
+          <input type="range" id="audienceLevel-software" min="1" max="10" value="1" oninput="updateSlider(this)">
+          <div class="slider-labels">
+            <span>Junior Dev</span>
+            <span>Product Manager</span>
+            <span>Code Review</span>
+            <span>API Consumers</span>
+            <span>Future Self</span>
+            <span>Security Audit</span>
+            <span>Perf. Report</span>
+            <span>End Users</span>
+            <span>Blog Post</span>
+            <span>Presentation</span>
+          </div>
+        </div>
+  
+        <div class="slider-group" id="step4-software">
+          <h2 class="step-heading">Step 4: State the Purpose</h2>
+          <label for="purposeLevel-software">Explain the "why" behind your request for a more meaningful outcome.</label>
+          <input type="range" id="purposeLevel-software" min="1" max="10" value="3" oninput="updateSlider(this)">
+          <div class="slider-labels">
+            <span>Prototype</span>
+            <span>Production</span>
+            <span>Learning</span>
+            <span>Tech Debt</span>
+            <span>Scalability</span>
+            <span>Security</span>
+            <span>Test Coverage</span>
+            <span>Docs</span>
+            <span>Bug Fix</span>
+            <span>Onboarding</span>
+          </div>
+        </div>
+  
+        <div class="slider-group" id="step5-software">
+          <h2 class="step-heading">Step 5: Set the Innovation Level</h2>
+          <label for="innovationLevel-software">Choose how much creativity and novelty to introduce.</label>
+          <input type="range" id="innovationLevel-software" min="1" max="10" value="4" oninput="updateSlider(this)">
+          <div class="slider-labels">
+            <span>Standard</span>
+            <span>New Library</span>
+            <span>Clever Algo</span>
+            <span>New Paradigm</span>
+            <span>Challenge Req</span>
+            <span>New Pattern</span>
+            <span>Simplify</span>
+            <span>Automate</span>
+            <span>Radical Design</span>
+            <span>Invent</span>
+          </div>
+        </div>
+  
+        <div class="slider-group" id="step6-software">
+          <h2 class="step-heading">Step 6: Choose the Style</h2>
+          <label for="styleLevel-software">Define the aesthetic and readability of the final output.</label>
+          <input type="range" id="styleLevel-software" min="1" max="10" value="4" oninput="updateSlider(this)">
+          <div class="slider-labels">
+            <span>Raw Code</span>
+            <span>Comments</span>
+            <span>Full Docs</span>
+            <span>Spec</span>
+            <span>Diagram</span>
+            <span>BDD Tests</span>
+            <span>Pseudocode</span>
+            <span>Commit Msg</span>
+            <span>Post-mortem</span>
+            <span>Clean Code</span>
+          </div>
+        </div>
+  
+        <div class="slider-group" id="step7-software">
+          <h2 class="step-heading">Step 7: Shape the Output</h2>
+          <label for="outputLevel-software">Determine the structure and format of the response.</label>
+          <input type="range" id="outputLevel-software" min="1" max="10" value="4" oninput="updateSlider(this)">
+          <div class="slider-labels">
+            <span>Single File</span>
+            <span>Module</span>
+            <span>Config</span>
+            <span>Script</span>
+            <span>Dockerfile</span>
+            <span>Diagram</span>
+            <span>Test Suite</span>
+            <span>API Docs</span>
+            <span>PR Desc</span>
+            <span>Snippet</span>
+          </div>
+        </div>
+  
+        <div class="slider-group" id="step8-software">
+          <h2 class="step-heading">Step 8: Add a Constraint (Optional)</h2>
+          <label for="constraintLevel-software">Apply a specific rule or limitation to the output.</label>
+          <input type="range" id="constraintLevel-software" min="1" max="10" value="1" oninput="updateSlider(this)">
+          <div class="slider-labels">
+            <span>None</span>
+            <span>No Libs</span>
+            <span>Line Limit</span>
+            <span>Idiomatic</span>
+            <span>100% Coverage</span>
+            <span>Back-compat</span>
+            <span>No API Change</span>
+            <span>SOLID</span>
+            <span>Pure Functions</span>
+            <span>Performant</span>
+          </div>
+        </div>
+  
+        <div class="slider-group" id="step9-software">
+          <h2 class="step-heading">Step 9: Set the Polish Level (Optional)</h2>
+          <label for="polishLevel-software">Define the final refinement pass on the entire output.</label>
+          <input type="range" id="polishLevel-software" min="1" max="10" value="1" oninput="updateSlider(this)">
+          <div class="slider-labels">
+            <span>None</span>
+            <span>Proofread</span>
+            <span>Format</span>
+            <span>Edge Cases</span>
+            <span>Error Handling</span>
+            <span>Review Directives</span>
+            <span>Simplify</span>
+            <span>Add Types</span>
+            <span>Add README</span>
+            <span>Prod-Ready</span>
+          </div>
+        </div>
+  
+      </div>
+      
+      <div class="output-section">
+        <label for="melOutput-software">Generated MEL prompt (auto-updates):</label>
+        <textarea id="melOutput-software" readonly rows="12"></textarea>
+      
+        <div class="buttons">
+          <button class="copy-btn" onclick="copyToClipboard('software')">Copy Prompt</button> 
+          <button class="llm-btn" onclick="sendToLLM('chatgpt', 'software')">Run in ChatGPT</button>
+        </div>
+      
+        <div class="export-grid">
+          <div class="export-group">
+            <div class="export-header">
+              <label for="dspyOutput-software">Export for DSPy</label>
+              <button class="copy-btn" onclick="copyExportCode('dspy', 'software')">Copy Code</button>
+            </div>
+            <textarea id="dspyOutput-software" readonly rows="10"></textarea>
+          </div>
+          <div class="export-group">
+            <div class="export-header">
+              <label for="langchainOutput-software">Export for LangChain</label>
+              <button class="copy-btn" onclick="copyExportCode('langchain', 'software')">Copy Code</button>
+            </div>
+            <textarea id="langchainOutput-software" readonly rows="10"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <footer>
@@ -514,44 +762,66 @@
   </footer>
 
   <script>
-    let currentMelComponents = {};
-
-    const sliders = {
-      role: { base: ['an eager Student', 'a helpful Assistant', 'a creative Collaborator', 'a domain Expert', 'a world-class Specialist', 'a wise Mentor', 'a forward-thinking Visionary', "a Devil's Advocate", 'an Oracle of wisdom', 'a System Simulator'] },
-      task: { base: ['Execute the following instructions for', 'Achieve the primary objective of', 'Synthesize multiple concepts for', 'Execute a precision-critical directive for', 'Brainstorm a wide list of ideas for', 'Explain the core concepts of', 'Critique and find flaws in', 'Design a high-level plan for', 'Deconstruct the core principles of', 'Act as a Socratic tutor for'] },
-      audience: { base: ['', 'for a 5-year-old child', 'for a complete novice with no domain knowledge', 'for a peer or colleague with similar expertise', 'for a non-technical manager or executive', 'for a skeptical audience that needs convincing', 'for a panel of domain experts', 'for a regulatory or compliance review', 'for future generations (as in an archive)', 'for my own private reflection and understanding'] },
-      purpose: { base: ['', 'for a practical, immediate solution', 'for educational purposes, to learn or teach', 'to create a durable and valuable resource', 'to inform a high-level strategic decision', 'for a commercial application or business value', 'to generate a profoundly positive human impact', 'for artistic, poetic, or philosophical value', 'to be provocative and challenge established thinking', 'to be transformative and alter a core perspective'] },
-      constraint: { base: ['', 'Constraint: Be as concise and direct as possible.', 'Constraint: The response must not exceed 400 words.', 'Constraint: Maintain a strictly formal and professional tone.', 'Constraint: Avoid all technical jargon and explain in simple terms.', 'Constraint: Do not break character from the specified Persona.', 'Constraint: Present the answer as a clear, step-by-step process.', 'Constraint: The output must only contain code, with no explanatory text.', 'Constraint: The output must only be a valid data format (like JSON), with no surrounding text.', 'Constraint: The most important rule is to follow all other directives with absolute strictness.'] },
-      innovation: { base: ['', 'by blending proven concepts from different fields', 'from an unconventional angle', 'by introducing a surprising and clever element', 'by drawing inspiration from a different domain', 'by challenging the fundamental assumptions', 'by using first-principles thinking', 'by infusing a bold, heretical viewpoint', 'by generating a paradigm-shifting insight', 'by combining multiple exotic ideas'] },
-      style: { base: ['as raw, unadorned data', 'in a direct, simple, and unformatted style', 'with professional formatting (headings, lists)', 'with Chain-of-Thought reasoning shown inside <thinking> tags before the final answer', 'with precise, technical, domain-specific language', 'with an elegant, persuasive, and narrative flow', 'in a Socratic style of questions and answers', 'with high-quality, evocative literary prose', 'with rich metaphor and poetic language', 'as a masterpiece of clarity, depth, and beauty'] },
-      output: { base: ['as unformatted raw text', 'as a simple, scannable list of bullet points', 'as a well-structured markdown document', 'as a valid JSON or XML data structure', 'as content for a presentation (slides/notes)', 'as a textual diagram (e.g., Mermaid or DOT syntax)', 'as clean, commented, production-ready code', 'as a formal paper with academic structure', 'as a polished, publish-ready artifact', 'as a plan or code for a simple interactive app'] },
-      polish: { base: ['', 'Polish: by proofreading for grammar and typos.', 'Polish: by improving the clarity and flow of the text.', 'Polish: by double-checking that the answer directly and accurately addresses the query.', 'Polish: by adding a concise summary at the end.', 'Polish: by reviewing the full response to ensure it consistently adheres to all directives.', 'Polish: by simplifying complex sentences and removing unnecessary jargon.', 'Polish: by elevating the vocabulary and overall tone to be more sophisticated.', 'Polish: by concluding with a surprising or insightful final thought.', 'Polish: until the entire response feels inevitable and delightful.'] },
-      examples: { base: [''] } // Placeholder for the new examples field
+    let currentTab = 'general';
+    let melStore = {
+      general: {},
+      software: {}
     };
 
+    const allSliders = {
+      general: {
+        role: { base: ['an eager Student', 'a helpful Assistant', 'a creative Collaborator', 'a domain Expert', 'a world-class Specialist', 'a wise Mentor', 'a forward-thinking Visionary', "a Devil's Advocate", 'an Oracle of wisdom', 'a System Simulator'] },
+        task: { base: ['Execute the following instructions for', 'Achieve the primary objective of', 'Synthesize multiple concepts for', 'Execute a precision-critical directive for', 'Brainstorm a wide list of ideas for', 'Explain the core concepts of', 'Critique and find flaws in', 'Design a high-level plan for', 'Deconstruct the core principles of', 'Act as a Socratic tutor for'] },
+        audience: { base: ['', 'for a 5-year-old child', 'for a complete novice with no domain knowledge', 'for a peer or colleague with similar expertise', 'for a non-technical manager or executive', 'for a skeptical audience that needs convincing', 'for a panel of domain experts', 'for a regulatory or compliance review', 'for future generations (as in an archive)', 'for my own private reflection and understanding'] },
+        purpose: { base: ['', 'for a practical, immediate solution', 'for educational purposes, to learn or teach', 'to create a durable and valuable resource', 'to inform a high-level strategic decision', 'for a commercial application or business value', 'to generate a profoundly positive human impact', 'for artistic, poetic, or philosophical value', 'to be provocative and challenge established thinking', 'to be transformative and alter a core perspective'] },
+        constraint: { base: ['', 'Constraint: Be as concise and direct as possible.', 'Constraint: The response must not exceed 400 words.', 'Constraint: Maintain a strictly formal and professional tone.', 'Constraint: Avoid all technical jargon and explain in simple terms.', 'Constraint: Do not break character from the specified Persona.', 'Constraint: Present the answer as a clear, step-by-step process.', 'Constraint: The output must only contain code, with no explanatory text.', 'Constraint: The output must only be a valid data format (like JSON), with no surrounding text.', 'Constraint: The most important rule is to follow all other directives with absolute strictness.'] },
+        innovation: { base: ['', 'by blending proven concepts from different fields', 'from an unconventional angle', 'by introducing a surprising and clever element', 'by drawing inspiration from a different domain', 'by challenging the fundamental assumptions', 'by using first-principles thinking', 'by infusing a bold, heretical viewpoint', 'by generating a paradigm-shifting insight', 'by combining multiple exotic ideas'] },
+        style: { base: ['as raw, unadorned data', 'in a direct, simple, and unformatted style', 'with professional formatting (headings, lists)', 'with Chain-of-Thought reasoning shown inside <thinking> tags before the final answer', 'with precise, technical, domain-specific language', 'with an elegant, persuasive, and narrative flow', 'in a Socratic style of questions and answers', 'with high-quality, evocative literary prose', 'with rich metaphor and poetic language', 'as a masterpiece of clarity, depth, and beauty'] },
+        output: { base: ['as unformatted raw text', 'as a simple, scannable list of bullet points', 'as a well-structured markdown document', 'as a valid JSON or XML data structure', 'as content for a presentation (slides/notes)', 'as a textual diagram (e.g., Mermaid or DOT syntax)', 'as clean, commented, production-ready code', 'as a formal paper with academic structure', 'as a polished, publish-ready artifact', 'as a plan or code for a simple interactive app'] },
+        polish: { base: ['', 'Polish: by proofreading for grammar and typos.', 'Polish: by improving the clarity and flow of the text.', 'Polish: by double-checking that the answer directly and accurately addresses the query.', 'Polish: by adding a concise summary at the end.', 'Polish: by reviewing the full response to ensure it consistently adheres to all directives.', 'Polish: by simplifying complex sentences and removing unnecessary jargon.', 'Polish: by elevating the vocabulary and overall tone to be more sophisticated.', 'Polish: by concluding with a surprising or insightful final thought.', 'Polish: until the entire response feels inevitable and delightful.'] },
+      },
+      software: {
+        role: { base: ['a Junior Developer', 'a Senior Engineer', 'a Tech Lead', 'a Principal Architect', 'a CTO', 'a Code Reviewer', 'a Pair Programmer', 'a Security Expert', 'a DevOps Engineer', 'a QA Tester'] },
+        task: { base: ['Implement a feature for', 'Refactor the following code', 'Write unit tests for', 'Debug and fix an issue in', 'Design a system for', 'Document the API of', 'Optimize the performance of', 'Generate boilerplate code for', 'Review a pull request for', 'Explain the following code'] },
+        audience: { base: ['', 'for a Junior Dev', 'for a Product Manager', 'for a Code Review', 'for API Consumers', 'for my Future Self', 'for a Security Audit', 'for a Performance Report', 'for End Users (docs)', 'for a Technical Blog Post'] },
+        purpose: { base: ['', 'for a quick prototype', 'for production-ready code', 'for a learning exercise', 'to reduce technical debt', 'to improve system scalability', 'to enhance application security', 'to increase test coverage', 'to create clear documentation', 'to fix a critical bug'] },
+        innovation: { base: ['using standard industry patterns', 'by applying a new library/framework', 'with a clever or non-obvious algorithm', 'by refactoring to a different paradigm (e.g., FP)', 'by challenging the initial requirements', 'by introducing a novel design pattern', 'by radically simplifying the complexity', 'by automating a manual developer process', 'by proposing a radical new architecture', 'by inventing a new domain-specific approach'] },
+        style: { base: ['as raw, runnable code', 'with detailed inline comments', 'with full JSDoc/Docstring documentation', 'as a formal technical specification', 'as a sequence or flow diagram (Mermaid)', 'with BDD-style tests (Gherkin)', 'as a clear pseudocode plan', 'as a structured git commit message', 'as a post-mortem or incident analysis', 'as a masterpiece of clean, self-documenting code'] },
+        output: { base: ['a single code file', 'a complete class or module', 'a valid JSON/YAML configuration file', 'a reusable shell script', 'a complete Dockerfile or CI/CD pipeline', 'a textual diagram (Mermaid.js)', 'a complete and runnable test suite', 'an OpenAPI/Swagger documentation file', 'a formatted pull request description', 'a standalone, runnable code snippet'] },
+        constraint: { base: ['', 'Constraint: Use no external libraries or dependencies.', 'Constraint: The solution must be under 100 lines of code.', 'Constraint: Must be idiomatic to the specified framework/language.', 'Constraint: Must achieve 100% test coverage.', 'Constraint: Must be fully backwards-compatible.', 'Constraint: Must not alter the existing public API.', 'Constraint: Must follow SOLID principles strictly.', 'Constraint: Must be composed of pure functions where possible.', 'Constraint: Must be highly performant and memory-efficient.'] },
+        polish: { base: ['', 'Polish: by proofreading all comments and documentation.', 'Polish: by formatting/linting the code to style guides.', 'Polish: by checking for and handling all edge cases.', 'Polish: by adding robust error handling and logging.', 'Polish: by reviewing for common security vulnerabilities (e.g., OWASP).', 'Polish: by ensuring all original directives were strictly followed.', 'Polish: by simplifying the logic and improving readability.', 'Polish: by adding comprehensive type hints (e.g., TypeScript/Python).', 'Polish: by writing a clear README.md for the code.', 'Polish: until the code is production-ready and maintainable.'] },
+      }
+    };
+
+    function getEl(id, context) {
+      const suffix = context === 'general' ? '' : `-${context}`;
+      return document.getElementById(id + suffix);
+    }
+
     function getLevel(id) {
-      return parseInt(document.getElementById(id).value) - 1;
+      return parseInt(getEl(id, currentTab).value) - 1;
     }
 
     function updateSlider(el) {
       const percent = ((el.value - el.min) / (el.max - el.min)) * 100;
       el.style.setProperty('--value', percent + '%');
-      generateMEL();
+      generateMEL(currentTab);
     }
 
-    function generateMEL() {
-      const query = document.getElementById('humanQuery').value.trim();
-      const examples = document.getElementById('examples').value.trim();
-      const exclusions = document.getElementById('exclusions').value.trim();
-      const outputEl = document.getElementById('melOutput');
+    function generateMEL(context) {
+      const query = getEl('humanQuery', context).value.trim();
+      const examples = getEl('examples', context).value.trim();
+      const exclusions = getEl('exclusions', context).value.trim();
+      const outputEl = getEl('melOutput', context);
 
       if (!query) {
         outputEl.value = "Enter your query to begin the prompt generation journey…";
-        updateExportPreviews();
+        updateExportPreviews(context);
         return;
       }
 
-      currentMelComponents = {
+      const sliders = allSliders[context];
+      melStore[context] = {
         persona: sliders.role.base[getLevel('roleLevel')],
         task: sliders.task.base[getLevel('taskLevel')],
         query: query,
@@ -567,7 +837,7 @@
       };
 
       const melParts = [];
-      const c = currentMelComponents;
+      const c = melStore[context];
 
       melParts.push(`Persona: ${c.persona}`);
       melParts.push(`Task: ${c.task}`);
@@ -591,22 +861,22 @@
       if (c.polish) melParts.push(c.polish);
       
       outputEl.value = melParts.join('\n\n');
-      updateExportPreviews();
+      updateExportPreviews(context);
     }
 
-    function copyToClipboard() {
-      const el = document.getElementById('melOutput');
+    function copyToClipboard(context = 'general') {
+      const el = getEl('melOutput', context);
       if (!el.value) return;
       navigator.clipboard.writeText(el.value).then(() => {
-        const btn = document.querySelector('.copy-btn');
+        const btn = getEl(context, 'container').querySelector('.copy-btn');
         const original = btn.textContent;
         btn.textContent = 'Copied!';
         setTimeout(() => btn.textContent = original, 1800);
       });
     }
 
-    function sendToLLM(llm) {
-      const prompt = document.getElementById('melOutput').value.trim();
+    function sendToLLM(llm, context = 'general') {
+      const prompt = getEl('melOutput', context).value.trim();
       if (!prompt) {
         alert("Generate a MEL prompt first!");
         return;
@@ -634,23 +904,23 @@
       window.open(url, '_blank');
     }
 
-    function copyExportCode(format) {
+    function copyExportCode(format, context) {
       const elId = format === 'dspy' ? 'dspyOutput' : 'langchainOutput';
-      const el = document.getElementById(elId);
+      const el = getEl(elId, context);
       if (!el.value) return;
       navigator.clipboard.writeText(el.value).then(() => {
-        const btn = document.querySelector(`.export-group button[onclick="copyExportCode('${format}')"]`);
+        const btn = document.querySelector(`#${context} .export-group button[onclick="copyExportCode('${format}', '${context}')"]`);
         const original = btn.textContent;
         btn.textContent = 'Copied!';
         setTimeout(() => btn.textContent = original, 1800);
       });
     }
 
-    function updateExportPreviews() {
-      const c = currentMelComponents;
+    function updateExportPreviews(context) {
+      const c = melStore[context];
       if (!c.query) {
-        document.getElementById('dspyOutput').value = '';
-        document.getElementById('langchainOutput').value = '';
+        getEl('dspyOutput', context).value = '';
+        getEl('langchainOutput', context).value = '';
         return;
       }
 
@@ -682,7 +952,7 @@ class MelSignature(dspy.Signature):
 # ${system_prompt}
 # """
 `;
-      document.getElementById('dspyOutput').value = dspyCode;
+      getEl('dspyOutput', context).value = dspyCode;
 
       const langchainCode = `from langchain_core.prompts import ChatPromptTemplate
 
@@ -692,17 +962,33 @@ prompt_template = ChatPromptTemplate.from_messages([
     ("system", system_prompt),
     ("human", "{human_query}"),
 ])`;
-      document.getElementById('langchainOutput').value = langchainCode;
+      getEl('langchainOutput', context).value = langchainCode;
+    }
+
+    function switchTab(tabName) {
+      currentTab = tabName;
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      
+      document.getElementById(tabName).classList.add('active');
+      document.querySelector(`.tab-btn[onclick="switchTab('${tabName}')"]`).classList.add('active');
+      generateMEL(tabName);
     }
 
     // Live updates
-    document.getElementById('humanQuery').addEventListener('input', generateMEL);
-    document.getElementById('examples').addEventListener('input', generateMEL);
-    document.getElementById('exclusions').addEventListener('input', generateMEL);
-    document.querySelectorAll('input[type="range"]').forEach(sl => {
-      updateSlider(sl);
-    });
-    generateMEL(); // initial run
+    function setupEventListeners(context) {
+      getEl('humanQuery', context).addEventListener('input', () => generateMEL(context));
+      getEl('examples', context).addEventListener('input', () => generateMEL(context));
+      getEl('exclusions', context).addEventListener('input', () => generateMEL(context));
+      document.querySelectorAll(`#${context} input[type="range"]`).forEach(sl => {
+        updateSlider(sl);
+      });
+    }
+
+    setupEventListeners('general');
+    setupEventListeners('software');
+    generateMEL('general'); // initial run
+    generateMEL('software');
   </script>
 
 </body>
