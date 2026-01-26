@@ -34,8 +34,11 @@
       transition: all 0.2s;
     }
     .tab-btn.active {
-      color: var(--primary);
+      color: var(--primary-dark); /* Changed for better contrast */
       border-bottom-color: var(--primary);
+    }
+    .tab-btn:not(.active):hover {
+      color: var(--text);
     }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
@@ -430,11 +433,11 @@
         <label for="styleLevel">Define the aesthetic and readability of the final output.</label>
         <input type="range" id="styleLevel" min="1" max="10" value="4" oninput="updateSlider(this)">
         <div class="slider-labels">
-          <span>Raw</span>
+          <span>Raw Text</span>
           <span>Direct</span>
           <span>Formatted</span>
           <span>Chain-of-Thought</span>
-          <span>Technical</span>
+          <span>Analytical</span>
           <span>Narrative</span>
           <span>Socratic</span>
           <span>Literary</span>
@@ -451,13 +454,13 @@
           <span>Raw Text</span>
           <span>Bullets</span>
           <span>Markdown</span>
-          <span>JSON/XML</span>
+          <span>Table</span>
           <span>Presentation</span>
-          <span>Diagram</span>
-          <span>Production Code</span>
+          <span>Mind Map</span>
+          <span>Plan</span>
           <span>Formal Paper</span>
           <span>Polished Artifact</span>
-          <span>Interactive</span>
+          <span>Dialogue</span>
         </div>
       </div>
 
@@ -473,8 +476,8 @@
           <span>No Jargon</span>
           <span>In-Character</span>
           <span>Step-by-Step</span>
-          <span>Code Only</span>
-          <span>Data Only</span>
+          <span>Bullets Only</span>
+          <span>Single Para</span>
           <span>Strict</span>
         </div>
       </div>
@@ -774,10 +777,10 @@
         task: { base: ['Execute the following instructions for', 'Achieve the primary objective of', 'Synthesize multiple concepts for', 'Execute a precision-critical directive for', 'Brainstorm a wide list of ideas for', 'Explain the core concepts of', 'Critique and find flaws in', 'Design a high-level plan for', 'Deconstruct the core principles of', 'Act as a Socratic tutor for'] },
         audience: { base: ['', 'for a 5-year-old child', 'for a complete novice with no domain knowledge', 'for a peer or colleague with similar expertise', 'for a non-technical manager or executive', 'for a skeptical audience that needs convincing', 'for a panel of domain experts', 'for a regulatory or compliance review', 'for future generations (as in an archive)', 'for my own private reflection and understanding'] },
         purpose: { base: ['', 'for a practical, immediate solution', 'for educational purposes, to learn or teach', 'to create a durable and valuable resource', 'to inform a high-level strategic decision', 'for a commercial application or business value', 'to generate a profoundly positive human impact', 'for artistic, poetic, or philosophical value', 'to be provocative and challenge established thinking', 'to be transformative and alter a core perspective'] },
-        constraint: { base: ['', 'Constraint: Be as concise and direct as possible.', 'Constraint: The response must not exceed 400 words.', 'Constraint: Maintain a strictly formal and professional tone.', 'Constraint: Avoid all technical jargon and explain in simple terms.', 'Constraint: Do not break character from the specified Persona.', 'Constraint: Present the answer as a clear, step-by-step process.', 'Constraint: The output must only contain code, with no explanatory text.', 'Constraint: The output must only be a valid data format (like JSON), with no surrounding text.', 'Constraint: The most important rule is to follow all other directives with absolute strictness.'] },
+        constraint: { base: ['', 'Constraint: Be as concise and direct as possible.', 'Constraint: The response must not exceed 400 words.', 'Constraint: Maintain a strictly formal and professional tone.', 'Constraint: Avoid all technical jargon and explain in simple terms.', 'Constraint: Do not break character from the specified Persona.', 'Constraint: Present the answer as a clear, step-by-step process.', 'Constraint: The output must be in bullet points only.', 'Constraint: The output must be a single paragraph.', 'Constraint: The most important rule is to follow all other directives with absolute strictness.'] },
         innovation: { base: ['', 'by blending proven concepts from different fields', 'from an unconventional angle', 'by introducing a surprising and clever element', 'by drawing inspiration from a different domain', 'by challenging the fundamental assumptions', 'by using first-principles thinking', 'by infusing a bold, heretical viewpoint', 'by generating a paradigm-shifting insight', 'by combining multiple exotic ideas'] },
-        style: { base: ['as raw, unadorned data', 'in a direct, simple, and unformatted style', 'with professional formatting (headings, lists)', 'with Chain-of-Thought reasoning shown inside <thinking> tags before the final answer', 'with precise, technical, domain-specific language', 'with an elegant, persuasive, and narrative flow', 'in a Socratic style of questions and answers', 'with high-quality, evocative literary prose', 'with rich metaphor and poetic language', 'as a masterpiece of clarity, depth, and beauty'] },
-        output: { base: ['as unformatted raw text', 'as a simple, scannable list of bullet points', 'as a well-structured markdown document', 'as a valid JSON or XML data structure', 'as content for a presentation (slides/notes)', 'as a textual diagram (e.g., Mermaid or DOT syntax)', 'as clean, commented, production-ready code', 'as a formal paper with academic structure', 'as a polished, publish-ready artifact', 'as a plan or code for a simple interactive app'] },
+        style: { base: ['as raw, unadorned data', 'in a direct, simple, and unformatted style', 'with professional formatting (headings, lists)', 'with Chain-of-Thought reasoning shown inside <thinking> tags before the final answer', 'as an Analytical report', 'with an elegant, persuasive, and narrative flow', 'in a Socratic style of questions and answers', 'with high-quality, evocative literary prose', 'with rich metaphor and poetic language', 'as a masterpiece of clarity, depth, and beauty'] },
+        output: { base: ['as unformatted raw text', 'as a simple, scannable list of bullet points', 'as a well-structured markdown document', 'as a structured Table', 'as content for a presentation (slides/notes)', 'as a Mind Map', 'as a detailed Plan', 'as a formal paper with academic structure', 'as a polished, publish-ready artifact', 'as a Dialogue or Script'] },
         polish: { base: ['', 'Polish: by proofreading for grammar and typos.', 'Polish: by improving the clarity and flow of the text.', 'Polish: by double-checking that the answer directly and accurately addresses the query.', 'Polish: by adding a concise summary at the end.', 'Polish: by reviewing the full response to ensure it consistently adheres to all directives.', 'Polish: by simplifying complex sentences and removing unnecessary jargon.', 'Polish: by elevating the vocabulary and overall tone to be more sophisticated.', 'Polish: by concluding with a surprising or insightful final thought.', 'Polish: until the entire response feels inevitable and delightful.'] },
       },
       software: {
