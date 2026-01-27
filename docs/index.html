@@ -575,7 +575,7 @@
             <span>Senior Eng</span>
             <span>Tech Lead</span>
             <span>Architect</span>
-            <span>CTO</span>
+            <span>Staff Eng</span>
             <span>Code Reviewer</span>
             <span>Pair Programmer</span>
             <span>Security Expert</span>
@@ -596,8 +596,8 @@
             <span>Design</span>
             <span>Document</span>
             <span>Optimize</span>
-            <span>Boilerplate</span>
-            <span>Review PR</span>
+            <span>Scaffold</span>
+            <span>Translate</span>
             <span>Explain Code</span>
           </div>
         </div>
@@ -664,7 +664,7 @@
             <span>Raw Code</span>
             <span>Comments</span>
             <span>Full Docs</span>
-            <span>Spec</span>
+            <span>CoT Reasoning</span>
             <span>Diagram</span>
             <span>BDD Tests</span>
             <span>Pseudocode</span>
@@ -687,7 +687,7 @@
             <span>Diagram</span>
             <span>Test Suite</span>
             <span>API Docs</span>
-            <span>PR Desc</span>
+            <span>Dir. Tree</span>
             <span>Snippet</span>
           </div>
         </div>
@@ -702,7 +702,7 @@
             <span>Line Limit</span>
             <span>Idiomatic</span>
             <span>100% Coverage</span>
-            <span>Back-compat</span>
+            <span>Version-lock</span>
             <span>No API Change</span>
             <span>SOLID</span>
             <span>Pure Functions</span>
@@ -784,14 +784,14 @@
         polish: { base: ['', 'Polish: by proofreading for grammar and typos.', 'Polish: by improving the clarity and flow of the text.', 'Polish: by double-checking that the answer directly and accurately addresses the query.', 'Polish: by adding a concise summary at the end.', 'Polish: by reviewing the full response to ensure it consistently adheres to all directives.', 'Polish: by simplifying complex sentences and removing unnecessary jargon.', 'Polish: by elevating the vocabulary and overall tone to be more sophisticated.', 'Polish: by concluding with a surprising or insightful final thought.', 'Polish: until the entire response feels inevitable and delightful.'] },
       },
       software: {
-        role: { base: ['a Junior Developer', 'a Senior Engineer', 'a Tech Lead', 'a Principal Architect', 'a CTO', 'a Code Reviewer', 'a Pair Programmer', 'a Security Expert', 'a DevOps Engineer', 'a QA Tester'] },
-        task: { base: ['Implement a feature for', 'Refactor the following code', 'Write unit tests for', 'Debug and fix an issue in', 'Design a system for', 'Document the API of', 'Optimize the performance of', 'Generate boilerplate code for', 'Review a pull request for', 'Explain the following code'] },
+        role: { base: ['a Junior Developer', 'a Senior Engineer', 'a Tech Lead', 'a Principal Architect', 'a Staff Engineer', 'a Code Reviewer', 'a Pair Programmer', 'a Security Expert', 'a DevOps Engineer', 'a QA Tester'] },
+        task: { base: ['Implement a feature for', 'Refactor the following code', 'Write unit tests for', 'Debug and fix an issue in', 'Design a system for', 'Document the API of', 'Optimize the performance of', 'Scaffold a project for', 'Translate code for', 'Explain the following code'] },
         audience: { base: ['for a Junior Dev', 'for a Product Manager', 'for a Code Review', 'for API Consumers', 'for my Future Self', 'for a Security Audit', 'for a Performance Report', 'for End Users (docs)', 'for a Technical Blog Post', 'for a presentation to stakeholders'] },
         purpose: { base: ['for a quick prototype', 'for production-ready code', 'for a learning exercise', 'to reduce technical debt', 'to improve system scalability', 'to enhance application security', 'to increase test coverage', 'to create clear documentation', 'to fix a critical bug', 'for developer onboarding'] },
         innovation: { base: ['using standard industry patterns', 'by applying a new library/framework', 'with a clever or non-obvious algorithm', 'by refactoring to a different paradigm (e.g., FP)', 'by challenging the initial requirements', 'by introducing a novel design pattern', 'by radically simplifying the complexity', 'by automating a manual developer process', 'by proposing a radical new architecture', 'by inventing a new domain-specific approach'] },
-        style: { base: ['as raw, runnable code', 'with detailed inline comments', 'with full JSDoc/Docstring documentation', 'as a formal technical specification', 'as a sequence or flow diagram (Mermaid)', 'with BDD-style tests (Gherkin)', 'as a clear pseudocode plan', 'as a structured git commit message', 'as a post-mortem or incident analysis', 'as a masterpiece of clean, self-documenting code'] },
-        output: { base: ['a single code file', 'a complete class or module', 'a valid JSON/YAML configuration file', 'a reusable shell script', 'a complete Dockerfile or CI/CD pipeline', 'a textual diagram (Mermaid.js)', 'a complete and runnable test suite', 'an OpenAPI/Swagger documentation file', 'a formatted pull request description', 'a standalone, runnable code snippet'] },
-        constraint: { base: ['', 'Constraint: Use no external libraries or dependencies.', 'Constraint: The solution must be under 100 lines of code.', 'Constraint: Must be idiomatic to the specified framework/language.', 'Constraint: Must achieve 100% test coverage.', 'Constraint: Must be fully backwards-compatible.', 'Constraint: Must not alter the existing public API.', 'Constraint: Must follow SOLID principles strictly.', 'Constraint: Must be composed of pure functions where possible.', 'Constraint: Must be highly performant and memory-efficient.'] },
+        style: { base: ['as raw, runnable code', 'with detailed inline comments', 'with full JSDoc/Docstring documentation', 'with Chain-of-Thought reasoning shown inside <thinking> tags before the final answer', 'as a sequence or flow diagram (Mermaid)', 'with BDD-style tests (Gherkin)', 'as a clear pseudocode plan', 'as a structured git commit message', 'as a post-mortem or incident analysis', 'as a masterpiece of clean, self-documenting code'] },
+        output: { base: ['a single code file', 'a complete class or module', 'a valid JSON/YAML configuration file', 'a reusable shell script', 'a complete Dockerfile or CI/CD pipeline', 'a textual diagram (Mermaid.js)', 'a complete and runnable test suite', 'an OpenAPI/Swagger documentation file', 'a directory structure tree', 'a standalone, runnable code snippet'] },
+        constraint: { base: ['', 'Constraint: Use no external libraries or dependencies.', 'Constraint: The solution must be under 100 lines of code.', 'Constraint: Must be idiomatic to the specified framework/language.', 'Constraint: Must achieve 100% test coverage.', 'Constraint: Use only the specified library versions.', 'Constraint: Must not alter the existing public API.', 'Constraint: Must follow SOLID principles strictly.', 'Constraint: Must be composed of pure functions where possible.', 'Constraint: Must be highly performant and memory-efficient.'] },
         polish: { base: ['', 'Polish: by proofreading all comments and documentation.', 'Polish: by formatting/linting the code to style guides.', 'Polish: by checking for and handling all edge cases.', 'Polish: by adding robust error handling and logging.', 'Polish: by ensuring all original directives were strictly followed.', 'Polish: by simplifying the logic and improving readability.', 'Polish: by adding comprehensive type hints (e.g., TypeScript/Python).', 'Polish: by writing a clear README.md for the code.', 'Polish: until the code is production-ready and maintainable.'] },
       }
     };
