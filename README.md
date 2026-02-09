@@ -74,6 +74,7 @@ Polish: until the code is production-ready and maintainable.
 | PURPOSE.md | Why MEL exists — the problem it solves |
 | VISION.md | Longer-term aspirations and philosophy |
 | EXAMPLES.md | Concrete prompts + what makes them effective |
+| GEMINI.md | Example of an AI 'skill' derived from MEL |
 
 
 

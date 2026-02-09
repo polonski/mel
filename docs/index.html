@@ -527,6 +527,13 @@
           <textarea id="langchainOutput" readonly rows="10"></textarea>
         </div>
       </div>
+      <div class="export-group" style="margin-top: 1.5rem;">
+        <div class="export-header">
+          <label for="geminiSkillOutput">Export Gemini Skill (GEMINI.md)</label>
+          <button class="copy-btn" onclick="copyExportCode('gemini', 'general')">Copy Code</button>
+        </div>
+        <textarea id="geminiSkillOutput" readonly rows="10"></textarea>
+      </div>
       <div class="buttons" style="margin-top: 1.5rem;">
        
         <!--  
@@ -755,6 +762,13 @@
             <textarea id="langchainOutput-software" readonly rows="10"></textarea>
           </div>
         </div>
+      <div class="export-group" style="margin-top: 1.5rem;">
+        <div class="export-header">
+          <label for="geminiSkillOutput-software">Export Gemini Skill (GEMINI.md)</label>
+          <button class="copy-btn" onclick="copyExportCode('gemini', 'software')">Copy Code</button>
+        </div>
+        <textarea id="geminiSkillOutput-software" readonly rows="10"></textarea>
+      </div>
       </div>
     </div>
   </div>
@@ -908,11 +922,20 @@
     }
 
     function copyExportCode(format, context) {
-      const elId = format === 'dspy' ? 'dspyOutput' : 'langchainOutput';
+      let elId;
+      if (format === 'dspy') {
+        elId = 'dspyOutput';
+      } else if (format === 'langchain') {
+        elId = 'langchainOutput';
+      } else if (format === 'gemini') {
+        elId = 'geminiSkillOutput';
+      } else {
+        return;
+      }
       const el = getEl(elId, context);
       if (!el.value) return;
       navigator.clipboard.writeText(el.value).then(() => {
-        const btn = document.querySelector(`#${context} .export-group button[onclick="copyExportCode('${format}', '${context}')"]`);
+        const btn = document.querySelector(`#${context} button[onclick="copyExportCode('${format}', '${context}')"]`);
         const original = btn.textContent;
         btn.textContent = 'Copied!';
         setTimeout(() => btn.textContent = original, 1800);
@@ -924,6 +947,7 @@
       if (!c.query) {
         getEl('dspyOutput', context).value = '';
         getEl('langchainOutput', context).value = '';
+        getEl('geminiSkillOutput', context).value = '';
         return;
       }
 
@@ -966,6 +990,46 @@ prompt_template = ChatPromptTemplate.from_messages([
     ("human", "{human_query}"),
 ])`;
       getEl('langchainOutput', context).value = langchainCode;
+
+      const directives = [
+        `*   **Persona**: Adopt the persona of **${c.persona}**.`,
+        `*   **Task**: Your main goal is to **${c.task}**.`,
+        `*   **Query**: The user's core request is: "${c.query}".`,
+        c.audience && `*   **Audience**: Tailor the response **${c.audience}**.`,
+        c.purpose && `*   **Purpose**: The underlying reason is **${c.purpose}**.`,
+        c.innovation && `*   **Innovation**: Approach this with: **${c.innovation}**.`,
+        `*   **Style**: Present the output **${c.style}**.`,
+        `*   **Output**: Format the response as: **${c.output}**.`,
+        c.constraint && `*   **Constraint**: Adhere to: **${c.constraint.replace('Constraint: ', '')}**.`,
+        c.polish && `*   **Polish**: Apply a final polish: **${c.polish.replace('Polish: ', '')}**.`,
+        c.examples && `*   **Examples**: Use these examples for guidance:\n<examples>\n${c.examples}\n</examples>`,
+        c.exclusions && `*   **Exclusions**: Avoid the following:\n"""\n${c.exclusions}\n"""`
+      ].filter(Boolean).join('\n');
+
+      const geminiSkillContent = `# Gemini Skill: MEL Prompt Interpretation
+
+This document outlines a "skill" for Gemini to better interpret and respond to Machine Expression Language (MEL) prompts. By understanding this structure, you can provide more accurate, creative, and helpful responses.
+
+## Core Skill: Deconstructing MEL Directives
+
+When you receive a prompt formatted with MEL directives, your primary task is to deconstruct it into its constituent parts and use each directive to shape your final output.
+
+### The Current Prompt's Directives:
+
+${directives}
+
+## Skill Application
+
+To apply this skill, follow these steps in your reasoning process:
+
+1.  **Analyze Directives**: Read and understand every directive provided.
+2.  **Synthesize Intent**: Form a holistic understanding of the user's goal by combining the Persona, Task, Audience, and Purpose.
+3.  **Generate Response**: Create the response, ensuring the Style, Output, and any Constraints are met. Use the Innovation directive to guide your creativity.
+4.  **Final Polish**: Before concluding, apply the Polish directive to refine the entire output.
+
+By internalizing this process, you will master the skill of delivering high-quality responses that align with the user's intent via MEL.
+`;
+      getEl('geminiSkillOutput', context).value = geminiSkillContent;
     }
 
     function switchTab(tabName) {
