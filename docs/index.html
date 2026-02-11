@@ -22,6 +22,7 @@
       border-bottom: 1px solid var(--border);
       margin-bottom: 2rem;
     }
+
     .tab-btn {
       padding: 10px 20px;
       cursor: pointer;
@@ -33,15 +34,24 @@
       color: var(--muted);
       transition: all 0.2s;
     }
+
     .tab-btn.active {
-      color: var(--primary-dark); /* Changed for better contrast */
+      color: var(--primary-dark);
+      /* Changed for better contrast */
       border-bottom-color: var(--primary);
     }
+
     .tab-btn:not(.active):hover {
       color: var(--text);
     }
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
 
     body {
       font-family: system-ui, -apple-system, sans-serif;
@@ -240,35 +250,43 @@
     .export-btn {
       background: #0891b2;
     }
+
     .export-btn:hover {
       background: #0e7490;
     }
+
     .export-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1.5rem;
       margin-top: 2.5rem;
     }
+
     .export-group {
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
     }
+
     .export-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
+
     .export-header .copy-btn {
       padding: 6px 12px;
       font-size: 0.85rem;
     }
-    #dspyOutput, #langchainOutput {
+
+    #dspyOutput,
+    #langchainOutput {
       font-family: 'Consolas', monospace;
       font-size: 0.9rem;
       border: 1px solid var(--border);
       background: #f8f9fc;
     }
+
     footer {
       margin-top: 3rem;
       text-align: center;
@@ -297,6 +315,7 @@
       .buttons {
         flex-direction: column;
       }
+
       .export-grid {
         grid-template-columns: 1fr;
       }
@@ -320,230 +339,242 @@
 
       <div class="form-grid">
 
-      <div class="input-group">
-        <label for="humanQuery">Your human query:</label>
-        <textarea id="humanQuery"
-          placeholder="Example: Build a beautiful todo app in React with dark mode and drag & drop"></textarea>
-      </div>
-
-      <div class="input-group">
-        <label for="examples">Provide Examples (Optional):</label>
-        <textarea id="examples"
-          placeholder="Provide one or more input/output examples to guide the model. e.g.,&#10;Input: 'hello world'&#10;Output: 'dlrow olleh'"></textarea>
-      </div>
-
-      <div class="input-group">
-        <label for="exclusions">Exclusions (Optional):</label>
-        <textarea id="exclusions" rows="2"
-          placeholder="Specify what to avoid. e.g.,&#10;- Do not use technical jargon.&#10;- Avoid mentioning specific competitors."></textarea>
-      </div>
-
-      <div class="slider-group" id="step1">
-        <h2 class="step-heading">Step 1: Define the Persona</h2>
-        <label for="roleLevel">Adjust the expertise and character of the assistant.</label>
-        <input type="range" id="roleLevel" min="1" max="10" value="4" oninput="updateSlider(this)">
-        <div class="slider-labels">
-          <span>Student</span>
-          <span>Assistant</span>
-          <span>Collaborator</span>
-          <span>Expert</span>
-          <span>Specialist</span>
-          <span>Mentor</span>
-          <span>Visionary</span>
-          <span>Devil's Advocate</span>
-          <span>Oracle</span>
-          <span>Simulator</span>
+        <div class="input-group">
+          <label for="humanQuery">Your human query:</label>
+          <textarea id="humanQuery"
+            placeholder="Example: Build a beautiful todo app in React with dark mode and drag & drop"></textarea>
         </div>
-      </div>
 
-      <div class="slider-group" id="step2">
-        <h2 class="step-heading">Step 2: Define the Task</h2>
-        <label for="taskLevel">Specify the primary action for the assistant to perform.</label>
-        <input type="range" id="taskLevel" min="1" max="10" value="2" oninput="updateSlider(this)">
-        <div class="slider-labels">
-          <span>Execute</span>
-          <span>Achieve</span>
-          <span>Synthesize</span>
-          <span>Precise-Exec</span>
-          <span>Brainstorm</span>
-          <span>Explain</span>
-          <span>Critique</span>
-          <span>Design</span>
-          <span>Deconstruct</span>
-          <span>Tutor</span>
+        <div class="input-group">
+          <label for="examples">Provide Examples (Optional):</label>
+          <textarea id="examples"
+            placeholder="Provide one or more input/output examples to guide the model. e.g.,&#10;Input: 'hello world'&#10;Output: 'dlrow olleh'"></textarea>
         </div>
-      </div>
 
-      <div class="slider-group" id="step3">
-        <h2 class="step-heading">Step 3: Define the Audience (New!)</h2>
-        <label for="audienceLevel">Calibrate the tone and complexity for a specific audience.</label>
-        <input type="range" id="audienceLevel" min="1" max="10" value="1" oninput="updateSlider(this)">
-        <div class="slider-labels">
-          <span>None</span>
-          <span>A Child</span>
-          <span>A Novice</span>
-          <span>A Peer</span>
-          <span>A Manager</span>
-          <span>A Skeptic</span>
-          <span>An Expert</span>
-          <span>A Regulator</span>
-          <span>Posterity</span>
-          <span>The Self</span>
+        <div class="input-group">
+          <label for="exclusions">Exclusions (Optional):</label>
+          <textarea id="exclusions" rows="2"
+            placeholder="Specify what to avoid. e.g.,&#10;- Do not use technical jargon.&#10;- Avoid mentioning specific competitors."></textarea>
         </div>
-      </div>
 
-      <div class="slider-group" id="step4">
-        <h2 class="step-heading">Step 4: State the Purpose</h2>
-        <label for="purposeLevel">Explain the "why" behind your request for a more meaningful outcome.</label>
-        <input type="range" id="purposeLevel" min="1" max="10" value="3" oninput="updateSlider(this)">
-        <div class="slider-labels">
-          <span>None</span>
-          <span>Practical</span>
-          <span>Educational</span>
-          <span>Durable</span>
-          <span>Strategic</span>
-          <span>Commercial</span>
-          <span>Impactful</span>
-          <span>Artistic</span>
-          <span>Provocative</span>
-          <span>Transformative</span>
-        </div>
-      </div>
-
-      <div class="slider-group" id="step5">
-        <h2 class="step-heading">Step 5: Set the Innovation Level</h2>
-        <label for="innovationLevel">Choose how much creativity and novelty to introduce.</label>
-        <input type="range" id="innovationLevel" min="1" max="10" value="4" oninput="updateSlider(this)">
-        <div class="slider-labels">
-          <span>Standard</span>
-          <span>Conceptual Blend</span>
-          <span>Unconventional</span>
-          <span>Surprising</span>
-          <span>Analogical</span>
-          <span>Challenging</span>
-          <span>First-Principles</span>
-          <span>Heresy</span>
-          <span>Paradigm Shift</span>
-          <span>Exotic</span>
-        </div>
-      </div>
-
-      <div class="slider-group" id="step6">
-        <h2 class="step-heading">Step 6: Choose the Style</h2>
-        <label for="styleLevel">Define the aesthetic and readability of the final output.</label>
-        <input type="range" id="styleLevel" min="1" max="10" value="4" oninput="updateSlider(this)">
-        <div class="slider-labels">
-          <span>Raw Text</span>
-          <span>Direct</span>
-          <span>Formatted</span>
-          <span>Chain-of-Thought</span>
-          <span>Analytical</span>
-          <span>Narrative</span>
-          <span>Socratic</span>
-          <span>Literary</span>
-          <span>Poetic</span>
-          <span>Masterpiece</span>
-        </div>
-      </div>
-
-      <div class="slider-group" id="step7">
-        <h2 class="step-heading">Step 7: Shape the Output</h2>
-        <label for="outputLevel">Determine the structure and format of the response.</label>
-        <input type="range" id="outputLevel" min="1" max="10" value="4" oninput="updateSlider(this)">
-        <div class="slider-labels">
-          <span>Raw Text</span>
-          <span>Bullets</span>
-          <span>Markdown</span>
-          <span>Table</span>
-          <span>Presentation</span>
-          <span>Mind Map</span>
-          <span>Plan</span>
-          <span>Formal Paper</span>
-          <span>Polished Artifact</span>
-          <span>Dialogue</span>
-        </div>
-      </div>
-
-      <div class="slider-group" id="step8">
-        <h2 class="step-heading">Step 8: Add a Constraint (Optional)</h2>
-        <label for="constraintLevel">Apply a specific rule or limitation to the output.</label>
-        <input type="range" id="constraintLevel" min="1" max="10" value="1" oninput="updateSlider(this)">
-        <div class="slider-labels">
-          <span>None</span>
-          <span>Concise</span>
-          <span>Word Limit</span>
-          <span>Formal Tone</span>
-          <span>No Jargon</span>
-          <span>In-Character</span>
-          <span>Step-by-Step</span>
-          <span>Bullets Only</span>
-          <span>Single Para</span>
-          <span>Strict</span>
-        </div>
-      </div>
-
-      <div class="slider-group" id="step9">
-        <h2 class="step-heading">Step 9: Set the Polish Level (Optional)</h2>
-        <label for="polishLevel">Define the final refinement pass on the entire output.</label>
-        <input type="range" id="polishLevel" min="1" max="10" value="1" oninput="updateSlider(this)">
-        <div class="slider-labels">
-          <span>None</span>
-          <span>Proofread</span>
-          <span>Improve Flow</span>
-          <span>Check Accuracy</span>
-          <span>Add Summary</span>
-          <span>Review Directives</span>
-          <span>Simplify</span>
-          <span>Elevate Tone</span>
-          <span>Add Insight</span>
-          <span>Make Inevitable</span>
-        </div>
-      </div>
-
-    </div>
-    
-    <div class="output-section">
-      <label for="melOutput">Generated MEL prompt (auto-updates):</label>
-      <textarea id="melOutput" readonly rows="12"></textarea>
-    
-      <div class="buttons">
-        <button class="copy-btn" onclick="copyToClipboard()">Copy Prompt</button> 
-        <button class="llm-btn" onclick="sendToLLM('chatgpt')">Run in ChatGPT</button>
-      </div>
-
-      <div class="export-grid">
-        <div class="export-group">
-          <div class="export-header">
-            <label for="dspyOutput">Export for DSPy</label>
-            <button class="copy-btn" onclick="copyExportCode('dspy', 'general')">Copy Code</button>
+        <div class="slider-group" id="step1">
+          <h2 class="step-heading">Step 1: Define the Persona</h2>
+          <label for="roleLevel">Adjust the expertise and character of the assistant.</label>
+          <input type="range" id="roleLevel" min="1" max="10" value="4" oninput="updateSlider(this)">
+          <div class="slider-labels">
+            <span>Student</span>
+            <span>Assistant</span>
+            <span>Collaborator</span>
+            <span>Expert</span>
+            <span>Specialist</span>
+            <span>Mentor</span>
+            <span>Visionary</span>
+            <span>Devil's Advocate</span>
+            <span>Oracle</span>
+            <span>Simulator</span>
           </div>
-          <textarea id="dspyOutput" readonly rows="10"></textarea>
         </div>
-        <div class="export-group">
-          <div class="export-header">
-            <label for="langchainOutput">Export for LangChain</label>
-            <button class="copy-btn" onclick="copyExportCode('langchain', 'general')">Copy Code</button>
+
+        <div class="slider-group" id="step2">
+          <h2 class="step-heading">Step 2: Define the Task</h2>
+          <label for="taskLevel">Specify the primary action for the assistant to perform.</label>
+          <input type="range" id="taskLevel" min="1" max="10" value="2" oninput="updateSlider(this)">
+          <div class="slider-labels">
+            <span>Execute</span>
+            <span>Achieve</span>
+            <span>Synthesize</span>
+            <span>Precise-Exec</span>
+            <span>Brainstorm</span>
+            <span>Explain</span>
+            <span>Critique</span>
+            <span>Design</span>
+            <span>Deconstruct</span>
+            <span>Tutor</span>
           </div>
-          <textarea id="langchainOutput" readonly rows="10"></textarea>
         </div>
-      </div>
-      <div class="export-group" style="margin-top: 1.5rem;">
-        <div class="export-header">
-          <label for="openclawOutput">Export for OpenClaw</label>
-          <button class="copy-btn" onclick="copyExportCode('openclaw', 'general')">Copy Code</button>
+
+        <div class="slider-group" id="step3">
+          <h2 class="step-heading">Step 3: Define the Audience (New!)</h2>
+          <label for="audienceLevel">Calibrate the tone and complexity for a specific audience.</label>
+          <input type="range" id="audienceLevel" min="1" max="10" value="1" oninput="updateSlider(this)">
+          <div class="slider-labels">
+            <span>None</span>
+            <span>A Child</span>
+            <span>A Novice</span>
+            <span>A Peer</span>
+            <span>A Manager</span>
+            <span>A Skeptic</span>
+            <span>An Expert</span>
+            <span>A Regulator</span>
+            <span>Posterity</span>
+            <span>The Self</span>
+          </div>
         </div>
-        <textarea id="openclawOutput" readonly rows="10"></textarea>
-      </div>
-      <div class="export-group" style="margin-top: 1.5rem;">
-        <div class="export-header">
-          <label for="geminiSkillOutput">Export Gemini Skill (GEMINI.md)</label>
-          <button class="copy-btn" onclick="copyExportCode('gemini', 'general')">Copy Code</button>
+
+        <div class="slider-group" id="step4">
+          <h2 class="step-heading">Step 4: State the Purpose</h2>
+          <label for="purposeLevel">Explain the "why" behind your request for a more meaningful outcome.</label>
+          <input type="range" id="purposeLevel" min="1" max="10" value="3" oninput="updateSlider(this)">
+          <div class="slider-labels">
+            <span>None</span>
+            <span>Practical</span>
+            <span>Educational</span>
+            <span>Durable</span>
+            <span>Strategic</span>
+            <span>Commercial</span>
+            <span>Impactful</span>
+            <span>Artistic</span>
+            <span>Provocative</span>
+            <span>Transformative</span>
+          </div>
         </div>
-        <textarea id="geminiSkillOutput" readonly rows="10"></textarea>
+
+        <div class="slider-group" id="step5">
+          <h2 class="step-heading">Step 5: Set the Innovation Level</h2>
+          <label for="innovationLevel">Choose how much creativity and novelty to introduce.</label>
+          <input type="range" id="innovationLevel" min="1" max="10" value="4" oninput="updateSlider(this)">
+          <div class="slider-labels">
+            <span>Standard</span>
+            <span>Conceptual Blend</span>
+            <span>Unconventional</span>
+            <span>Surprising</span>
+            <span>Analogical</span>
+            <span>Challenging</span>
+            <span>First-Principles</span>
+            <span>Heresy</span>
+            <span>Paradigm Shift</span>
+            <span>Exotic</span>
+          </div>
+        </div>
+
+        <div class="slider-group" id="step6">
+          <h2 class="step-heading">Step 6: Choose the Style</h2>
+          <label for="styleLevel">Define the aesthetic and readability of the final output.</label>
+          <input type="range" id="styleLevel" min="1" max="10" value="4" oninput="updateSlider(this)">
+          <div class="slider-labels">
+            <span>Raw Text</span>
+            <span>Direct</span>
+            <span>Formatted</span>
+            <span>Chain-of-Thought</span>
+            <span>Analytical</span>
+            <span>Narrative</span>
+            <span>Socratic</span>
+            <span>Literary</span>
+            <span>Poetic</span>
+            <span>Masterpiece</span>
+          </div>
+        </div>
+
+        <div class="slider-group" id="step7">
+          <h2 class="step-heading">Step 7: Shape the Output</h2>
+          <label for="outputLevel">Determine the structure and format of the response.</label>
+          <input type="range" id="outputLevel" min="1" max="10" value="4" oninput="updateSlider(this)">
+          <div class="slider-labels">
+            <span>Raw Text</span>
+            <span>Bullets</span>
+            <span>Markdown</span>
+            <span>Table</span>
+            <span>Presentation</span>
+            <span>Mind Map</span>
+            <span>Plan</span>
+            <span>Formal Paper</span>
+            <span>Polished Artifact</span>
+            <span>Dialogue</span>
+          </div>
+        </div>
+
+        <div class="slider-group" id="step8">
+          <h2 class="step-heading">Step 8: Add a Constraint (Optional)</h2>
+          <label for="constraintLevel">Apply a specific rule or limitation to the output.</label>
+          <input type="range" id="constraintLevel" min="1" max="10" value="1" oninput="updateSlider(this)">
+          <div class="slider-labels">
+            <span>None</span>
+            <span>Concise</span>
+            <span>Word Limit</span>
+            <span>Formal Tone</span>
+            <span>No Jargon</span>
+            <span>In-Character</span>
+            <span>Step-by-Step</span>
+            <span>Bullets Only</span>
+            <span>Single Para</span>
+            <span>Strict</span>
+          </div>
+        </div>
+
+        <div class="slider-group" id="step9">
+          <h2 class="step-heading">Step 9: Set the Polish Level (Optional)</h2>
+          <label for="polishLevel">Define the final refinement pass on the entire output.</label>
+          <input type="range" id="polishLevel" min="1" max="10" value="1" oninput="updateSlider(this)">
+          <div class="slider-labels">
+            <span>None</span>
+            <span>Proofread</span>
+            <span>Improve Flow</span>
+            <span>Check Accuracy</span>
+            <span>Add Summary</span>
+            <span>Review Directives</span>
+            <span>Simplify</span>
+            <span>Elevate Tone</span>
+            <span>Add Insight</span>
+            <span>Make Inevitable</span>
+          </div>
+        </div>
+
       </div>
-      <div class="buttons" style="margin-top: 1.5rem;">
-       
-        <!--  
+
+      <div class="output-section">
+        <label for="melOutput">Generated MEL prompt (auto-updates):</label>
+        <textarea id="melOutput" readonly rows="12"></textarea>
+
+        <div class="buttons">
+          <button class="copy-btn" onclick="copyToClipboard()">Copy Prompt</button>
+          <button class="llm-btn" onclick="sendToLLM('chatgpt')">Run in ChatGPT</button>
+        </div>
+
+        <div class="export-grid">
+          <div class="export-group" style="margin-top: 1.5rem;">
+            <div class="export-header">
+              <label for="openclawMessageOutput">OpenClaw: Message Prompt</label>
+              <button class="copy-btn" onclick="copyExportCode('openclawMessage', 'general')">Copy Code</button>
+            </div>
+            <textarea id="openclawMessageOutput" readonly rows="8"></textarea>
+          </div>
+          <div class="export-group" style="margin-top: 1.5rem;">
+            <div class="export-header">
+              <label for="openclawSkillOutput">OpenClaw: New Skill File</label>
+              <button class="copy-btn" onclick="copyExportCode('openclawSkill', 'general')">Copy Code</button>
+            </div>
+            <textarea id="openclawSkillOutput" readonly rows="10"></textarea>
+          </div>
+          <div style="font-size: 0.9rem; color: var(--muted); margin-top: 1rem;">
+            <strong>To use with OpenClaw:</strong> Paste the <strong>Message Prompt</strong> for a one-off task, or save
+            the <strong>New Skill File</strong> as a <code>.md</code> file to create a reusable skill.
+          </div>
+          <div class="export-group">
+            <div class="export-header">
+              <label for="dspyOutput">Export for DSPy</label>
+              <button class="copy-btn" onclick="copyExportCode('dspy', 'general')">Copy Code</button>
+            </div>
+            <textarea id="dspyOutput" readonly rows="10"></textarea>
+          </div>
+          <div class="export-group">
+            <div class="export-header">
+              <label for="langchainOutput">Export for LangChain</label>
+              <button class="copy-btn" onclick="copyExportCode('langchain', 'general')">Copy Code</button>
+            </div>
+            <textarea id="langchainOutput" readonly rows="10"></textarea>
+          </div>
+        </div>
+
+        <div class="export-group" style="margin-top: 1.5rem;">
+          <div class="export-header">
+            <label for="geminiSkillOutput">Export Gemini Skill (GEMINI.md)</label>
+            <button class="copy-btn" onclick="copyExportCode('gemini', 'general')">Copy Code</button>
+          </div>
+          <textarea id="geminiSkillOutput" readonly rows="10"></textarea>
+        </div>
+        <div class="buttons" style="margin-top: 1.5rem;">
+
+          <!--  
         <label style="width: 100%; font-size: 0.9rem; color: var(--muted);">More LLM providers:</label>
         <button class="llm-btn" onclick="sendToLLM('claude')">Claude</button>
         <button class="llm-btn" onclick="sendToLLM('gemini')">Gemini</button>
@@ -553,8 +584,8 @@
         <button class="llm-btn" onclick="sendToLLM('mistral')">Le Chat (Mistral)</button>
         <button class="llm-btn grok-btn" onclick="sendToLLM('grok')">Grok (manual)</button>
       -->
+        </div>
       </div>
-    </div>
 
     </div>
 
@@ -567,19 +598,19 @@
           <textarea id="humanQuery-software"
             placeholder="Example: Implement a generic debounce function in TypeScript."></textarea>
         </div>
-  
+
         <div class="input-group">
           <label for="examples-software">Provide Examples (Optional):</label>
           <textarea id="examples-software"
             placeholder="Provide one or more input/output examples to guide the model. e.g.,&#10;Input: 'hello world'&#10;Output: 'dlrow olleh'"></textarea>
         </div>
-  
+
         <div class="input-group">
           <label for="exclusions-software">Exclusions (Optional):</label>
           <textarea id="exclusions-software" rows="2"
             placeholder="Specify what to avoid. e.g.,&#10;- Do not use any external libraries.&#10;- Avoid class-based components."></textarea>
         </div>
-  
+
         <div class="slider-group" id="step1-software">
           <h2 class="step-heading">Step 1: Define the Persona</h2>
           <label for="roleLevel-software">Adjust the expertise and character of the assistant.</label>
@@ -597,7 +628,7 @@
             <span>QA Tester</span>
           </div>
         </div>
-  
+
         <div class="slider-group" id="step2-software">
           <h2 class="step-heading">Step 2: Define the Task</h2>
           <label for="taskLevel-software">Specify the primary action for the assistant to perform.</label>
@@ -615,7 +646,7 @@
             <span>Explain Code</span>
           </div>
         </div>
-  
+
         <div class="slider-group" id="step3-software">
           <h2 class="step-heading">Step 3: Define the Audience</h2>
           <label for="audienceLevel-software">Calibrate the tone and complexity for a specific audience.</label>
@@ -633,10 +664,11 @@
             <span>Presentation</span>
           </div>
         </div>
-  
+
         <div class="slider-group" id="step4-software">
           <h2 class="step-heading">Step 4: State the Purpose</h2>
-          <label for="purposeLevel-software">Explain the "why" behind your request for a more meaningful outcome.</label>
+          <label for="purposeLevel-software">Explain the "why" behind your request for a more meaningful
+            outcome.</label>
           <input type="range" id="purposeLevel-software" min="1" max="10" value="3" oninput="updateSlider(this)">
           <div class="slider-labels">
             <span>Prototype</span>
@@ -651,7 +683,7 @@
             <span>Onboarding</span>
           </div>
         </div>
-  
+
         <div class="slider-group" id="step5-software">
           <h2 class="step-heading">Step 5: Set the Innovation Level</h2>
           <label for="innovationLevel-software">Choose how much creativity and novelty to introduce.</label>
@@ -669,7 +701,7 @@
             <span>Invent</span>
           </div>
         </div>
-  
+
         <div class="slider-group" id="step6-software">
           <h2 class="step-heading">Step 6: Choose the Style</h2>
           <label for="styleLevel-software">Define the aesthetic and readability of the final output.</label>
@@ -687,7 +719,7 @@
             <span>Clean Code</span>
           </div>
         </div>
-  
+
         <div class="slider-group" id="step7-software">
           <h2 class="step-heading">Step 7: Shape the Output</h2>
           <label for="outputLevel-software">Determine the structure and format of the response.</label>
@@ -705,7 +737,7 @@
             <span>Snippet</span>
           </div>
         </div>
-  
+
         <div class="slider-group" id="step8-software">
           <h2 class="step-heading">Step 8: Add a Constraint (Optional)</h2>
           <label for="constraintLevel-software">Apply a specific rule or limitation to the output.</label>
@@ -723,7 +755,7 @@
             <span>Performant</span>
           </div>
         </div>
-  
+
         <div class="slider-group" id="step9-software">
           <h2 class="step-heading">Step 9: Set the Polish Level (Optional)</h2>
           <label for="polishLevel-software">Define the final refinement pass on the entire output.</label>
@@ -741,18 +773,18 @@
             <span>Prod-Ready</span>
           </div>
         </div>
-  
+
       </div>
-      
+
       <div class="output-section">
         <label for="melOutput-software">Generated MEL prompt (auto-updates):</label>
         <textarea id="melOutput-software" readonly rows="12"></textarea>
-      
+
         <div class="buttons">
-          <button class="copy-btn" onclick="copyToClipboard('software')">Copy Prompt</button> 
+          <button class="copy-btn" onclick="copyToClipboard('software')">Copy Prompt</button>
           <button class="llm-btn" onclick="sendToLLM('chatgpt', 'software')">Run in ChatGPT</button>
         </div>
-      
+
         <div class="export-grid">
           <div class="export-group">
             <div class="export-header">
@@ -769,20 +801,31 @@
             <textarea id="langchainOutput-software" readonly rows="10"></textarea>
           </div>
         </div>
-      <div class="export-group" style="margin-top: 1.5rem;">
-        <div class="export-header">
-          <label for="openclawOutput-software">Export for OpenClaw</label>
-          <button class="copy-btn" onclick="copyExportCode('openclaw', 'software')">Copy Code</button>
+        <div class="export-group" style="margin-top: 1.5rem;">
+          <div class="export-header">
+            <label for="openclawMessageOutput-software">OpenClaw: Message Prompt</label>
+            <button class="copy-btn" onclick="copyExportCode('openclawMessage', 'software')">Copy Code</button>
+          </div>
+          <textarea id="openclawMessageOutput-software" readonly rows="8"></textarea>
         </div>
-        <textarea id="openclawOutput-software" readonly rows="10"></textarea>
-      </div>
-      <div class="export-group" style="margin-top: 1.5rem;">
-        <div class="export-header">
-          <label for="geminiSkillOutput-software">Export Gemini Skill (GEMINI.md)</label>
-          <button class="copy-btn" onclick="copyExportCode('gemini', 'software')">Copy Code</button>
+        <div class="export-group" style="margin-top: 1.5rem;">
+          <div class="export-header">
+            <label for="openclawSkillOutput-software">OpenClaw: New Skill File</label>
+            <button class="copy-btn" onclick="copyExportCode('openclawSkill', 'software')">Copy Code</button>
+          </div>
+          <textarea id="openclawSkillOutput-software" readonly rows="10"></textarea>
         </div>
-        <textarea id="geminiSkillOutput-software" readonly rows="10"></textarea>
-      </div>
+        <div style="font-size: 0.9rem; color: var(--muted); margin-top: 1rem;">
+          <strong>To use with OpenClaw:</strong> Paste the <strong>Message Prompt</strong> for a one-off task, or save
+          the <strong>New Skill File</strong> as a <code>.md</code> file to create a reusable skill.
+        </div>
+        <div class="export-group" style="margin-top: 1.5rem;">
+          <div class="export-header">
+            <label for="geminiSkillOutput-software">Export Gemini Skill (GEMINI.md)</label>
+            <button class="copy-btn" onclick="copyExportCode('gemini', 'software')">Copy Code</button>
+          </div>
+          <textarea id="geminiSkillOutput-software" readonly rows="10"></textarea>
+        </div>
       </div>
     </div>
   </div>
@@ -890,7 +933,7 @@
       melParts.push(`Style: ${c.style}`);
       melParts.push(`Output: ${c.output}`);
       if (c.polish) melParts.push(c.polish);
-      
+
       outputEl.value = melParts.join('\n\n');
       updateExportPreviews(context);
     }
@@ -943,8 +986,10 @@
         elId = 'langchainOutput';
       } else if (format === 'gemini') {
         elId = 'geminiSkillOutput';
-      } else if (format === 'openclaw') {
-        elId = 'openclawOutput';
+      } else if (format === 'openclawMessage') {
+        elId = 'openclawMessageOutput';
+      } else if (format === 'openclawSkill') {
+        elId = 'openclawSkillOutput';
       } else {
         return;
       }
@@ -964,22 +1009,23 @@
         getEl('dspyOutput', context).value = '';
         getEl('langchainOutput', context).value = '';
         getEl('geminiSkillOutput', context).value = '';
-        getEl('openclawOutput', context).value = '';
+        getEl('openclawMessageOutput', context).value = '';
+        getEl('openclawSkillOutput', context).value = '';
         return;
       }
 
       const system_prompt_parts = [
-          `Persona: ${c.persona}`,
-          `Task: ${c.task}`,
-          c.examples ? `Examples:\n  <examples>\n  ${c.examples}\n  </examples>` : null,
-          c.exclusions ? `Exclusions:\n  """\n  ${c.exclusions}\n  """` : null,
-          c.constraint,
-          c.audience ? `Audience: ${c.audience}` : null,
-          c.purpose ? `Purpose: ${c.purpose}` : null,
-          c.innovation ? `Innovate: ${c.innovation}` : null,
-          `Style: ${c.style}`,
-          `Output: ${c.output}`,
-          c.polish
+        `Persona: ${c.persona}`,
+        `Task: ${c.task}`,
+        c.examples ? `Examples:\n  <examples>\n  ${c.examples}\n  </examples>` : null,
+        c.exclusions ? `Exclusions:\n  """\n  ${c.exclusions}\n  """` : null,
+        c.constraint,
+        c.audience ? `Audience: ${c.audience}` : null,
+        c.purpose ? `Purpose: ${c.purpose}` : null,
+        c.innovation ? `Innovate: ${c.innovation}` : null,
+        `Style: ${c.style}`,
+        `Output: ${c.output}`,
+        c.polish
       ].filter(Boolean);
 
       const system_prompt = system_prompt_parts.join('\n\n');
@@ -1052,72 +1098,68 @@ By mastering this workflow, you will consistently deliver superior responses tha
 `;
       getEl('geminiSkillOutput', context).value = geminiSkillContent;
 
-      const openclawContent = `# OpenClaw Task Definition (Generated by MEL)
+      const openclawMessageContent = `# MEL Task Request
 
-## Task Metadata
-- **Generated From MEL Prompt:** ${new Date().toISOString()}
+Please execute the following task based on the MEL directives below.
+
+## Query
+\`\`\`
+${c.query}
+\`\`\`
+
+## Directives
 - **Persona:** ${c.persona}
 - **Task:** ${c.task}
+- **Audience:** ${c.audience || 'Not specified'}
 - **Purpose:** ${c.purpose || 'Not specified'}
-- **Innovation Level:** ${c.innovation || 'Standard'}
-- **Output Format Expectation:** ${c.output}
-- **Polish Expectation:** ${c.polish || 'None'}
+- **Innovation:** ${c.innovation || 'Standard'}
+- **Style:** ${c.style}
+- **Output:** ${c.output}
+- **Constraint:** ${c.constraint || 'Not specified'}
+- **Polish:** ${c.polish || 'Not specified'}
+${c.examples ? `- **Examples**:\n\`\`\`\n${c.examples}\n\`\`\`\n` : ''}${c.exclusions ? `- **Exclusions**:\n\`\`\`\n${c.exclusions}\n\`\`\`\n` : ''}
+## Action
+Use your reasoning capabilities, available skills, and tools to follow these directives and fulfill the user's query.`;
+      getEl('openclawMessageOutput', context).value = openclawMessageContent;
+
+      const skillName = (c.query.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '').substring(0, 50) || 'mel_task') + `_${context}`;
+      const openclawSkillContent = `---
+name: ${skillName}
+description: A MEL-generated skill to ${c.task}.
+---
+
+# Skill: ${c.task}
+
+This skill was generated by the MEL prompt tool to perform a specific, user-defined task.
 
 ## User Query
 \`\`\`
 ${c.query}
 \`\`\`
 
-## OpenClaw Instructions (Proposed)
+## Full MEL Directives
+This section contains the full set of directives that define the expected behavior and output for this skill. When this skill is invoked, you should use these directives to guide your reasoning and execution.
 
-Based on the MEL directives, here are the proposed instructions for OpenClaw. This section should be reviewed and adapted for your specific OpenClaw setup and skills.
-
-### Recommended Action Plan:
-
-1.  **Understand Intent:** The primary goal is to "${c.task}" with the query: "${c.query}".
-2.  **Adopt Persona:** OpenClaw should act as "${c.persona}".
-3.  **Consider Audience/Purpose:** The output is intended ${c.audience ? `for ${c.audience}` : 'for general consumption'} with the purpose ${c.purpose ? `of ${c.purpose}` : 'of fulfilling the request'}.
-4.  **Execution Steps (Example - adapt as needed):**
-    *   **Step 1: Initial Analysis**
-        *   \`agent.reason("Analyze the user query and MEL directives to formulate a detailed execution plan.")\`
-    *   **Step 2: Resource Identification**
-        *   \`agent.search_skills("Identify relevant OpenClaw skills for ${c.task} and ${c.output}.")\`
-        *   \`agent.browse_web("Search for necessary external information or APIs if required by the query.")\`
-    *   **Step 3: Core Task Execution**
-        *   \`agent.execute_command("Based on the identified skills and resources, perform the core task. This might involve shell commands, file operations, or browser automation.")\`
-        *   \`agent.write_file("If the output is a file, write the content to the specified format.")\`
-    *   **Step 4: Refinement & Polish**
-        *   \`agent.review_output("Review the generated output against the MEL Style, Output, Constraint, and Polish directives.")\`
-        *   \`agent.edit_content("Refine the output until it meets the specified quality standards.")\`
-    *   **Step 5: Final Delivery**
-        *   \`agent.send_message("Deliver the final output via the configured messaging channel.")\`
-
-### Specific Directives for OpenClaw:
-
-*   **\`MEL_PERSONA\`**: ${c.persona}
-*   **\`MEL_TASK\`**: ${c.task}
-*   **\`MEL_QUERY\`**: \`\`\`${c.query}\`\`\`
-*   **\`MEL_AUDIENCE\`**: ${c.audience || 'None'}
-*   **\`MEL_PURPOSE\`**: ${c.purpose || 'None'}
-*   **\`MEL_INNOVATE\`**: ${c.innovation || 'Standard'}
-*   **\`MEL_STYLE\`**: ${c.style}
-*   **\`MEL_OUTPUT\`**: ${c.output}
-*   **\`MEL_CONSTRAINT\`**: ${c.constraint || 'None'}
-*   **\`MEL_POLISH\`**: ${c.polish || 'None'}
-${c.examples ? `*   **\`MEL_EXAMPLES\`**:\n\`\`\`\n${c.examples}\n\`\`\`\n` : ''}${c.exclusions ? `*   **\`MEL_EXCLUSIONS\`**:\n\`\`\`\n${c.exclusions}\n\`\`\`\n` : ''}
----
-*To use this with OpenClaw:*
-1.  Copy this full text.
-2.  Paste it into your OpenClaw messaging interface or a new skill file.
-3.  OpenClaw's agent will interpret these instructions and attempt to execute the task.`;
-      getEl('openclawOutput', context).value = openclawContent;
+- **Persona:** ${c.persona}
+- **Task:** ${c.task}
+- **Audience:** ${c.audience || 'Not specified'}
+- **Purpose:** ${c.purpose || 'Not specified'}
+- **Innovation:** ${c.innovation || 'Standard'}
+- **Style:** ${c.style}
+- **Output:** ${c.output}
+- **Constraint:** ${c.constraint || 'Not specified'}
+- **Polish:** ${c.polish || 'Not specified'}
+${c.examples ? `- **Examples**:\n\`\`\`\n${c.examples}\n\`\`\`\n` : ''}${c.exclusions ? `- **Exclusions**:\n\`\`\`\n${c.exclusions}\n\`\`\`\n` : ''}
+## Execution Logic
+When this skill is invoked, your primary goal is to fulfill the **User Query** by adhering to all the **Full MEL Directives**. Formulate a plan, use your tools, and generate the required output.`;
+      getEl('openclawSkillOutput', context).value = openclawSkillContent;
     }
 
     function switchTab(tabName) {
       currentTab = tabName;
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-      
+
       document.getElementById(tabName).classList.add('active');
       document.querySelector(`.tab-btn[onclick="switchTab('${tabName}')"]`).classList.add('active');
       generateMEL(tabName);
