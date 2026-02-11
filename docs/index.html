@@ -279,6 +279,14 @@
       font-size: 0.85rem;
     }
 
+    .export-instruction {
+      grid-column: 1 / -1;
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-top: -0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
     #dspyOutput,
     #langchainOutput {
       font-family: 'Consolas', monospace;
@@ -531,21 +539,21 @@
         </div>
 
         <div class="export-grid">
-          <div class="export-group" style="margin-top: 1.5rem;">
+          <div class="export-group">
             <div class="export-header">
               <label for="openclawMessageOutput">OpenClaw: Message Prompt</label>
               <button class="copy-btn" onclick="copyExportCode('openclawMessage', 'general')">Copy Code</button>
             </div>
             <textarea id="openclawMessageOutput" readonly rows="8"></textarea>
           </div>
-          <div class="export-group" style="margin-top: 1.5rem;">
+          <div class="export-group">
             <div class="export-header">
               <label for="openclawSkillOutput">OpenClaw: New Skill File</label>
               <button class="copy-btn" onclick="copyExportCode('openclawSkill', 'general')">Copy Code</button>
             </div>
             <textarea id="openclawSkillOutput" readonly rows="10"></textarea>
           </div>
-          <div style="font-size: 0.9rem; color: var(--muted); margin-top: 1rem;">
+          <div class="export-instruction">
             <strong>To use with OpenClaw:</strong> Paste the <strong>Message Prompt</strong> for a one-off task, or save
             the <strong>New Skill File</strong> as a <code>.md</code> file to create a reusable skill.
           </div>
@@ -563,27 +571,13 @@
             </div>
             <textarea id="langchainOutput" readonly rows="10"></textarea>
           </div>
-        </div>
-
-        <div class="export-group" style="margin-top: 1.5rem;">
-          <div class="export-header">
-            <label for="geminiSkillOutput">Export Gemini Skill (GEMINI.md)</label>
-            <button class="copy-btn" onclick="copyExportCode('gemini', 'general')">Copy Code</button>
+          <div class="export-group">
+            <div class="export-header">
+              <label for="geminiSkillOutput">Export Gemini Skill (GEMINI.md)</label>
+              <button class="copy-btn" onclick="copyExportCode('gemini', 'general')">Copy Code</button>
+            </div>
+            <textarea id="geminiSkillOutput" readonly rows="10"></textarea>
           </div>
-          <textarea id="geminiSkillOutput" readonly rows="10"></textarea>
-        </div>
-        <div class="buttons" style="margin-top: 1.5rem;">
-
-          <!--  
-        <label style="width: 100%; font-size: 0.9rem; color: var(--muted);">More LLM providers:</label>
-        <button class="llm-btn" onclick="sendToLLM('claude')">Claude</button>
-        <button class="llm-btn" onclick="sendToLLM('gemini')">Gemini</button>
-        <button class="llm-btn" onclick="sendToLLM('perplexity')">Perplexity</button>
-        <button class="llm-btn" onclick="sendToLLM('poe')">Poe</button>
-        <button class="llm-btn" onclick="sendToLLM('you')">You.com</button>
-        <button class="llm-btn" onclick="sendToLLM('mistral')">Le Chat (Mistral)</button>
-        <button class="llm-btn grok-btn" onclick="sendToLLM('grok')">Grok (manual)</button>
-      -->
         </div>
       </div>
 
@@ -786,26 +780,24 @@
         </div>
 
         <div class="export-grid">
-
-          <div style="font-size: 0.9rem; color: var(--muted); margin-top: 1rem;">
-            <strong>To use with OpenClaw:</strong> Paste the <strong>Message Prompt</strong> for a one-off task, or save
-            the <strong>New Skill File</strong> as a <code>.md</code> file to create a reusable skill.
-          </div>
-          <div class="export-group" style="margin-top: 1.5rem;">
+          <div class="export-group">
             <div class="export-header">
               <label for="openclawMessageOutput-software">OpenClaw: Message Prompt</label>
               <button class="copy-btn" onclick="copyExportCode('openclawMessage', 'software')">Copy Code</button>
             </div>
             <textarea id="openclawMessageOutput-software" readonly rows="8"></textarea>
           </div>
-          <div class="export-group" style="margin-top: 1.5rem;">
+          <div class="export-group">
             <div class="export-header">
               <label for="openclawSkillOutput-software">OpenClaw: New Skill File</label>
               <button class="copy-btn" onclick="copyExportCode('openclawSkill', 'software')">Copy Code</button>
             </div>
             <textarea id="openclawSkillOutput-software" readonly rows="10"></textarea>
           </div>
-
+          <div class="export-instruction">
+            <strong>To use with OpenClaw:</strong> Paste the <strong>Message Prompt</strong> for a one-off task, or save
+            the <strong>New Skill File</strong> as a <code>.md</code> file to create a reusable skill.
+          </div>
           <div class="export-group">
             <div class="export-header">
               <label for="dspyOutput-software">Export for DSPy</label>
@@ -820,14 +812,13 @@
             </div>
             <textarea id="langchainOutput-software" readonly rows="10"></textarea>
           </div>
-        </div>
-
-        <div class="export-group" style="margin-top: 1.5rem;">
-          <div class="export-header">
-            <label for="geminiSkillOutput-software">Export Gemini Skill (GEMINI.md)</label>
-            <button class="copy-btn" onclick="copyExportCode('gemini', 'software')">Copy Code</button>
+          <div class="export-group">
+            <div class="export-header">
+              <label for="geminiSkillOutput-software">Export Gemini Skill (GEMINI.md)</label>
+              <button class="copy-btn" onclick="copyExportCode('gemini', 'software')">Copy Code</button>
+            </div>
+            <textarea id="geminiSkillOutput-software" readonly rows="10"></textarea>
           </div>
-          <textarea id="geminiSkillOutput-software" readonly rows="10"></textarea>
         </div>
       </div>
     </div>
