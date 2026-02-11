@@ -786,6 +786,26 @@
         </div>
 
         <div class="export-grid">
+
+          <div style="font-size: 0.9rem; color: var(--muted); margin-top: 1rem;">
+            <strong>To use with OpenClaw:</strong> Paste the <strong>Message Prompt</strong> for a one-off task, or save
+            the <strong>New Skill File</strong> as a <code>.md</code> file to create a reusable skill.
+          </div>
+          <div class="export-group" style="margin-top: 1.5rem;">
+            <div class="export-header">
+              <label for="openclawMessageOutput-software">OpenClaw: Message Prompt</label>
+              <button class="copy-btn" onclick="copyExportCode('openclawMessage', 'software')">Copy Code</button>
+            </div>
+            <textarea id="openclawMessageOutput-software" readonly rows="8"></textarea>
+          </div>
+          <div class="export-group" style="margin-top: 1.5rem;">
+            <div class="export-header">
+              <label for="openclawSkillOutput-software">OpenClaw: New Skill File</label>
+              <button class="copy-btn" onclick="copyExportCode('openclawSkill', 'software')">Copy Code</button>
+            </div>
+            <textarea id="openclawSkillOutput-software" readonly rows="10"></textarea>
+          </div>
+
           <div class="export-group">
             <div class="export-header">
               <label for="dspyOutput-software">Export for DSPy</label>
@@ -801,24 +821,7 @@
             <textarea id="langchainOutput-software" readonly rows="10"></textarea>
           </div>
         </div>
-        <div class="export-group" style="margin-top: 1.5rem;">
-          <div class="export-header">
-            <label for="openclawMessageOutput-software">OpenClaw: Message Prompt</label>
-            <button class="copy-btn" onclick="copyExportCode('openclawMessage', 'software')">Copy Code</button>
-          </div>
-          <textarea id="openclawMessageOutput-software" readonly rows="8"></textarea>
-        </div>
-        <div class="export-group" style="margin-top: 1.5rem;">
-          <div class="export-header">
-            <label for="openclawSkillOutput-software">OpenClaw: New Skill File</label>
-            <button class="copy-btn" onclick="copyExportCode('openclawSkill', 'software')">Copy Code</button>
-          </div>
-          <textarea id="openclawSkillOutput-software" readonly rows="10"></textarea>
-        </div>
-        <div style="font-size: 0.9rem; color: var(--muted); margin-top: 1rem;">
-          <strong>To use with OpenClaw:</strong> Paste the <strong>Message Prompt</strong> for a one-off task, or save
-          the <strong>New Skill File</strong> as a <code>.md</code> file to create a reusable skill.
-        </div>
+
         <div class="export-group" style="margin-top: 1.5rem;">
           <div class="export-header">
             <label for="geminiSkillOutput-software">Export Gemini Skill (GEMINI.md)</label>
