@@ -17,7 +17,7 @@ Key benefits:
 - **Expressive Power**: With 10 levels for each of the 6 sliders, you have a vast creative canvas to specify exactly what you need.
 - **Specialized Workflows**: Switch between modes like "General Prompting" and "Software Development" for a set of directives tailored to your specific domain.
 - **Zero Dependencies**: It's a simple web page. You generate the prompt and copy-paste it into your favorite LLM.
-- **Production-Ready Exports**: Go from creative exploration to production code in one click by exporting your refined prompt to frameworks like DSPy and LangChain.
+- **Production-Ready Exports**: Go from creative exploration to production code in one click by exporting your refined prompt to frameworks like DSPy, LangChain, or as instructions for AI agents like OpenClaw.
 - **Better Outputs**: The directive-based syntax is clear and unambiguous for the LLM, leading to higher-quality, more consistent results.
 
 ### The MEL Directive Syntax
@@ -84,7 +84,7 @@ Polish: until the code is production-ready and maintainable.
 2.  Enter your query in the text box.
 3.  Move the six sliders to define the characteristics of your desired output.
 4.  The MEL prompt will be generated in the output box.
-5.  Copy the prompt to paste into your LLM of choice, or use the "Export As..." buttons to get a production-ready code snippet for DSPy or LangChain.
+5.  Copy the prompt to paste into your LLM of choice, or use the export buttons to generate code for DSPy/LangChain or instructions for AI agents like OpenClaw.
 
 ## Contributing
 This project is actively evolving. Welcoming issues and pull requests that:

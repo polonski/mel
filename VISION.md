@@ -34,6 +34,8 @@ The long-term vision is for MEL to become a **self-improving language where an L
 6.  **From Prompts to Plans: MEL for AI Agents**  
     The next evolution is to move beyond generating a single prompt to orchestrating multi-step AI agent workflows. A high-level MEL prompt could define a complex goal, which an agent system then decomposes into a sequence of tasks. Each task in that sequence would itself be a distinct MEL prompt, specifying the right `Persona`, `Task`, and `Output` for that particular step. MEL would become the human-centric language for defining the nodes in a reasoning graph, making the user a true architect of the AI's workflow.
 
+    The current export functionality for AI agents like OpenClaw, which generates both one-off message prompts and reusable skill files, is the first concrete step in realizing this vision.
+
 ## Core philosophy that will not change
 
 - **Human-Centric**: The UI should always feel like a creative instrument, not a complex configuration panel.
