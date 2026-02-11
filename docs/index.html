@@ -991,43 +991,47 @@ prompt_template = ChatPromptTemplate.from_messages([
 ])`;
       getEl('langchainOutput', context).value = langchainCode;
 
-      const directives = [
-        `*   **Persona**: Adopt the persona of **${c.persona}**.`,
-        `*   **Task**: Your main goal is to **${c.task}**.`,
-        `*   **Query**: The user's core request is: "${c.query}".`,
-        c.audience && `*   **Audience**: Tailor the response **${c.audience}**.`,
-        c.purpose && `*   **Purpose**: The underlying reason is **${c.purpose}**.`,
-        c.innovation && `*   **Innovation**: Approach this with: **${c.innovation}**.`,
-        `*   **Style**: Present the output **${c.style}**.`,
-        `*   **Output**: Format the response as: **${c.output}**.`,
-        c.constraint && `*   **Constraint**: Adhere to: **${c.constraint.replace('Constraint: ', '')}**.`,
-        c.polish && `*   **Polish**: Apply a final polish: **${c.polish.replace('Polish: ', '')}**.`,
-        c.examples && `*   **Examples**: Use these examples for guidance:\n<examples>\n${c.examples}\n</examples>`,
-        c.exclusions && `*   **Exclusions**: Avoid the following:\n"""\n${c.exclusions}\n"""`
-      ].filter(Boolean).join('\n');
+      const currentMelPrompt = getEl('melOutput', context).value;
 
-      const geminiSkillContent = `# Gemini Skill: MEL Prompt Interpretation
+      const geminiSkillContent = `# Gemini Skill: Mastering Machine Expression Language (MEL)
 
-This document outlines a "skill" for Gemini to better interpret and respond to Machine Expression Language (MEL) prompts. By understanding this structure, you can provide more accurate, creative, and helpful responses.
+This document is your guide to mastering the art of interpreting and responding to Machine Expression Language (MEL) prompts. By internalizing this skill, you will be able to deconstruct user intent with high precision and generate responses that are more accurate, creative, and aligned with the user's goals.
 
-## Core Skill: Deconstructing MEL Directives
+## Core Concept: Directives as Function Parameters
 
-When you receive a prompt formatted with MEL directives, your primary task is to deconstruct it into its constituent parts and use each directive to shape your final output.
+Think of a MEL prompt not as a simple request, but as a **function call** where you are the function being executed. Each directive (\`Persona\`, \`Task\`, \`Style\`, etc.) is a **parameter** that constrains and shapes your output. Your goal is to generate a response that perfectly satisfies all provided parameters.
+
+## Directive Breakdown & Syntax Nuances
+
+MEL uses a clean \`Key: Value\` syntax and Markdown for structure. This is highly effective because it provides unambiguous, machine-readable instructions.
 
 ### The Current Prompt's Directives:
 
-${directives}
+Here is the MEL prompt generated from your current selections. You should interpret its directives as follows:
 
-## Skill Application
+\`\`\`text
+${currentMelPrompt}
+\`\`\`
 
-To apply this skill, follow these steps in your reasoning process:
+*   \`Persona\`: **Adopt this role.** Your tone, vocabulary, and knowledge should match. For the current persona, "**${c.persona}**," you should embody that specific character.
+*   \`Task\`: **This is your primary verb.** It's the main action you must perform: "**${c.task}**".
+*   \`Query\`: **This is the core subject.** All other directives modify how you address this query. The \`"""\` block helps isolate the user's raw input.
+*   \`Audience\` & \`Purpose\`: These provide **critical context**, explaining *who* the response is for and *why* it's being requested.
+*   \`Innovate\`: This is your license for **creativity**. It guides you on *how* to approach the problem-solving aspect. The current level is: "**${c.innovation || 'Standard'}**".
+*   \`Style\` & \`Output\`: These define the **form and format** of your final response. They are strict formatting requirements.
+*   \`Constraint\` & \`Polish\`: These are **final filters and refinement steps**. A \`Constraint\` is a hard rule, while \`Polish\` is a quality-improvement pass to be applied before finishing.
 
-1.  **Analyze Directives**: Read and understand every directive provided.
-2.  **Synthesize Intent**: Form a holistic understanding of the user's goal by combining the Persona, Task, Audience, and Purpose.
-3.  **Generate Response**: Create the response, ensuring the Style, Output, and any Constraints are met. Use the Innovation directive to guide your creativity.
-4.  **Final Polish**: Before concluding, apply the Polish directive to refine the entire output.
+## Your Reasoning Workflow
 
-By internalizing this process, you will master the skill of delivering high-quality responses that align with the user's intent via MEL.
+To apply this skill effectively, follow this internal step-by-step process:
+
+1.  **Deconstruct the Prompt**: Systematically parse every \`Key: Value\` directive from the prompt above. Do not ignore any of them.
+2.  **Establish Context**: Synthesize the \`Persona\`, \`Task\`, \`Audience\`, and \`Purpose\` to form a holistic understanding of the user's true intent. This is your "mission statement."
+3.  **Initial Generation (Drafting)**: Address the \`Query\` while adhering to the \`Style\`, \`Output\`, and \`Constraint\` directives. Use the \`Innovate\` directive to guide your creative approach during this phase.
+4.  **Final Polish (Refinement)**: Before concluding, apply the \`Polish\` directive as a final review pass. Read your generated response and ask: "Does this meet the polish requirement? Does it fully satisfy every single directive?"
+5.  **Output Response**: Deliver the final, polished artifact.
+
+By mastering this workflow, you will consistently deliver superior responses that demonstrate a deep understanding of the user's structured intent via MEL.
 `;
       getEl('geminiSkillOutput', context).value = geminiSkillContent;
     }
