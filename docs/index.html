@@ -5,371 +5,140 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MEL – Human Query → LLM Elixir</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Menlo', 'Consolas', 'monospace'],
+          },
+          colors: {
+            primary: '#3b82f6',
+            'primary-dark': '#2563eb',
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --primary: #3b82f6;
-      --primary-dark: #2563eb;
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --text: #1e293b;
-      --muted: #64748b;
-      --border: #e2e8f0;
-    }
-
-    .tab-menu {
-      display: flex;
-      gap: 0.5rem;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 2rem;
-    }
-
-    .tab-btn {
-      padding: 10px 20px;
-      cursor: pointer;
-      border: none;
-      background: transparent;
-      border-bottom: 3px solid transparent;
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--muted);
-      transition: all 0.2s;
-    }
-
-    .tab-btn.active {
-      color: var(--primary-dark);
-      /* Changed for better contrast */
-      border-bottom-color: var(--primary);
-    }
-
-    .tab-btn:not(.active):hover {
-      color: var(--text);
-    }
-
-    .tab-content {
-      display: none;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      margin: 0;
-      padding: 20px 16px;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-    }
-
-    .container {
-      max-width: 920px;
-      width: 100%;
-      background: var(--card);
-      border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-      padding: 2rem;
-    }
-
-    h1 {
-      text-align: center;
-      color: var(--primary);
-      margin: 0 0 0.8rem;
-      font-size: 2.4rem;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: var(--muted);
-      margin: 0 0 2rem;
-      font-size: 1.1rem;
-    }
-
-    .form-grid {
-      display: grid;
-      gap: 1.6rem;
-    }
-
-    .input-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    label {
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    textarea {
-      width: 100%;
-      min-height: 110px;
-      padding: 14px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      font-family: 'Consolas', monospace;
-      font-size: 1rem;
-      background: #fdfdfd;
-      resize: vertical;
-      transition: border-color 0.2s;
-    }
-
-    textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-    }
-
-    .step-heading {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: var(--primary);
-      margin: 1rem 0 0.5rem;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 0.5rem;
-    }
-
-    .slider-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
+    /* Custom Slider Styling to maintain the fill effect */
     input[type="range"] {
-      width: 100%;
-      height: 8px;
-      background: linear-gradient(to right, var(--primary) 0%, var(--primary) var(--value, 50%), #e2e8f0 var(--value, 50%), #e2e8f0 100%);
-      border-radius: 999px;
+      -webkit-appearance: none;
       appearance: none;
-      outline: none;
-    }
-
-    .slider-group label {
-      font-weight: 400;
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-bottom: 0.5rem;
-    }
-
-    input[type="range"]::-webkit-slider-thumb {
-      appearance: none;
-      width: 20px;
-      height: 20px;
-      background: var(--primary);
-      border-radius: 50%;
+      background: transparent;
       cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-      transition: transform 0.1s;
+    }
+    
+    input[type="range"]::-webkit-slider-runnable-track {
+      background: linear-gradient(to right, #3b82f6 0%, #3b82f6 var(--value, 50%), #e2e8f0 var(--value, 50%), #e2e8f0 100%);
+      border-radius: 9999px;
+      height: 0.5rem;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      margin-top: -6px;
+      background-color: #3b82f6;
+      height: 1.25rem;
+      width: 1.25rem;
+      border-radius: 50%;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      transition: transform 0.15s ease;
     }
 
-    input[type="range"]::-webkit-slider-thumb:hover,
-    input[type="range"]:active::-webkit-slider-thumb {
-      transform: scale(1.2);
+    input[type="range"]::-moz-range-track {
+      background: linear-gradient(to right, #3b82f6 0%, #3b82f6 var(--value, 50%), #e2e8f0 var(--value, 50%), #e2e8f0 100%);
+      border-radius: 9999px;
+      height: 0.5rem;
     }
 
     input[type="range"]::-moz-range-thumb {
-      width: 20px;
-      height: 20px;
-      background: var(--primary);
       border: none;
+      background-color: #3b82f6;
+      height: 1.25rem;
+      width: 1.25rem;
       border-radius: 50%;
-      cursor: pointer;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      transition: transform 0.15s ease;
     }
 
-    .slider-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.82rem;
-      color: var(--muted);
-      text-align: center;
+    input[type="range"]:focus {
+      outline: none;
     }
 
-    .slider-labels span {
-      flex: 1;
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
     }
-
-    .output-section {
-      margin-top: 2rem;
-    }
-
-    #melOutput {
-      min-height: 180px;
-      background: #f8f9fc;
-      color: #0f172a;
-    }
-
-    .buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.7rem;
-      margin-top: 1.2rem;
-    }
-
-    button {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    button:hover {
-      background: var(--primary-dark);
-    }
-
-    .llm-btn {
-      background: #10b981;
-    }
-
-    .llm-btn:hover {
-      background: #059669;
-    }
-
-    .copy-btn {
-      background: var(--muted);
-    }
-
-    .copy-btn:hover {
-      background: #475569;
-    }
-
-    .grok-btn {
-      background: #8b5cf6;
-    }
-
-    .grok-btn:hover {
-      background: #7c3aed;
-    }
-
-    .export-btn {
-      background: #0891b2;
-    }
-
-    .export-btn:hover {
-      background: #0e7490;
-    }
-
-    .export-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      margin-top: 2.5rem;
-    }
-
-    .export-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .export-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .export-header .copy-btn {
-      padding: 6px 12px;
-      font-size: 0.85rem;
-    }
-
-    .export-instruction {
-      grid-column: 1 / -1;
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-top: -0.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    #dspyOutput,
-    #langchainOutput {
-      font-family: 'Consolas', monospace;
-      font-size: 0.9rem;
-      border: 1px solid var(--border);
-      background: #f8f9fc;
-    }
-
-    footer {
-      margin-top: 3rem;
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    a {
-      color: var(--primary);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    @media (max-width: 600px) {
-      .container {
-        padding: 1.5rem;
-      }
-
-      h1 {
-        font-size: 2rem;
-      }
-
-      .buttons {
-        flex-direction: column;
-      }
-
-      .export-grid {
-        grid-template-columns: 1fr;
-      }
+    
+    input[type="range"]::-moz-range-thumb:hover {
+      transform: scale(1.1);
     }
   </style>
 </head>
 
-<body>
+<body class="bg-slate-50 text-slate-800 min-h-screen py-8 px-4 md:py-12 font-sans">
 
-  <div class="container">
-    <h1>MEL – Machine Expression Language</h1>
-    <p class="subtitle">A step-by-step journey to turn your query into a powerful, directive-based LLM prompt</p>
-
-    <div class="tab-menu">
-      <button class="tab-btn active" onclick="switchTab('general')">General Prompting</button>
-      <button class="tab-btn" onclick="switchTab('software')">Software Development</button>
+  <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+    
+    <!-- Header -->
+    <div class="bg-white p-8 pb-0 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-blue-600 mb-3 tracking-tight">MEL</h1>
+      <p class="text-slate-500 text-lg max-w-2xl mx-auto">Machine Expression Language: A guided journey to craft powerful, directive-based LLM prompts.</p>
     </div>
 
+    <!-- Tabs -->
+    <div class="flex justify-center gap-8 mt-8 border-b border-slate-200 px-8">
+      <button id="tab-btn-general" onclick="switchTab('general')" 
+        class="tab-btn pb-4 px-2 text-lg font-semibold border-b-2 transition-colors duration-200 text-blue-600 border-blue-600">
+        General Prompting
+      </button>
+      <button id="tab-btn-software" onclick="switchTab('software')" 
+        class="tab-btn pb-4 px-2 text-lg font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-colors duration-200">
+        Software Development
+      </button>
+    </div>
+
+    <!-- Content Container -->
+    <div class="p-6 md:p-10">
+
     <!-- General Prompting Tab -->
-    <div id="general" class="tab-content active">
+    <div id="general" class="tab-content block space-y-10">
 
-      <div class="form-grid">
+      <div class="grid gap-8">
 
-        <div class="input-group">
-          <label for="humanQuery">Your human query:</label>
-          <textarea id="humanQuery"
-            placeholder="Example: Build a beautiful todo app in React with dark mode and drag & drop"></textarea>
+        <div class="space-y-6">
+          <div class="flex flex-col gap-2">
+            <label for="humanQuery" class="font-semibold text-slate-700 text-lg">Your human query:</label>
+            <textarea id="humanQuery" class="w-full min-h-[120px] p-4 border border-slate-200 rounded-xl font-mono text-sm bg-slate-50 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all resize-y placeholder-slate-400"
+              placeholder="Example: Build a beautiful todo app in React with dark mode and drag & drop"></textarea>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="examples" class="font-semibold text-slate-700">Provide Examples (Optional):</label>
+            <textarea id="examples" class="w-full min-h-[100px] p-4 border border-slate-200 rounded-xl font-mono text-sm bg-slate-50 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all resize-y placeholder-slate-400"
+              placeholder="Provide one or more input/output examples to guide the model. e.g.,&#10;Input: 'hello world'&#10;Output: 'dlrow olleh'"></textarea>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="exclusions" class="font-semibold text-slate-700">Exclusions (Optional):</label>
+            <textarea id="exclusions" rows="2" class="w-full min-h-[80px] p-4 border border-slate-200 rounded-xl font-mono text-sm bg-slate-50 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all resize-y placeholder-slate-400"
+              placeholder="Specify what to avoid. e.g.,&#10;- Do not use technical jargon.&#10;- Avoid mentioning specific competitors."></textarea>
+          </div>
         </div>
 
-        <div class="input-group">
-          <label for="examples">Provide Examples (Optional):</label>
-          <textarea id="examples"
-            placeholder="Provide one or more input/output examples to guide the model. e.g.,&#10;Input: 'hello world'&#10;Output: 'dlrow olleh'"></textarea>
-        </div>
-
-        <div class="input-group">
-          <label for="exclusions">Exclusions (Optional):</label>
-          <textarea id="exclusions" rows="2"
-            placeholder="Specify what to avoid. e.g.,&#10;- Do not use technical jargon.&#10;- Avoid mentioning specific competitors."></textarea>
-        </div>
-
-        <div class="slider-group" id="step1">
-          <h2 class="step-heading">Step 1: Define the Persona</h2>
-          <label for="roleLevel">Adjust the expertise and character of the assistant.</label>
-          <input type="range" id="roleLevel" min="1" max="10" value="4" oninput="updateSlider(this)">
-          <div class="slider-labels">
+        <div class="space-y-3" id="step1">
+          <div class="flex justify-between items-end border-b border-slate-100 pb-2 mb-2">
+            <h2 class="text-xl font-bold text-blue-600">Step 1: Define the Persona</h2>
+          </div>
+          <label for="roleLevel" class="block text-sm text-slate-600 mb-2">Adjust the expertise and character of the assistant.</label>
+          <div class="relative h-10 flex items-center">
+            <input type="range" id="roleLevel" min="1" max="10" value="4" oninput="updateSlider(this)" class="w-full">
+          </div>
+          <div class="flex justify-between text-xs text-slate-400 px-1">
             <span>Student</span>
             <span>Assistant</span>
             <span>Collaborator</span>
@@ -383,11 +152,15 @@
           </div>
         </div>
 
-        <div class="slider-group" id="step2">
-          <h2 class="step-heading">Step 2: Define the Task</h2>
-          <label for="taskLevel">Specify the primary action for the assistant to perform.</label>
-          <input type="range" id="taskLevel" min="1" max="10" value="2" oninput="updateSlider(this)">
-          <div class="slider-labels">
+        <div class="space-y-3" id="step2">
+          <div class="flex justify-between items-end border-b border-slate-100 pb-2 mb-2">
+            <h2 class="text-xl font-bold text-blue-600">Step 2: Define the Task</h2>
+          </div>
+          <label for="taskLevel" class="block text-sm text-slate-600 mb-2">Specify the primary action for the assistant to perform.</label>
+          <div class="relative h-10 flex items-center">
+            <input type="range" id="taskLevel" min="1" max="10" value="2" oninput="updateSlider(this)" class="w-full">
+          </div>
+          <div class="flex justify-between text-xs text-slate-400 px-1">
             <span>Execute</span>
             <span>Achieve</span>
             <span>Synthesize</span>
@@ -401,11 +174,15 @@
           </div>
         </div>
 
-        <div class="slider-group" id="step3">
-          <h2 class="step-heading">Step 3: Define the Audience (New!)</h2>
-          <label for="audienceLevel">Calibrate the tone and complexity for a specific audience.</label>
-          <input type="range" id="audienceLevel" min="1" max="10" value="1" oninput="updateSlider(this)">
-          <div class="slider-labels">
+        <div class="space-y-3" id="step3">
+          <div class="flex justify-between items-end border-b border-slate-100 pb-2 mb-2">
+            <h2 class="text-xl font-bold text-blue-600">Step 3: Define the Audience</h2>
+          </div>
+          <label for="audienceLevel" class="block text-sm text-slate-600 mb-2">Calibrate the tone and complexity for a specific audience.</label>
+          <div class="relative h-10 flex items-center">
+            <input type="range" id="audienceLevel" min="1" max="10" value="1" oninput="updateSlider(this)" class="w-full">
+          </div>
+          <div class="flex justify-between text-xs text-slate-400 px-1">
             <span>None</span>
             <span>A Child</span>
             <span>A Novice</span>
@@ -419,11 +196,15 @@
           </div>
         </div>
 
-        <div class="slider-group" id="step4">
-          <h2 class="step-heading">Step 4: State the Purpose</h2>
-          <label for="purposeLevel">Explain the "why" behind your request for a more meaningful outcome.</label>
-          <input type="range" id="purposeLevel" min="1" max="10" value="3" oninput="updateSlider(this)">
-          <div class="slider-labels">
+        <div class="space-y-3" id="step4">
+          <div class="flex justify-between items-end border-b border-slate-100 pb-2 mb-2">
+            <h2 class="text-xl font-bold text-blue-600">Step 4: State the Purpose</h2>
+          </div>
+          <label for="purposeLevel" class="block text-sm text-slate-600 mb-2">Explain the "why" behind your request for a more meaningful outcome.</label>
+          <div class="relative h-10 flex items-center">
+            <input type="range" id="purposeLevel" min="1" max="10" value="3" oninput="updateSlider(this)" class="w-full">
+          </div>
+          <div class="flex justify-between text-xs text-slate-400 px-1">
             <span>None</span>
             <span>Practical</span>
             <span>Educational</span>
@@ -437,11 +218,15 @@
           </div>
         </div>
 
-        <div class="slider-group" id="step5">
-          <h2 class="step-heading">Step 5: Set the Innovation Level</h2>
-          <label for="innovationLevel">Choose how much creativity and novelty to introduce.</label>
-          <input type="range" id="innovationLevel" min="1" max="10" value="4" oninput="updateSlider(this)">
-          <div class="slider-labels">
+        <div class="space-y-3" id="step5">
+          <div class="flex justify-between items-end border-b border-slate-100 pb-2 mb-2">
+            <h2 class="text-xl font-bold text-blue-600">Step 5: Set the Innovation Level</h2>
+          </div>
+          <label for="innovationLevel" class="block text-sm text-slate-600 mb-2">Choose how much creativity and novelty to introduce.</label>
+          <div class="relative h-10 flex items-center">
+            <input type="range" id="innovationLevel" min="1" max="10" value="4" oninput="updateSlider(this)" class="w-full">
+          </div>
+          <div class="flex justify-between text-xs text-slate-400 px-1">
             <span>Standard</span>
             <span>Conceptual Blend</span>
             <span>Unconventional</span>
@@ -455,11 +240,15 @@
           </div>
         </div>
 
-        <div class="slider-group" id="step6">
-          <h2 class="step-heading">Step 6: Choose the Style</h2>
-          <label for="styleLevel">Define the aesthetic and readability of the final output.</label>
-          <input type="range" id="styleLevel" min="1" max="10" value="4" oninput="updateSlider(this)">
-          <div class="slider-labels">
+        <div class="space-y-3" id="step6">
+          <div class="flex justify-between items-end border-b border-slate-100 pb-2 mb-2">
+            <h2 class="text-xl font-bold text-blue-600">Step 6: Choose the Style</h2>
+          </div>
+          <label for="styleLevel" class="block text-sm text-slate-600 mb-2">Define the aesthetic and readability of the final output.</label>
+          <div class="relative h-10 flex items-center">
+            <input type="range" id="styleLevel" min="1" max="10" value="4" oninput="updateSlider(this)" class="w-full">
+          </div>
+          <div class="flex justify-between text-xs text-slate-400 px-1">
             <span>Raw Text</span>
             <span>Direct</span>
             <span>Formatted</span>
@@ -473,11 +262,15 @@
           </div>
         </div>
 
-        <div class="slider-group" id="step7">
-          <h2 class="step-heading">Step 7: Shape the Output</h2>
-          <label for="outputLevel">Determine the structure and format of the response.</label>
-          <input type="range" id="outputLevel" min="1" max="10" value="4" oninput="updateSlider(this)">
-          <div class="slider-labels">
+        <div class="space-y-3" id="step7">
+          <div class="flex justify-between items-end border-b border-slate-100 pb-2 mb-2">
+            <h2 class="text-xl font-bold text-blue-600">Step 7: Shape the Output</h2>
+          </div>
+          <label for="outputLevel" class="block text-sm text-slate-600 mb-2">Determine the structure and format of the response.</label>
+          <div class="relative h-10 flex items-center">
+            <input type="range" id="outputLevel" min="1" max="10" value="4" oninput="updateSlider(this)" class="w-full">
+          </div>
+          <div class="flex justify-between text-xs text-slate-400 px-1">
             <span>Raw Text</span>
             <span>Bullets</span>
             <span>Markdown</span>
@@ -491,11 +284,15 @@
           </div>
         </div>
 
-        <div class="slider-group" id="step8">
-          <h2 class="step-heading">Step 8: Add a Constraint (Optional)</h2>
-          <label for="constraintLevel">Apply a specific rule or limitation to the output.</label>
-          <input type="range" id="constraintLevel" min="1" max="10" value="1" oninput="updateSlider(this)">
-          <div class="slider-labels">
+        <div class="space-y-3" id="step8">
+          <div class="flex justify-between items-end border-b border-slate-100 pb-2 mb-2">
+            <h2 class="text-xl font-bold text-blue-600">Step 8: Add a Constraint (Optional)</h2>
+          </div>
+          <label for="constraintLevel" class="block text-sm text-slate-600 mb-2">Apply a specific rule or limitation to the output.</label>
+          <div class="relative h-10 flex items-center">
+            <input type="range" id="constraintLevel" min="1" max="10" value="1" oninput="updateSlider(this)" class="w-full">
+          </div>
+          <div class="flex justify-between text-xs text-slate-400 px-1">
             <span>None</span>
             <span>Concise</span>
             <span>Word Limit</span>
@@ -509,11 +306,15 @@
           </div>
         </div>
 
-        <div class="slider-group" id="step9">
-          <h2 class="step-heading">Step 9: Set the Polish Level (Optional)</h2>
-          <label for="polishLevel">Define the final refinement pass on the entire output.</label>
-          <input type="range" id="polishLevel" min="1" max="10" value="1" oninput="updateSlider(this)">
-          <div class="slider-labels">
+        <div class="space-y-3" id="step9">
+          <div class="flex justify-between items-end border-b border-slate-100 pb-2 mb-2">
+            <h2 class="text-xl font-bold text-blue-600">Step 9: Set the Polish Level (Optional)</h2>
+          </div>
+          <label for="polishLevel" class="block text-sm text-slate-600 mb-2">Define the final refinement pass on the entire output.</label>
+          <div class="relative h-10 flex items-center">
+            <input type="range" id="polishLevel" min="1" max="10" value="1" oninput="updateSlider(this)" class="w-full">
+          </div>
+          <div class="flex justify-between text-xs text-slate-400 px-1">
             <span>None</span>
             <span>Proofread</span>
             <span>Improve Flow</span>
@@ -529,54 +330,54 @@
 
       </div>
 
-      <div class="output-section">
-        <label for="melOutput">Generated MEL prompt (auto-updates):</label>
-        <textarea id="melOutput" readonly rows="12"></textarea>
+      <div class="mt-12 pt-8 border-t border-slate-200">
+        <label for="melOutput" class="block font-bold text-slate-700 mb-3">Generated MEL prompt (auto-updates):</label>
+        <textarea id="melOutput" readonly rows="12" class="w-full p-4 border border-slate-200 rounded-xl font-mono text-sm bg-slate-50 text-slate-800 focus:outline-none focus:border-blue-500 transition-all"></textarea>
 
-        <div class="buttons">
-          <button class="copy-btn" onclick="copyToClipboard()">Copy Prompt</button>
-          <button class="llm-btn" onclick="sendToLLM('chatgpt')">Run in ChatGPT</button>
+        <div class="flex flex-wrap gap-3 mt-4">
+          <button class="px-5 py-3 rounded-xl font-semibold text-white transition-all shadow-sm hover:shadow-md active:scale-95 bg-slate-500 hover:bg-slate-600 copy-btn" onclick="copyToClipboard()">Copy Prompt</button>
+          <button class="px-5 py-3 rounded-xl font-semibold text-white transition-all shadow-sm hover:shadow-md active:scale-95 bg-emerald-500 hover:bg-emerald-600" onclick="sendToLLM('chatgpt')">Run in ChatGPT</button>
         </div>
 
-        <div class="export-grid">
-          <div class="export-group">
-            <div class="export-header">
-              <label for="openclawMessageOutput">OpenClaw: Message Prompt</label>
-              <button class="copy-btn" onclick="copyExportCode('openclawMessage', 'general')">Copy Code</button>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+          <div class="flex flex-col gap-2">
+            <div class="flex justify-between items-center">
+              <label for="openclawMessageOutput" class="font-semibold text-slate-700">OpenClaw: Message Prompt</label>
+              <button class="px-3 py-1 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors copy-btn" onclick="copyExportCode('openclawMessage', 'general')">Copy Code</button>
             </div>
-            <textarea id="openclawMessageOutput" readonly rows="8"></textarea>
+            <textarea id="openclawMessageOutput" readonly rows="8" class="w-full p-3 border border-slate-200 rounded-lg font-mono text-xs bg-slate-50"></textarea>
           </div>
-          <div class="export-group">
-            <div class="export-header">
-              <label for="openclawSkillOutput">OpenClaw: New Skill File</label>
-              <button class="copy-btn" onclick="copyExportCode('openclawSkill', 'general')">Copy Code</button>
+          <div class="flex flex-col gap-2">
+            <div class="flex justify-between items-center">
+              <label for="openclawSkillOutput" class="font-semibold text-slate-700">OpenClaw: New Skill File</label>
+              <button class="px-3 py-1 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors copy-btn" onclick="copyExportCode('openclawSkill', 'general')">Copy Code</button>
             </div>
-            <textarea id="openclawSkillOutput" readonly rows="10"></textarea>
+            <textarea id="openclawSkillOutput" readonly rows="10" class="w-full p-3 border border-slate-200 rounded-lg font-mono text-xs bg-slate-50"></textarea>
           </div>
-          <div class="export-instruction">
+          <div class="col-span-1 md:col-span-2 text-sm text-slate-500 -mt-4 mb-2">
             <strong>To use with OpenClaw:</strong> Paste the <strong>Message Prompt</strong> for a one-off task, or save
             the <strong>New Skill File</strong> as a <code>.md</code> file to create a reusable skill.
           </div>
-          <div class="export-group">
-            <div class="export-header">
-              <label for="dspyOutput">Export for DSPy</label>
-              <button class="copy-btn" onclick="copyExportCode('dspy', 'general')">Copy Code</button>
+          <div class="flex flex-col gap-2">
+            <div class="flex justify-between items-center">
+              <label for="dspyOutput" class="font-semibold text-slate-700">Export for DSPy</label>
+              <button class="px-3 py-1 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors copy-btn" onclick="copyExportCode('dspy', 'general')">Copy Code</button>
             </div>
-            <textarea id="dspyOutput" readonly rows="10"></textarea>
+            <textarea id="dspyOutput" readonly rows="10" class="w-full p-3 border border-slate-200 rounded-lg font-mono text-xs bg-slate-50"></textarea>
           </div>
-          <div class="export-group">
-            <div class="export-header">
-              <label for="langchainOutput">Export for LangChain</label>
-              <button class="copy-btn" onclick="copyExportCode('langchain', 'general')">Copy Code</button>
+          <div class="flex flex-col gap-2">
+            <div class="flex justify-between items-center">
+              <label for="langchainOutput" class="font-semibold text-slate-700">Export for LangChain</label>
+              <button class="px-3 py-1 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors copy-btn" onclick="copyExportCode('langchain', 'general')">Copy Code</button>
             </div>
-            <textarea id="langchainOutput" readonly rows="10"></textarea>
+            <textarea id="langchainOutput" readonly rows="10" class="w-full p-3 border border-slate-200 rounded-lg font-mono text-xs bg-slate-50"></textarea>
           </div>
-          <div class="export-group">
-            <div class="export-header">
-              <label for="geminiSkillOutput">Export Gemini Skill (GEMINI.md)</label>
-              <button class="copy-btn" onclick="copyExportCode('gemini', 'general')">Copy Code</button>
+          <div class="flex flex-col gap-2">
+            <div class="flex justify-between items-center">
+              <label for="geminiSkillOutput" class="font-semibold text-slate-700">Export Gemini Skill (GEMINI.md)</label>
+              <button class="px-3 py-1 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors copy-btn" onclick="copyExportCode('gemini', 'general')">Copy Code</button>
             </div>
-            <textarea id="geminiSkillOutput" readonly rows="10"></textarea>
+            <textarea id="geminiSkillOutput" readonly rows="10" class="w-full p-3 border border-slate-200 rounded-lg font-mono text-xs bg-slate-50"></textarea>
           </div>
         </div>
       </div>
@@ -584,32 +385,38 @@
     </div>
 
     <!-- Software Development Tab -->
-    <div id="software" class="tab-content">
-      <div class="form-grid">
+    <div id="software" class="tab-content hidden space-y-10">
+      <div class="grid gap-8">
 
-        <div class="input-group">
-          <label for="humanQuery-software">Your software development query:</label>
-          <textarea id="humanQuery-software"
-            placeholder="Example: Implement a generic debounce function in TypeScript."></textarea>
+        <div class="space-y-6">
+          <div class="flex flex-col gap-2">
+            <label for="humanQuery-software" class="font-semibold text-slate-700 text-lg">Your software development query:</label>
+            <textarea id="humanQuery-software" class="w-full min-h-[120px] p-4 border border-slate-200 rounded-xl font-mono text-sm bg-slate-50 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all resize-y placeholder-slate-400"
+              placeholder="Example: Implement a generic debounce function in TypeScript."></textarea>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="examples-software" class="font-semibold text-slate-700">Provide Examples (Optional):</label>
+            <textarea id="examples-software" class="w-full min-h-[100px] p-4 border border-slate-200 rounded-xl font-mono text-sm bg-slate-50 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all resize-y placeholder-slate-400"
+              placeholder="Provide one or more input/output examples to guide the model. e.g.,&#10;Input: 'hello world'&#10;Output: 'dlrow olleh'"></textarea>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="exclusions-software" class="font-semibold text-slate-700">Exclusions (Optional):</label>
+            <textarea id="exclusions-software" rows="2" class="w-full min-h-[80px] p-4 border border-slate-200 rounded-xl font-mono text-sm bg-slate-50 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all resize-y placeholder-slate-400"
+              placeholder="Specify what to avoid. e.g.,&#10;- Do not use any external libraries.&#10;- Avoid class-based components."></textarea>
+          </div>
         </div>
 
-        <div class="input-group">
-          <label for="examples-software">Provide Examples (Optional):</label>
-          <textarea id="examples-software"
-            placeholder="Provide one or more input/output examples to guide the model. e.g.,&#10;Input: 'hello world'&#10;Output: 'dlrow olleh'"></textarea>
-        </div>
-
-        <div class="input-group">
-          <label for="exclusions-software">Exclusions (Optional):</label>
-          <textarea id="exclusions-software" rows="2"
-            placeholder="Specify what to avoid. e.g.,&#10;- Do not use any external libraries.&#10;- Avoid class-based components."></textarea>
-        </div>
-
-        <div class="slider-group" id="step1-software">
-          <h2 class="step-heading">Step 1: Define the Persona</h2>
-          <label for="roleLevel-software">Adjust the expertise and character of the assistant.</label>
-          <input type="range" id="roleLevel-software" min="1" max="10" value="4" oninput="updateSlider(this)">
-          <div class="slider-labels">
+        <div class="space-y-3" id="step1-software">
+          <div class="flex justify-between items-end border-b border-slate-100 pb-2 mb-2">
+            <h2 class="text-xl font-bold text-blue-600">Step 1: Define the Persona</h2>
+          </div>
+          <label for="roleLevel-software" class="block text-sm text-slate-600 mb-2">Adjust the expertise and character of the assistant.</label>
+          <div class="relative h-10 flex items-center">
+            <input type="range" id="roleLevel-software" min="1" max="10" value="4" oninput="updateSlider(this)" class="w-full">
+          </div>
+          <div class="flex justify-between text-xs text-slate-400 px-1">
             <span>Junior Dev</span>
             <span>Senior Eng</span>
             <span>Tech Lead</span>
@@ -623,11 +430,15 @@
           </div>
         </div>
 
-        <div class="slider-group" id="step2-software">
-          <h2 class="step-heading">Step 2: Define the Task</h2>
-          <label for="taskLevel-software">Specify the primary action for the assistant to perform.</label>
-          <input type="range" id="taskLevel-software" min="1" max="10" value="2" oninput="updateSlider(this)">
-          <div class="slider-labels">
+        <div class="space-y-3" id="step2-software">
+          <div class="flex justify-between items-end border-b border-slate-100 pb-2 mb-2">
+            <h2 class="text-xl font-bold text-blue-600">Step 2: Define the Task</h2>
+          </div>
+          <label for="taskLevel-software" class="block text-sm text-slate-600 mb-2">Specify the primary action for the assistant to perform.</label>
+          <div class="relative h-10 flex items-center">
+            <input type="range" id="taskLevel-software" min="1" max="10" value="2" oninput="updateSlider(this)" class="w-full">
+          </div>
+          <div class="flex justify-between text-xs text-slate-400 px-1">
             <span>Implement</span>
             <span>Refactor</span>
             <span>Write Tests</span>
@@ -641,11 +452,15 @@
           </div>
         </div>
 
-        <div class="slider-group" id="step3-software">
-          <h2 class="step-heading">Step 3: Define the Audience</h2>
-          <label for="audienceLevel-software">Calibrate the tone and complexity for a specific audience.</label>
-          <input type="range" id="audienceLevel-software" min="1" max="10" value="1" oninput="updateSlider(this)">
-          <div class="slider-labels">
+        <div class="space-y-3" id="step3-software">
+          <div class="flex justify-between items-end border-b border-slate-100 pb-2 mb-2">
+            <h2 class="text-xl font-bold text-blue-600">Step 3: Define the Audience</h2>
+          </div>
+          <label for="audienceLevel-software" class="block text-sm text-slate-600 mb-2">Calibrate the tone and complexity for a specific audience.</label>
+          <div class="relative h-10 flex items-center">
+            <input type="range" id="audienceLevel-software" min="1" max="10" value="1" oninput="updateSlider(this)" class="w-full">
+          </div>
+          <div class="flex justify-between text-xs text-slate-400 px-1">
             <span>Junior Dev</span>
             <span>Product Manager</span>
             <span>Code Review</span>
@@ -659,12 +474,15 @@
           </div>
         </div>
 
-        <div class="slider-group" id="step4-software">
-          <h2 class="step-heading">Step 4: State the Purpose</h2>
-          <label for="purposeLevel-software">Explain the "why" behind your request for a more meaningful
-            outcome.</label>
-          <input type="range" id="purposeLevel-software" min="1" max="10" value="3" oninput="updateSlider(this)">
-          <div class="slider-labels">
+        <div class="space-y-3" id="step4-software">
+          <div class="flex justify-between items-end border-b border-slate-100 pb-2 mb-2">
+            <h2 class="text-xl font-bold text-blue-600">Step 4: State the Purpose</h2>
+          </div>
+          <label for="purposeLevel-software" class="block text-sm text-slate-600 mb-2">Explain the "why" behind your request for a more meaningful outcome.</label>
+          <div class="relative h-10 flex items-center">
+            <input type="range" id="purposeLevel-software" min="1" max="10" value="3" oninput="updateSlider(this)" class="w-full">
+          </div>
+          <div class="flex justify-between text-xs text-slate-400 px-1">
             <span>Prototype</span>
             <span>Production</span>
             <span>Learning</span>
@@ -678,11 +496,15 @@
           </div>
         </div>
 
-        <div class="slider-group" id="step5-software">
-          <h2 class="step-heading">Step 5: Set the Innovation Level</h2>
-          <label for="innovationLevel-software">Choose how much creativity and novelty to introduce.</label>
-          <input type="range" id="innovationLevel-software" min="1" max="10" value="4" oninput="updateSlider(this)">
-          <div class="slider-labels">
+        <div class="space-y-3" id="step5-software">
+          <div class="flex justify-between items-end border-b border-slate-100 pb-2 mb-2">
+            <h2 class="text-xl font-bold text-blue-600">Step 5: Set the Innovation Level</h2>
+          </div>
+          <label for="innovationLevel-software" class="block text-sm text-slate-600 mb-2">Choose how much creativity and novelty to introduce.</label>
+          <div class="relative h-10 flex items-center">
+            <input type="range" id="innovationLevel-software" min="1" max="10" value="4" oninput="updateSlider(this)" class="w-full">
+          </div>
+          <div class="flex justify-between text-xs text-slate-400 px-1">
             <span>Standard</span>
             <span>New Library</span>
             <span>Clever Algo</span>
@@ -696,11 +518,15 @@
           </div>
         </div>
 
-        <div class="slider-group" id="step6-software">
-          <h2 class="step-heading">Step 6: Choose the Style</h2>
-          <label for="styleLevel-software">Define the aesthetic and readability of the final output.</label>
-          <input type="range" id="styleLevel-software" min="1" max="10" value="4" oninput="updateSlider(this)">
-          <div class="slider-labels">
+        <div class="space-y-3" id="step6-software">
+          <div class="flex justify-between items-end border-b border-slate-100 pb-2 mb-2">
+            <h2 class="text-xl font-bold text-blue-600">Step 6: Choose the Style</h2>
+          </div>
+          <label for="styleLevel-software" class="block text-sm text-slate-600 mb-2">Define the aesthetic and readability of the final output.</label>
+          <div class="relative h-10 flex items-center">
+            <input type="range" id="styleLevel-software" min="1" max="10" value="4" oninput="updateSlider(this)" class="w-full">
+          </div>
+          <div class="flex justify-between text-xs text-slate-400 px-1">
             <span>Raw Code</span>
             <span>Comments</span>
             <span>Full Docs</span>
@@ -714,11 +540,15 @@
           </div>
         </div>
 
-        <div class="slider-group" id="step7-software">
-          <h2 class="step-heading">Step 7: Shape the Output</h2>
-          <label for="outputLevel-software">Determine the structure and format of the response.</label>
-          <input type="range" id="outputLevel-software" min="1" max="10" value="4" oninput="updateSlider(this)">
-          <div class="slider-labels">
+        <div class="space-y-3" id="step7-software">
+          <div class="flex justify-between items-end border-b border-slate-100 pb-2 mb-2">
+            <h2 class="text-xl font-bold text-blue-600">Step 7: Shape the Output</h2>
+          </div>
+          <label for="outputLevel-software" class="block text-sm text-slate-600 mb-2">Determine the structure and format of the response.</label>
+          <div class="relative h-10 flex items-center">
+            <input type="range" id="outputLevel-software" min="1" max="10" value="4" oninput="updateSlider(this)" class="w-full">
+          </div>
+          <div class="flex justify-between text-xs text-slate-400 px-1">
             <span>Single File</span>
             <span>Module</span>
             <span>Config</span>
@@ -732,11 +562,15 @@
           </div>
         </div>
 
-        <div class="slider-group" id="step8-software">
-          <h2 class="step-heading">Step 8: Add a Constraint (Optional)</h2>
-          <label for="constraintLevel-software">Apply a specific rule or limitation to the output.</label>
-          <input type="range" id="constraintLevel-software" min="1" max="10" value="1" oninput="updateSlider(this)">
-          <div class="slider-labels">
+        <div class="space-y-3" id="step8-software">
+          <div class="flex justify-between items-end border-b border-slate-100 pb-2 mb-2">
+            <h2 class="text-xl font-bold text-blue-600">Step 8: Add a Constraint (Optional)</h2>
+          </div>
+          <label for="constraintLevel-software" class="block text-sm text-slate-600 mb-2">Apply a specific rule or limitation to the output.</label>
+          <div class="relative h-10 flex items-center">
+            <input type="range" id="constraintLevel-software" min="1" max="10" value="1" oninput="updateSlider(this)" class="w-full">
+          </div>
+          <div class="flex justify-between text-xs text-slate-400 px-1">
             <span>None</span>
             <span>No Libs</span>
             <span>Line Limit</span>
@@ -750,11 +584,15 @@
           </div>
         </div>
 
-        <div class="slider-group" id="step9-software">
-          <h2 class="step-heading">Step 9: Set the Polish Level (Optional)</h2>
-          <label for="polishLevel-software">Define the final refinement pass on the entire output.</label>
-          <input type="range" id="polishLevel-software" min="1" max="10" value="1" oninput="updateSlider(this)">
-          <div class="slider-labels">
+        <div class="space-y-3" id="step9-software">
+          <div class="flex justify-between items-end border-b border-slate-100 pb-2 mb-2">
+            <h2 class="text-xl font-bold text-blue-600">Step 9: Set the Polish Level (Optional)</h2>
+          </div>
+          <label for="polishLevel-software" class="block text-sm text-slate-600 mb-2">Define the final refinement pass on the entire output.</label>
+          <div class="relative h-10 flex items-center">
+            <input type="range" id="polishLevel-software" min="1" max="10" value="1" oninput="updateSlider(this)" class="w-full">
+          </div>
+          <div class="flex justify-between text-xs text-slate-400 px-1">
             <span>None</span>
             <span>Proofread</span>
             <span>Format</span>
@@ -770,64 +608,66 @@
 
       </div>
 
-      <div class="output-section">
-        <label for="melOutput-software">Generated MEL prompt (auto-updates):</label>
-        <textarea id="melOutput-software" readonly rows="12"></textarea>
+      <div class="mt-12 pt-8 border-t border-slate-200">
+        <label for="melOutput-software" class="block font-bold text-slate-700 mb-3">Generated MEL prompt (auto-updates):</label>
+        <textarea id="melOutput-software" readonly rows="12" class="w-full p-4 border border-slate-200 rounded-xl font-mono text-sm bg-slate-50 text-slate-800 focus:outline-none focus:border-blue-500 transition-all"></textarea>
 
-        <div class="buttons">
-          <button class="copy-btn" onclick="copyToClipboard('software')">Copy Prompt</button>
-          <button class="llm-btn" onclick="sendToLLM('chatgpt', 'software')">Run in ChatGPT</button>
+        <div class="flex flex-wrap gap-3 mt-4">
+          <button class="px-5 py-3 rounded-xl font-semibold text-white transition-all shadow-sm hover:shadow-md active:scale-95 bg-slate-500 hover:bg-slate-600 copy-btn" onclick="copyToClipboard('software')">Copy Prompt</button>
+          <button class="px-5 py-3 rounded-xl font-semibold text-white transition-all shadow-sm hover:shadow-md active:scale-95 bg-emerald-500 hover:bg-emerald-600" onclick="sendToLLM('chatgpt', 'software')">Run in ChatGPT</button>
         </div>
 
-        <div class="export-grid">
-          <div class="export-group">
-            <div class="export-header">
-              <label for="openclawMessageOutput-software">OpenClaw: Message Prompt</label>
-              <button class="copy-btn" onclick="copyExportCode('openclawMessage', 'software')">Copy Code</button>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+          <div class="flex flex-col gap-2">
+            <div class="flex justify-between items-center">
+              <label for="openclawMessageOutput-software" class="font-semibold text-slate-700">OpenClaw: Message Prompt</label>
+              <button class="px-3 py-1 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors copy-btn" onclick="copyExportCode('openclawMessage', 'software')">Copy Code</button>
             </div>
-            <textarea id="openclawMessageOutput-software" readonly rows="8"></textarea>
+            <textarea id="openclawMessageOutput-software" readonly rows="8" class="w-full p-3 border border-slate-200 rounded-lg font-mono text-xs bg-slate-50"></textarea>
           </div>
-          <div class="export-group">
-            <div class="export-header">
-              <label for="openclawSkillOutput-software">OpenClaw: New Skill File</label>
-              <button class="copy-btn" onclick="copyExportCode('openclawSkill', 'software')">Copy Code</button>
+          <div class="flex flex-col gap-2">
+            <div class="flex justify-between items-center">
+              <label for="openclawSkillOutput-software" class="font-semibold text-slate-700">OpenClaw: New Skill File</label>
+              <button class="px-3 py-1 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors copy-btn" onclick="copyExportCode('openclawSkill', 'software')">Copy Code</button>
             </div>
-            <textarea id="openclawSkillOutput-software" readonly rows="10"></textarea>
+            <textarea id="openclawSkillOutput-software" readonly rows="10" class="w-full p-3 border border-slate-200 rounded-lg font-mono text-xs bg-slate-50"></textarea>
           </div>
-          <div class="export-instruction">
+          <div class="col-span-1 md:col-span-2 text-sm text-slate-500 -mt-4 mb-2">
             <strong>To use with OpenClaw:</strong> Paste the <strong>Message Prompt</strong> for a one-off task, or save
             the <strong>New Skill File</strong> as a <code>.md</code> file to create a reusable skill.
           </div>
-          <div class="export-group">
-            <div class="export-header">
-              <label for="dspyOutput-software">Export for DSPy</label>
-              <button class="copy-btn" onclick="copyExportCode('dspy', 'software')">Copy Code</button>
+          <div class="flex flex-col gap-2">
+            <div class="flex justify-between items-center">
+              <label for="dspyOutput-software" class="font-semibold text-slate-700">Export for DSPy</label>
+              <button class="px-3 py-1 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors copy-btn" onclick="copyExportCode('dspy', 'software')">Copy Code</button>
             </div>
-            <textarea id="dspyOutput-software" readonly rows="10"></textarea>
+            <textarea id="dspyOutput-software" readonly rows="10" class="w-full p-3 border border-slate-200 rounded-lg font-mono text-xs bg-slate-50"></textarea>
           </div>
-          <div class="export-group">
-            <div class="export-header">
-              <label for="langchainOutput-software">Export for LangChain</label>
-              <button class="copy-btn" onclick="copyExportCode('langchain', 'software')">Copy Code</button>
+          <div class="flex flex-col gap-2">
+            <div class="flex justify-between items-center">
+              <label for="langchainOutput-software" class="font-semibold text-slate-700">Export for LangChain</label>
+              <button class="px-3 py-1 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors copy-btn" onclick="copyExportCode('langchain', 'software')">Copy Code</button>
             </div>
-            <textarea id="langchainOutput-software" readonly rows="10"></textarea>
+            <textarea id="langchainOutput-software" readonly rows="10" class="w-full p-3 border border-slate-200 rounded-lg font-mono text-xs bg-slate-50"></textarea>
           </div>
-          <div class="export-group">
-            <div class="export-header">
-              <label for="geminiSkillOutput-software">Export Gemini Skill (GEMINI.md)</label>
-              <button class="copy-btn" onclick="copyExportCode('gemini', 'software')">Copy Code</button>
+          <div class="flex flex-col gap-2">
+            <div class="flex justify-between items-center">
+              <label for="geminiSkillOutput-software" class="font-semibold text-slate-700">Export Gemini Skill (GEMINI.md)</label>
+              <button class="px-3 py-1 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors copy-btn" onclick="copyExportCode('gemini', 'software')">Copy Code</button>
             </div>
-            <textarea id="geminiSkillOutput-software" readonly rows="10"></textarea>
+            <textarea id="geminiSkillOutput-software" readonly rows="10" class="w-full p-3 border border-slate-200 rounded-lg font-mono text-xs bg-slate-50"></textarea>
           </div>
         </div>
       </div>
     </div>
-  </div>
+    
+    <!-- Footer -->
+    <div class="bg-slate-50 border-t border-slate-200 p-8 text-center text-slate-500 text-sm">
+      <p>MEL v1.0 • <a href="https://github.com/polonski/mel" target="_blank" class="text-blue-600 hover:underline">github.com/polonski/mel</a></p>
+      <p class="mt-1">Experimental prompting syntax — January 2026</p>
+    </div>
 
-  <footer>
-    <p>MEL v1.0 • <a href="https://github.com/polonski/mel" target="_blank">github.com/polonski/mel</a></p>
-    <p>Experimental prompting syntax — January 2026</p>
-  </footer>
+  </div>
 
   <script>
     let currentTab = 'general';
@@ -936,7 +776,7 @@
       const el = getEl('melOutput', context);
       if (!el.value) return;
       navigator.clipboard.writeText(el.value).then(() => {
-        const btn = getEl(context, 'container').querySelector('.copy-btn');
+        const btn = document.querySelector(`#${context} .copy-btn`);
         const original = btn.textContent;
         btn.textContent = 'Copied!';
         setTimeout(() => btn.textContent = original, 1800);
@@ -1151,11 +991,24 @@ When this skill is invoked, your primary goal is to fulfill the **User Query** b
 
     function switchTab(tabName) {
       currentTab = tabName;
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      
+      // Hide all contents
+      document.querySelectorAll('.tab-content').forEach(el => {
+        el.classList.add('hidden');
+        el.classList.remove('block');
+      });
+      
+      // Reset all buttons
+      document.querySelectorAll('.tab-btn').forEach(el => {
+        el.classList.remove('text-blue-600', 'border-blue-600');
+        el.classList.add('text-slate-500', 'border-transparent', 'hover:text-slate-800');
+      });
 
-      document.getElementById(tabName).classList.add('active');
-      document.querySelector(`.tab-btn[onclick="switchTab('${tabName}')"]`).classList.add('active');
+      document.getElementById(tabName).classList.remove('hidden');
+      document.getElementById(tabName).classList.add('block');
+      const btn = document.querySelector(`.tab-btn[onclick="switchTab('${tabName}')"]`);
+      btn.classList.remove('text-slate-500', 'border-transparent', 'hover:text-slate-800');
+      btn.classList.add('text-blue-600', 'border-blue-600');
       generateMEL(tabName);
     }
 
