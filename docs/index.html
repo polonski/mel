@@ -337,6 +337,7 @@
         <div class="flex flex-wrap gap-3 mt-4">
           <button class="px-5 py-3 rounded-xl font-semibold text-white transition-all shadow-sm hover:shadow-md active:scale-95 bg-slate-500 hover:bg-slate-600 copy-btn" onclick="copyToClipboard()">Copy Prompt</button>
           <button class="px-5 py-3 rounded-xl font-semibold text-white transition-all shadow-sm hover:shadow-md active:scale-95 bg-emerald-500 hover:bg-emerald-600" onclick="sendToLLM('chatgpt')">Run in ChatGPT</button>
+          <button class="px-5 py-3 rounded-xl font-semibold text-white transition-all shadow-sm hover:shadow-md active:scale-95 bg-blue-600 hover:bg-blue-700" onclick="pushToGeminiCodeAssist('general')">Push Code to Gemini Code Assist</button>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
@@ -615,6 +616,7 @@
         <div class="flex flex-wrap gap-3 mt-4">
           <button class="px-5 py-3 rounded-xl font-semibold text-white transition-all shadow-sm hover:shadow-md active:scale-95 bg-slate-500 hover:bg-slate-600 copy-btn" onclick="copyToClipboard('software')">Copy Prompt</button>
           <button class="px-5 py-3 rounded-xl font-semibold text-white transition-all shadow-sm hover:shadow-md active:scale-95 bg-emerald-500 hover:bg-emerald-600" onclick="sendToLLM('chatgpt', 'software')">Run in ChatGPT</button>
+          <button class="px-5 py-3 rounded-xl font-semibold text-white transition-all shadow-sm hover:shadow-md active:scale-95 bg-blue-600 hover:bg-blue-700" onclick="pushToGeminiCodeAssist('software')">Push Code to Gemini Code Assist</button>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
@@ -670,6 +672,9 @@
   </div>
 
   <script>
+    const isVsCode = typeof acquireVsCodeApi !== 'undefined';
+    const vscode = isVsCode ? acquireVsCodeApi() : null;
+
     let currentTab = 'general';
     let melStore = {
       general: {},
@@ -783,10 +788,24 @@
       });
     }
 
+    function pushToGeminiCodeAssist(context = 'general') {
+      const prompt = getEl('melOutput', context).value.trim();
+      if (!prompt) {
+        isVsCode ? vscode.postMessage({ command: 'error', text: 'Generate a MEL prompt first!' }) : alert("Generate a MEL prompt first!");
+        return;
+      }
+      if (isVsCode) {
+        vscode.postMessage({ command: 'pushToGemini', text: prompt });
+      } else {
+        copyToClipboard(context);
+        alert("MEL prompt copied! Open Gemini Code Assist in VS Code and paste it.");
+      }
+    }
+
     function sendToLLM(llm, context = 'general') {
       const prompt = getEl('melOutput', context).value.trim();
       if (!prompt) {
-        alert("Generate a MEL prompt first!");
+        isVsCode ? vscode.postMessage({ command: 'error', text: 'Generate a MEL prompt first!' }) : alert("Generate a MEL prompt first!");
         return;
       }
 
@@ -808,8 +827,12 @@
         default: return;
       }
 
-      if (note) alert(note);
-      window.open(url, '_blank');
+      if (note) isVsCode ? vscode.postMessage({ command: 'info', text: note }) : alert(note);
+      if (isVsCode) {
+        vscode.postMessage({ command: 'openUrl', url: url });
+      } else {
+        window.open(url, '_blank');
+      }
     }
 
     function copyExportCode(format, context) {

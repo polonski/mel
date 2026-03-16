@@ -86,6 +86,18 @@ Polish: until the code is production-ready and maintainable.
 4.  The MEL prompt will be generated in the output box.
 5.  Copy the prompt to paste into your LLM of choice, or use the export buttons to generate code for DSPy/LangChain or instructions for AI agents like OpenClaw.
 
+## VS Code Extension
+
+MEL includes a VS Code extension that brings the prompt generator directly into your editor and integrates natively with Gemini Code Assist. 
+
+To install and run the plugin locally:
+
+1. Open the extension folder (the directory containing the extension's `package.json`) in VS Code.
+2. Open the integrated terminal and run `npm install` to install the required dependencies.
+3. Press `F5` on your keyboard. This will compile the extension and open a new VS Code "Extension Development Host" window.
+4. In the new window, press `Cmd+Shift+P` (Mac) or `Ctrl+Shift+P` (Windows/Linux) to open the Command Palette.
+5. Type **"MEL: Open Prompt Generator"** and hit enter to launch the UI.
+
 ## Contributing
 This project is actively evolving. Welcoming issues and pull requests that:
 - Propose stronger or more effective slider options.

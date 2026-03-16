@@ -1,0 +1,32 @@
+{
+  "name": "mel-vscode",
+  "displayName": "MEL - Prompt Generator",
+  "description": "A guided journey to craft powerful, directive-based LLM prompts.",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Machine Learning"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "mel.open",
+        "title": "MEL: Open Prompt Generator"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.0",
+    "@types/vscode": "^1.80.0",
+    "typescript": "^5.1.6"
+  }
+}
