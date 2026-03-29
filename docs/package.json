@@ -1,13 +1,14 @@
 {
-  "name": "mel-vscode",
-  "displayName": "MEL - Prompt Generator",
-  "description": "A guided journey to craft powerful, directive-based LLM prompts.",
-  "version": "1.0.0",
+  "name": "mel-prompt-generator",
+  "displayName": "MEL Prompt Generator",
+  "description": "Generate MEL prompts and push them to Gemini Code Assist",
+  "version": "0.0.1",
+  "publisher": "your-publisher-name",
   "engines": {
     "vscode": "^1.80.0"
   },
   "categories": [
-    "Machine Learning"
+    "Other"
   ],
   "activationEvents": [],
   "main": "./out/extension.js",
@@ -15,7 +16,7 @@
     "commands": [
       {
         "command": "mel.open",
-        "title": "MEL: Open Prompt Generator"
+        "title": "Open MEL Prompt Generator"
       }
     ]
   },
@@ -25,8 +26,8 @@
     "watch": "tsc -watch -p ./"
   },
   "devDependencies": {
-    "@types/node": "^18.11.0",
     "@types/vscode": "^1.80.0",
-    "typescript": "^5.1.6"
+    "@types/node": "18.x",
+    "typescript": "^5.1.3"
   }
 }

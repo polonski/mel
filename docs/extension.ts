@@ -4,8 +4,8 @@ import * as fs from 'fs';
 
 export function activate(context: vscode.ExtensionContext) {
     let disposable = vscode.commands.registerCommand('mel.open', () => {
-        // Pointing to the docs directory allows the extension to use the web-app UI without duplicating it
-        const docsPath = path.join(context.extensionPath, '..', 'docs');
+        // The web-app UI is located in the root of the published extension
+        const docsPath = context.extensionPath;
         
         const panel = vscode.window.createWebviewPanel(
             'melPromptGenerator',
