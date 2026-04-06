@@ -1,4 +1,4 @@
-<img width="1601" height="914" alt="image" src="https://github.com/user-attachments/assets/84ecafc5-a10a-437d-84d1-e255e7a7449d" /># MEL – Machine Expression Language
+# MEL – Machine Expression Language
 
 **A guided journey to craft powerful, directive-based LLM prompts.**
 
