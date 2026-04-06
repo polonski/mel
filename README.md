@@ -98,6 +98,38 @@ To install and run the plugin locally:
 4. In the new window, press `Cmd+Shift+P` (Mac) or `Ctrl+Shift+P` (Windows/Linux) to open the Command Palette.
 5. Type **"MEL: Open Prompt Generator"** and hit enter to launch the UI.
 
+## LLM Wiki / Obsidian / Gemini Code Assist
+
+The `mel` obsidian vault and its contents are the result of combining @karpathy llm-wiki gits as a promprt to Gemini Pro 3.1 Preview
+
+In this case, Karpathy's prompt was followed by:
+
+```
+You are now my LLM Wiki agent. Implement this exact idea file as my complete second brain. Guide me step-by-step: create the GEMINI.md schema file with full rules, set up index.md and log.md, define folder conventions, and show me the first ingest example. From now on, every interaction follows the schema. Instead of using the 'raw' folder to get started, use the 'docs' folder to injest new data.
+```
+(adapted from https://www.youtube.com/watch?v=sboNwYmH3AY )
+
+```
+I want you to be extremely thorugh and follow the ethos and passion from injest the PURPOSE.md , VISION.md and EXAMPLES.md files. Also internalise what is happening in docs/index files.
+From these sources, add content to the wiki. This content will contain the result of research on how purpose and vision of MEL will coaleasce into an industry-defining tool, allowing developers to supercharge their prompts with MEL to make them more effective.
+```
+
+```
+To continue with the ethos of MEL, based on your current understanding of the best methods for quetying LLMs, query the wiki:
+- Synthesize a wiki page outlining the ideal roadmap for MEL.
+Lint the wiki to make sure all of our new concepts and entities are properly linked and that there are no orphaned pages.
+- Synthesize a brief pitch I can use to explain to my team how MEL differs from DSPy and LangChain.
+```
+
+```
+Query the wiki: What are the primary directives of MEL and how do they work together? Generate the response as a markdown table.
+```
+
+
+
+
+- LLM Wiki prompt: https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
+
 ## Contributing
 This project is actively evolving. Welcoming issues and pull requests that:
 - Propose stronger or more effective slider options.
