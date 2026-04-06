@@ -1,4 +1,4 @@
-# MEL – Machine Expression Language
+<img width="1601" height="914" alt="image" src="https://github.com/user-attachments/assets/84ecafc5-a10a-437d-84d1-e255e7a7449d" /># MEL – Machine Expression Language
 
 **A guided journey to craft powerful, directive-based LLM prompts.**
 
@@ -100,9 +100,11 @@ To install and run the plugin locally:
 
 ## LLM Wiki / Obsidian / Gemini Code Assist
 
-The `mel` obsidian vault and its contents are the result of combining @karpathy llm-wiki gits as a promprt to Gemini Pro 3.1 Preview
+The `mel` obsidian vault and its contents are the result of combining `karpathy` llm-wiki gist as a promprt to Gemini Pro 3.1 Preview , resulting in something like this after some prompts:
 
-In this case, Karpathy's prompt was followed by:
+<img width="1601" height="914" alt="image" src="https://github.com/user-attachments/assets/5d6f7d5e-3a88-41d6-9db0-eab30ec426df" />
+
+In this case, Karpathy's prompt https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f followed by:
 
 ```
 You are now my LLM Wiki agent. Implement this exact idea file as my complete second brain. Guide me step-by-step: create the GEMINI.md schema file with full rules, set up index.md and log.md, define folder conventions, and show me the first ingest example. From now on, every interaction follows the schema. Instead of using the 'raw' folder to get started, use the 'docs' folder to injest new data.
@@ -128,7 +130,6 @@ Query the wiki: What are the primary directives of MEL and how do they work toge
 
 
 
-- LLM Wiki prompt: https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
 
 ## Contributing
 This project is actively evolving. Welcoming issues and pull requests that:
