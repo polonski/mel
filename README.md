@@ -112,12 +112,12 @@ You are now my LLM Wiki agent. Implement this exact idea file as my complete sec
 (adapted from https://www.youtube.com/watch?v=sboNwYmH3AY )
 
 ```
-I want you to be extremely thorugh and follow the ethos and passion from injest the PURPOSE.md , VISION.md and EXAMPLES.md files. Also internalise what is happening in docs/index files.
-From these sources, add content to the wiki. This content will contain the result of research on how purpose and vision of MEL will coaleasce into an industry-defining tool, allowing developers to supercharge their prompts with MEL to make them more effective.
+I want you to be extremely thorough and follow the ethos and passion from injest the PURPOSE.md , VISION.md and EXAMPLES.md files. Also internalise what is happening in docs/index files.
+From these sources, add content to the wiki. This content will contain the result of research on how purpose and vision of MEL will coalesce into an industry-defining tool, allowing developers to supercharge their prompts with MEL to make them more effective.
 ```
 
 ```
-To continue with the ethos of MEL, based on your current understanding of the best methods for quetying LLMs, query the wiki:
+To continue with the ethos of MEL, based on your current understanding of the best methods for querying LLMs, query the wiki:
 - Synthesize a wiki page outlining the ideal roadmap for MEL.
 Lint the wiki to make sure all of our new concepts and entities are properly linked and that there are no orphaned pages.
 - Synthesize a brief pitch I can use to explain to my team how MEL differs from DSPy and LangChain.
